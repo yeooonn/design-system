@@ -1,0 +1,40 @@
+{
+  "name": "@yeoooonn/ds-app",
+  "version": "0.0.1",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts",
+    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "prepublishOnly": "pnpm build"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-native": ">=0.73.0",
+    "expo": ">=50.0.0"
+  },
+  "dependencies": {
+    "@yeoooonn/ds-tokens": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "react-native": "^0.73.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

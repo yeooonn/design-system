@@ -1,0 +1,44 @@
+{
+  "name": "@yeoooonn/ds-web",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "0.0.1",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts",
+    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "prepublishOnly": "pnpm build",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "dependencies": {
+    "@yeoooonn/ds-tokens": "workspace:*"
+  },
+  "devDependencies": {
+    "@storybook/react-vite": "^10.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "storybook": "^10.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0",
+    "vite": "^5.4.0"
+  }
+}
