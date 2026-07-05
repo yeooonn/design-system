@@ -33,6 +33,7 @@
     "@yeoooonn/ds-tokens": "workspace:*"
   },
   "devDependencies": {
+    "@storybook/addon-docs": "^10.4.6",
     "@storybook/react-vite": "^10.0.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
