@@ -1,4 +1,5 @@
 import { useTheme } from "../../theme/ThemeProvider";
+import { LoadingDots } from "../_shared/LoadingDots";
 import {
   buttonBaseStyles,
   buttonIconGap,
@@ -17,6 +18,7 @@ type IconButtonBaseProps = {
   size?: ButtonSize;
   onClick?: () => void;
   disabled?: boolean;
+  loading?: boolean;
   type?: "button" | "submit" | "reset";
 };
 
@@ -57,30 +59,46 @@ export function IconButton({
   size = "md",
   onClick,
   disabled = false,
+  loading = false,
   type = "button",
 }: IconButtonProps) {
   const { theme, colorScheme } = useTheme();
   const hasLabel = Boolean(label);
   const accessibleLabel = ariaLabel ?? label;
   const colorStyles = resolveButtonStyles(variant, color, theme, colorScheme);
+  const isInactive = disabled || loading;
 
   return (
     <button
       type={type}
       onClick={onClick}
-      disabled={disabled}
+      disabled={isInactive}
+      aria-busy={loading}
       aria-label={hasLabel ? undefined : accessibleLabel}
       style={{
         ...buttonBaseStyles,
         gap: hasLabel ? buttonIconGap : 0,
-        cursor: disabled ? "not-allowed" : "pointer",
-        opacity: disabled ? 0.5 : 1,
+        cursor: isInactive ? "not-allowed" : "pointer",
+        opacity: isInactive ? 0.5 : 1,
         ...colorStyles,
         ...buttonSizeStyles[size],
       }}
     >
-      <ButtonIcon src={src} size={size} />
-      {label}
+      <span
+        aria-hidden={loading}
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: hasLabel ? buttonIconGap : 0,
+          visibility: loading ? "hidden" : "visible",
+        }}
+      >
+        <ButtonIcon src={src} size={size} />
+        {label}
+      </span>
+      {loading && (
+        <LoadingDots color={colorStyles.color as string} size={size} />
+      )}
     </button>
   );
 }

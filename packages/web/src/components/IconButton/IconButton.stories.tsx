@@ -17,6 +17,7 @@ const meta: Meta<typeof IconButton> = {
     },
     size: { control: "select", options: ["sm", "md", "lg"] },
     disabled: { control: "boolean" },
+    loading: { control: "boolean" },
     onClick: { action: "clicked" },
   },
 };
@@ -112,5 +113,13 @@ export const Disabled: Story = {
     src: searchIcon,
     label: "검색하기",
     disabled: true,
+  },
+};
+
+export const Loading: Story = {
+  args: {
+    src: searchIcon,
+    label: "검색하기",
+    loading: true,
   },
 };
