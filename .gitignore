@@ -26,8 +26,9 @@ android/
 .DS_Store
 *.log
 
-# Storybook cache
+# Storybook
 **/.cache/
+storybook-static/
 
 # local demo packages
 **/demo-*/

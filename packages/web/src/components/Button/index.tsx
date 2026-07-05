@@ -1,92 +1,52 @@
 import React from "react";
-import {
-  colors,
-  fontSize,
-  fontWeight,
-  spacing,
-  borderRadius,
-} from "@yeoooonn/ds-tokens";
+import { useTheme } from "../../theme/ThemeProvider";
 import { LoadingDots } from "../_shared/LoadingDots";
-
-type ButtonVariant = "primary" | "secondary" | "ghost";
-type ButtonSize = "sm" | "md" | "lg";
+import {
+  buttonBaseStyles,
+  buttonSizeStyles,
+  resolveButtonStyles,
+  type ButtonColor,
+  type ButtonSize,
+  type ButtonVariant,
+} from "../_shared/buttonStyles";
 
 interface ButtonProps {
   label: string;
   onClick?: () => void;
   variant?: ButtonVariant;
+  color?: ButtonColor;
   size?: ButtonSize;
   disabled?: boolean;
   loading?: boolean;
   type?: "button" | "submit" | "reset";
 }
 
-const variantStyles: Record<ButtonVariant, React.CSSProperties> = {
-  primary: {
-    backgroundColor: colors.primary[600],
-    color: colors.white,
-    border: "none",
-  },
-  secondary: {
-    backgroundColor: "transparent",
-    color: colors.primary[600],
-    border: `1.5px solid ${colors.primary[600]}`,
-  },
-  ghost: {
-    backgroundColor: "transparent",
-    color: colors.primary[600],
-    border: "none",
-  },
-};
-
-const sizeStyles: Record<ButtonSize, React.CSSProperties> = {
-  sm: {
-    paddingInline: spacing[3],
-    paddingBlock: spacing[1],
-    fontSize: fontSize.sm,
-    minHeight: 32,
-  },
-  md: {
-    paddingInline: spacing[4],
-    paddingBlock: spacing[2],
-    fontSize: fontSize.md,
-    minHeight: 44,
-  },
-  lg: {
-    paddingInline: spacing[6],
-    paddingBlock: spacing[3],
-    fontSize: fontSize.lg,
-    minHeight: 52,
-  },
-};
-
 export function Button({
   label,
   onClick,
-  variant = "primary",
+  variant = "filled",
+  color = "primary",
   size = "md",
   disabled = false,
   loading = false,
   type = "button",
 }: ButtonProps) {
+  const { theme, colorScheme } = useTheme();
+  const colorStyles = resolveButtonStyles(variant, color, theme, colorScheme);
+  const isInactive = disabled || loading;
+
   return (
     <button
       type={type}
       onClick={onClick}
-      disabled={disabled || loading}
+      disabled={isInactive}
       aria-busy={loading}
       style={{
-        position: "relative",
-        display: "inline-flex",
-        alignItems: "center",
-        justifyContent: "center",
-        borderRadius: borderRadius.md,
-        fontWeight: fontWeight.semibold,
-        cursor: disabled || loading ? "not-allowed" : "pointer",
-        opacity: disabled ? 0.5 : 1,
-        transition: "opacity 0.15s, background-color 0.15s",
-        ...variantStyles[variant],
-        ...sizeStyles[size],
+        ...buttonBaseStyles,
+        cursor: isInactive ? "not-allowed" : "pointer",
+        opacity: isInactive ? 0.5 : 1,
+        ...colorStyles,
+        ...buttonSizeStyles[size],
       }}
     >
       <span
@@ -96,10 +56,7 @@ export function Button({
         {label}
       </span>
       {loading && (
-        <LoadingDots
-          color={variantStyles[variant].color as string}
-          size={size}
-        />
+        <LoadingDots color={colorStyles.color as string} size={size} />
       )}
     </button>
   );
