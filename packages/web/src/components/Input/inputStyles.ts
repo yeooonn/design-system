@@ -54,7 +54,22 @@ export const inputSizeStyles: Record<
   },
 };
 
-type InputState = "default" | "focus" | "error" | "disabled";
+export type InputState = "default" | "focus" | "error" | "disabled";
+
+export function resolveInputState({
+  disabled,
+  error,
+  focused,
+}: {
+  disabled: boolean;
+  error: boolean;
+  focused: boolean;
+}): InputState {
+  if (disabled) return "disabled";
+  if (error) return "error";
+  if (focused) return "focus";
+  return "default";
+}
 
 type InputStyleTokens = {
   backgroundColor: string;

@@ -1,6 +1,7 @@
 import React, { useId, useState } from "react";
 import { useTheme } from "../../theme/ThemeProvider";
 import {
+  resolveInputState,
   resolveInputStyles,
   type InputSize,
   type InputVariant,
@@ -38,7 +39,7 @@ export function Input({
   const inputId = id ?? generatedId;
   const [focused, setFocused] = useState(false);
 
-  const state = disabled ? "disabled" : error ? "error" : focused ? "focus" : "default";
+  const state = resolveInputState({ disabled, error, focused });
   const styles = resolveInputStyles(variant, size, theme, colorScheme, state);
 
   return (
