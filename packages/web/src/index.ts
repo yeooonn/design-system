@@ -1,3 +1,4 @@
 export { Button } from './components/Button';
-export { IconButton } from './components/IconButton';
+export { Icon } from './components/Icon';
+export type { IconSize } from './components/Icon';
 export { ThemeProvider, useTheme } from './theme/ThemeProvider';

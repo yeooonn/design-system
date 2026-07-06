@@ -13,6 +13,59 @@ export type ButtonVariant = "filled" | "outlined" | "ghost";
 export type ButtonColor = "primary" | "dark" | "danger";
 export type ButtonSize = "sm" | "md" | "lg";
 export type ButtonColorScheme = "light" | "dark";
+export type ButtonRound = keyof typeof borderRadius;
+
+const buttonRoundValues = Object.keys(borderRadius) as ButtonRound[];
+
+export function isButtonRound(value: unknown): value is ButtonRound {
+  return (
+    typeof value === "string" &&
+    buttonRoundValues.includes(value as ButtonRound)
+  );
+}
+
+export function resolveButtonRound(round: ButtonRound = "md"): number {
+  return borderRadius[round];
+}
+
+export const buttonCircularSizeStyles: Record<ButtonSize, React.CSSProperties> =
+  {
+    sm: {
+      width: 32,
+      height: 32,
+      minWidth: 32,
+      minHeight: 32,
+      padding: 0,
+      fontSize: fontSize.sm,
+    },
+    md: {
+      width: 44,
+      height: 44,
+      minWidth: 44,
+      minHeight: 44,
+      padding: 0,
+      fontSize: fontSize.md,
+    },
+    lg: {
+      width: 52,
+      height: 52,
+      minWidth: 52,
+      minHeight: 52,
+      padding: 0,
+      fontSize: fontSize.lg,
+    },
+  };
+
+export function resolveButtonSizeStyles(
+  size: ButtonSize,
+  round: ButtonRound,
+  options: { iconOnly?: boolean } = {},
+): React.CSSProperties {
+  if (round === "full" && options.iconOnly) {
+    return buttonCircularSizeStyles[size];
+  }
+  return buttonSizeStyles[size];
+}
 
 type ButtonColorTokens = {
   filled: { backgroundColor: string; color: string };
@@ -130,12 +183,6 @@ export const buttonSizeStyles: Record<ButtonSize, React.CSSProperties> = {
     fontSize: fontSize.lg,
     minHeight: 52,
   },
-};
-
-export const buttonIconSizes: Record<ButtonSize, number> = {
-  sm: 16,
-  md: 20,
-  lg: 24,
 };
 
 export const buttonBaseStyles: React.CSSProperties = {
