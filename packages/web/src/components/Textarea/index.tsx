@@ -107,4 +107,3 @@ export function Textarea({
   );
 }
 
-export type { TextareaSize };

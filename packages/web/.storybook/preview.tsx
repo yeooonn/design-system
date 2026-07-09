@@ -4,6 +4,7 @@ import {
   Controls,
   Description,
   Primary,
+  Source,
   Subtitle,
   Title,
 } from '@storybook/addon-docs/blocks';
@@ -33,12 +34,16 @@ const preview: Preview = {
   },
   parameters: {
     docs: {
+      source: {
+        type: 'dynamic',
+      },
       page: () => (
         <>
           <Title />
           <Subtitle />
           <Description />
           <Primary />
+          <Source />
           <Controls />
         </>
       ),
