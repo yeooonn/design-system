@@ -17,6 +17,8 @@ type InputProps = Omit<
   prefix?: React.ReactNode;
   suffix?: React.ReactNode;
   error?: boolean;
+  helperText?: string;
+  errorMessage?: string;
 };
 
 export function Input({
@@ -26,6 +28,8 @@ export function Input({
   prefix,
   suffix,
   error = false,
+  helperText,
+  errorMessage,
   disabled = false,
   id,
   className,
@@ -37,9 +41,14 @@ export function Input({
   const { theme, colorScheme } = useTheme();
   const generatedId = useId();
   const inputId = id ?? generatedId;
+  const descriptionId = `${inputId}-description`;
   const [focused, setFocused] = useState(false);
 
-  const state = resolveInputState({ disabled, error, focused });
+  const hasError = error || Boolean(errorMessage);
+  const showErrorMessage = hasError && Boolean(errorMessage);
+  const description = showErrorMessage ? errorMessage : helperText;
+
+  const state = resolveInputState({ disabled, error: hasError, focused });
   const styles = resolveInputStyles(variant, size, theme, colorScheme, state);
 
   return (
@@ -55,7 +64,8 @@ export function Input({
           {...inputProps}
           id={inputId}
           disabled={disabled}
-          aria-invalid={error || undefined}
+          aria-invalid={hasError || undefined}
+          aria-describedby={description ? descriptionId : undefined}
           style={styles.input}
           onFocus={(event) => {
             setFocused(true);
@@ -68,6 +78,19 @@ export function Input({
         />
         {suffix && <span style={styles.affix}>{suffix}</span>}
       </div>
+      {description && (
+        <p
+          id={descriptionId}
+          style={{
+            ...styles.message,
+            color: showErrorMessage
+              ? styles.messageErrorColor
+              : styles.messageHelperColor,
+          }}
+        >
+          {description}
+        </p>
+      )}
       <style>
         {`
           #${inputId}::placeholder {
@@ -80,4 +103,3 @@ export function Input({
   );
 }
 
-export type { InputSize, InputVariant };

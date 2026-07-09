@@ -147,6 +147,9 @@ export function resolveInputStyles(
   input: React.CSSProperties;
   label: React.CSSProperties;
   affix: React.CSSProperties;
+  message: React.CSSProperties;
+  messageHelperColor: string;
+  messageErrorColor: string;
   placeholderColor: string;
 } {
   const tokens = getInputStyleTokens(theme, colorScheme, state);
@@ -185,6 +188,16 @@ export function resolveInputStyles(
     lineHeight: 1.5,
   };
 
+  const message: React.CSSProperties = {
+    marginTop: spacing[1],
+    fontSize: sizeStyles.labelFontSize,
+    fontWeight: fontWeight.regular,
+    lineHeight: 1.5,
+  };
+
+  const messageHelperColor = theme.text.tertiary;
+  const messageErrorColor = colors.error[400];
+
   if (variant === "line") {
     return {
       placeholderColor: tokens.placeholderColor,
@@ -208,6 +221,9 @@ export function resolveInputStyles(
       input,
       label,
       affix,
+      message,
+      messageHelperColor,
+      messageErrorColor,
     };
   }
 
@@ -235,5 +251,8 @@ export function resolveInputStyles(
     input,
     label,
     affix,
+    message,
+    messageHelperColor,
+    messageErrorColor,
   };
 }
