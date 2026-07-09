@@ -1,4 +1,11 @@
+import { useTheme } from "../../theme/ThemeProvider";
+import {
+  resolveTypographyColor,
+  type TypographyColor,
+} from "../Typography/typographyStyles";
+
 export type IconSize = "sm" | "md" | "lg";
+export type IconColor = TypographyColor;
 
 const iconSizes: Record<IconSize, number> = {
   sm: 16,
@@ -9,15 +16,19 @@ const iconSizes: Record<IconSize, number> = {
 type IconProps = {
   src: string;
   size: IconSize;
+  color?: IconColor;
 };
 
-export function Icon({ src, size }: IconProps) {
+export function Icon({ src, size, color }: IconProps) {
+  const { theme } = useTheme();
   const iconSize = iconSizes[size];
 
   return (
     <span
       aria-hidden
       style={{
+        display: "inline-flex",
+        ...(color ? { color: resolveTypographyColor(color, theme) } : {}),
         width: iconSize,
         height: iconSize,
         flexShrink: 0,
