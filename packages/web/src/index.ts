@@ -1,6 +1,9 @@
 export { Button } from './components/Button';
 export { Input } from './components/Input';
 export type { InputSize, InputVariant } from './components/Input/inputStyles';
+export { Select } from './components/Select';
+export type { SelectOption } from './components/Select';
+export type { SelectSize, SelectVariant } from './components/Select/selectStyles';
 export { Checkbox } from './components/Checkbox';
 export type { CheckboxSize } from './components/Checkbox/checkboxStyles';
 export { Radio } from './components/Radio';
