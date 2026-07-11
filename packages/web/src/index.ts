@@ -19,4 +19,8 @@ export { Icon } from './components/Icon';
 export type { IconColor, IconSize } from './components/Icon';
 export { Modal } from './components/Modal';
 export { Card } from './components/Card';
+export { ToastProvider, useToast } from './components/Toast';
+export type { ToastOpenOptions, ToastPosition } from './components/Toast';
+export { Tooltip } from './components/Tooltip';
+export type { TooltipPlacement } from './components/Tooltip';
 export { ThemeProvider, useTheme } from './theme/ThemeProvider';
