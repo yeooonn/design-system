@@ -1,4 +1,10 @@
 export { Button } from './components/Button';
+export { Badge } from './components/Badge';
+export type {
+  BadgeColor,
+  BadgeSize,
+  BadgeVariant,
+} from './components/Badge/badgeStyles';
 export { Input } from './components/Input';
 export type { InputSize, InputVariant } from './components/Input/inputStyles';
 export { Select } from './components/Select';
@@ -8,6 +14,10 @@ export { Checkbox } from './components/Checkbox';
 export type { CheckboxSize } from './components/Checkbox/checkboxStyles';
 export { Radio } from './components/Radio';
 export type { RadioSize } from './components/Radio/radioStyles';
+export { Switch } from './components/Switch';
+export type { SwitchSize } from './components/Switch/switchStyles';
+export { Tab } from './components/Tab';
+export type { TabSize } from './components/Tab/tabStyles';
 export { Textarea } from './components/Textarea';
 export type { TextareaSize } from './components/Textarea/textareaStyles';
 export { Typography } from './components/Typography';
