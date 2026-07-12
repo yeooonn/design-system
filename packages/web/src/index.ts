@@ -29,6 +29,8 @@ export { Icon } from './components/Icon';
 export type { IconColor, IconSize } from './components/Icon';
 export { Modal } from './components/Modal';
 export { Card } from './components/Card';
+export { Result } from './components/Result';
+export type { ResultProps } from './components/Result';
 export { ToastProvider, useToast } from './components/Toast';
 export type { ToastOpenOptions, ToastPosition } from './components/Toast';
 export { Tooltip } from './components/Tooltip';
