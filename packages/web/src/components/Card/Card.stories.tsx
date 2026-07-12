@@ -10,10 +10,10 @@ const cardWidth = { maxWidth: 400 };
 
 const chartIcon =
   "https://static.toss.im/icons/svg/icon-graph-up-mono.svg";
-const bellIcon = "https://static.toss.im/icons/svg/icon-bell-mono.svg";
+const bellIcon = "https://static.toss.im/icons/svg/icon-alarm-mono.svg";
 const userIcon = "https://static.toss.im/icons/svg/icon-user-mono.svg";
 const checkIcon =
-  "https://static.toss.im/icons/svg/icon-check-circle-green.svg";
+  "https://static.toss.im/icons/svg/icon-check-circle-mono.svg";
 
 const usageSource = `import { Card, Typography } from "@yeoooonn/ds-web";
 
@@ -424,7 +424,7 @@ export const Playground: Story = {
       source: {
         type: "dynamic",
         language: "tsx",
-        transform: (_code, { args }) =>
+        transform: (_code: string, { args }: { args: Partial<CardStoryArgs> }) =>
           getPlaygroundSource(
             args.showHeader ?? true,
             args.showFooter ?? true,

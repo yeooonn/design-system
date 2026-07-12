@@ -53,11 +53,13 @@ export function Input({
 
   return (
     <div className={className} style={{ ...styles.wrapper, ...style }}>
-      {label && (
-        <label htmlFor={inputId} style={styles.label}>
-          {label}
-        </label>
-      )}
+      <div style={styles.labelSlot}>
+        {label ? (
+          <label htmlFor={inputId} style={styles.label}>
+            {label}
+          </label>
+        ) : null}
+      </div>
       <div style={styles.field}>
         {prefix && <span style={styles.affix}>{prefix}</span>}
         <input
@@ -78,19 +80,21 @@ export function Input({
         />
         {suffix && <span style={styles.affix}>{suffix}</span>}
       </div>
-      {description && (
-        <p
-          id={descriptionId}
-          style={{
-            ...styles.message,
-            color: showErrorMessage
-              ? styles.messageErrorColor
-              : styles.messageHelperColor,
-          }}
-        >
-          {description}
-        </p>
-      )}
+      <div style={styles.messageSlot}>
+        {description ? (
+          <p
+            id={descriptionId}
+            style={{
+              ...styles.message,
+              color: showErrorMessage
+                ? styles.messageErrorColor
+                : styles.messageHelperColor,
+            }}
+          >
+            {description}
+          </p>
+        ) : null}
+      </div>
       <style>
         {`
           #${inputId}::placeholder {

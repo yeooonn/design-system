@@ -135,6 +135,8 @@ function getInputStyleTokens(
   };
 }
 
+const LABEL_LINE_HEIGHT = 1.5;
+
 export function resolveInputStyles(
   variant: InputVariant,
   size: InputSize,
@@ -145,8 +147,10 @@ export function resolveInputStyles(
   wrapper: React.CSSProperties;
   field: React.CSSProperties;
   input: React.CSSProperties;
+  labelSlot: React.CSSProperties;
   label: React.CSSProperties;
   affix: React.CSSProperties;
+  messageSlot: React.CSSProperties;
   message: React.CSSProperties;
   messageHelperColor: string;
   messageErrorColor: string;
@@ -155,6 +159,9 @@ export function resolveInputStyles(
   const tokens = getInputStyleTokens(theme, colorScheme, state);
   const sizeStyles = inputSizeStyles[size];
   const border = `${borderWidth.thin}px solid ${tokens.borderColor}`;
+  const metaLineHeight = Math.round(
+    sizeStyles.labelFontSize * LABEL_LINE_HEIGHT,
+  );
 
   const affix: React.CSSProperties = {
     flexShrink: 0,
@@ -179,33 +186,48 @@ export function resolveInputStyles(
     width: "100%",
   };
 
+  // label / message 유무와 관계없이 슬롯 높이를 고정해 필드 정렬이 흔들리지 않게 함
+  const labelSlot: React.CSSProperties = {
+    boxSizing: "border-box",
+    minHeight: metaLineHeight,
+    marginBottom: spacing[1],
+  };
+
   const label: React.CSSProperties = {
     display: "block",
-    marginBottom: spacing[1],
+    margin: 0,
     fontSize: sizeStyles.labelFontSize,
     fontWeight: fontWeight.regular,
     color: tokens.labelColor,
-    lineHeight: 1.5,
+    lineHeight: LABEL_LINE_HEIGHT,
+  };
+
+  const messageSlot: React.CSSProperties = {
+    boxSizing: "border-box",
+    minHeight: metaLineHeight,
+    marginTop: spacing[1],
   };
 
   const message: React.CSSProperties = {
-    marginTop: spacing[1],
+    margin: 0,
     fontSize: sizeStyles.labelFontSize,
     fontWeight: fontWeight.regular,
-    lineHeight: 1.5,
+    lineHeight: LABEL_LINE_HEIGHT,
   };
 
   const messageHelperColor = theme.text.tertiary;
   const messageErrorColor = colors.error[400];
 
+  const wrapper: React.CSSProperties = {
+    display: "flex",
+    flexDirection: "column",
+    width: "100%",
+  };
+
   if (variant === "line") {
     return {
       placeholderColor: tokens.placeholderColor,
-      wrapper: {
-        display: "flex",
-        flexDirection: "column",
-        width: "100%",
-      },
+      wrapper,
       field: {
         display: "flex",
         alignItems: "center",
@@ -219,8 +241,10 @@ export function resolveInputStyles(
         transition: "border-color 0.15s, background-color 0.15s",
       },
       input,
+      labelSlot,
       label,
       affix,
+      messageSlot,
       message,
       messageHelperColor,
       messageErrorColor,
@@ -229,11 +253,7 @@ export function resolveInputStyles(
 
   return {
     placeholderColor: tokens.placeholderColor,
-    wrapper: {
-      display: "flex",
-      flexDirection: "column",
-      width: "100%",
-    },
+    wrapper,
     field: {
       display: "flex",
       alignItems: "center",
@@ -249,8 +269,10 @@ export function resolveInputStyles(
       transition: "border-color 0.15s, background-color 0.15s",
     },
     input,
+    labelSlot,
     label,
     affix,
+    messageSlot,
     message,
     messageHelperColor,
     messageErrorColor,

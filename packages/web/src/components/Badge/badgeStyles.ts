@@ -36,30 +36,29 @@ export const badgeBaseStyles: React.CSSProperties = {
   fontWeight: fontWeight.semibold,
   whiteSpace: "nowrap",
   lineHeight: 1,
-  paddingBlock: 0,
+  verticalAlign: "middle",
 };
 
-// 소문자 글리프의 광학 중앙 보정 (descender 여백)
 export const badgeLabelStyles: React.CSSProperties = {
   display: "block",
   lineHeight: 1,
-  transform: "translateY(0.06em)",
 };
 
+// 균등 padding + flex center (이전 top 편향이 텍스트를 너무 아래로 내림)
 export const badgeSizeStyles: Record<BadgeSize, React.CSSProperties> = {
   sm: {
-    height: 18,
+    paddingBlock: 4,
     paddingInline: spacing[2],
     fontSize: fontSize.xs,
   },
   md: {
-    height: 22,
-    paddingInline: spacing[2],
+    paddingBlock: 6,
+    paddingInline: spacing[3],
     fontSize: fontSize.sm,
   },
   lg: {
-    height: 28,
-    paddingInline: spacing[3],
+    paddingBlock: 8,
+    paddingInline: spacing[4],
     fontSize: fontSize.md,
   },
 };

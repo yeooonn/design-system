@@ -5,9 +5,9 @@ import type { IconColor, IconSize } from "./index";
 
 const iconSources = {
   search: "https://static.toss.im/icons/svg/icon-search-bold-mono.svg",
-  bell: "https://static.toss.im/icons/svg/icon-bell-mono.svg",
+  bell: "https://static.toss.im/icons/svg/icon-alarm-mono.svg",
   user: "https://static.toss.im/icons/svg/icon-user-mono.svg",
-  check: "https://static.toss.im/icons/svg/icon-check-circle-green.svg",
+  check: "https://static.toss.im/icons/svg/icon-check-circle-mono.svg",
   graph: "https://static.toss.im/icons/svg/icon-graph-up-mono.svg",
 } as const;
 

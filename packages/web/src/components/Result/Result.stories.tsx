@@ -5,7 +5,7 @@ import { Typography } from "../Typography";
 import { Result } from "./index";
 
 const checkIcon =
-  "https://static.toss.im/icons/svg/icon-check-circle-green.svg";
+  "https://static.toss.im/icons/svg/icon-check-circle-mono.svg";
 const warningIcon =
   "https://static.toss.im/icons/svg/icon-warning-circle-mono.svg";
 
