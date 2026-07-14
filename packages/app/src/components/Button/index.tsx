@@ -1,108 +1,156 @@
-import React from 'react';
-import { TouchableOpacity, Text, StyleSheet, ActivityIndicator } from 'react-native';
-import { colors, fontSize, fontWeight, spacing, borderRadius } from '@yeoooonn/ds-tokens';
+import React, { useState } from "react";
+import {
+  Pressable,
+  Text,
+  View,
+  type StyleProp,
+  type ViewStyle,
+} from "react-native";
+import { useTheme } from "../../theme/ThemeProvider";
+import { cn } from "../../utils/cn";
+import { LoadingDots } from "./LoadingDots";
+import {
+  buttonCircularSize,
+  buttonFontWeight,
+  buttonIconGap,
+  buttonSizeMeta,
+  buttonVariants,
+  resolveButtonRound,
+  resolveButtonStyles,
+  type ButtonColor,
+  type ButtonRound,
+  type ButtonSize,
+  type ButtonVariant,
+} from "./buttonStyles";
 
-type ButtonVariant = 'primary' | 'secondary' | 'ghost';
-type ButtonSize = 'sm' | 'md' | 'lg';
-
-interface ButtonProps {
-  label: string;
+type ButtonBaseProps = {
+  children: React.ReactNode;
   onPress?: () => void;
   variant?: ButtonVariant;
+  color?: ButtonColor;
   size?: ButtonSize;
+  round?: ButtonRound;
   disabled?: boolean;
   loading?: boolean;
-}
+  className?: string;
+  style?: StyleProp<ViewStyle>;
+  accessibilityLabel?: string;
+};
 
-export function Button({
-  label,
-  onPress,
-  variant = 'primary',
-  size = 'md',
-  disabled = false,
-  loading = false,
-}: ButtonProps) {
+type ButtonProps =
+  | (ButtonBaseProps & { iconOnly?: false })
+  | (ButtonBaseProps & { iconOnly: true; accessibilityLabel: string });
+
+function isTextChild(node: React.ReactNode): boolean {
   return (
-    <TouchableOpacity
-      onPress={onPress}
-      disabled={disabled || loading}
-      activeOpacity={0.7}
-      style={[
-        styles.base,
-        styles[`variant_${variant}`],
-        styles[`size_${size}`],
-        (disabled || loading) && styles.disabled,
-      ]}
-    >
-      {loading ? (
-        <ActivityIndicator
-          size="small"
-          color={variant === 'primary' ? colors.white : colors.primary[600]}
-        />
-      ) : (
-        <Text style={[styles.label, styles[`label_${variant}`], styles[`labelSize_${size}`]]}>
-          {label}
-        </Text>
-      )}
-    </TouchableOpacity>
+    typeof node === "string" ||
+    typeof node === "number" ||
+    node == null ||
+    typeof node === "boolean"
   );
 }
 
-const styles = StyleSheet.create({
-  base: {
-    borderRadius: borderRadius.md,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  variant_primary: {
-    backgroundColor: colors.primary[600],
-  },
-  variant_secondary: {
-    backgroundColor: colors.transparent,
-    borderWidth: 1.5,
-    borderColor: colors.primary[600],
-  },
-  variant_ghost: {
-    backgroundColor: colors.transparent,
-  },
-  size_sm: {
-    paddingHorizontal: spacing[3],
-    paddingVertical: spacing[1],
-    minHeight: 32,
-  },
-  size_md: {
-    paddingHorizontal: spacing[4],
-    paddingVertical: spacing[2],
-    minHeight: 44,
-  },
-  size_lg: {
-    paddingHorizontal: spacing[6],
-    paddingVertical: spacing[3],
-    minHeight: 52,
-  },
-  disabled: {
-    opacity: 0.5,
-  },
-  label: {
-    fontWeight: fontWeight.semibold,
-  },
-  label_primary: {
-    color: colors.white,
-  },
-  label_secondary: {
-    color: colors.primary[600],
-  },
-  label_ghost: {
-    color: colors.primary[600],
-  },
-  labelSize_sm: {
-    fontSize: fontSize.sm,
-  },
-  labelSize_md: {
-    fontSize: fontSize.md,
-  },
-  labelSize_lg: {
-    fontSize: fontSize.lg,
-  },
-});
+function isTextOnlyChildren(children: React.ReactNode): boolean {
+  return React.Children.toArray(children).every(isTextChild);
+}
+
+export function Button({
+  children,
+  iconOnly = false,
+  accessibilityLabel,
+  onPress,
+  variant = "filled",
+  color = "primary",
+  size = "md",
+  round = "md",
+  disabled = false,
+  loading = false,
+  className,
+  style,
+}: ButtonProps) {
+  const { theme, colorScheme } = useTheme();
+  const [pressed, setPressed] = useState(false);
+  const colorStyles = resolveButtonStyles(variant, color, theme, colorScheme);
+  const isInactive = disabled || loading;
+  const sizeMeta = buttonSizeMeta[size];
+  const isCircular = round === "full" && iconOnly;
+  const circular = buttonCircularSize[size];
+  const labelStyle = {
+    color: colorStyles.color,
+    fontSize: isCircular ? circular.fontSize : sizeMeta.fontSize,
+    fontWeight: buttonFontWeight as "600",
+  };
+
+  const content = isTextOnlyChildren(children) ? (
+    <Text style={labelStyle}>{children}</Text>
+  ) : (
+    React.Children.map(children, (child) =>
+      typeof child === "string" || typeof child === "number" ? (
+        <Text style={labelStyle}>{child}</Text>
+      ) : (
+        child
+      ),
+    )
+  );
+
+  return (
+    <Pressable
+      onPress={onPress}
+      onPressIn={() => setPressed(true)}
+      onPressOut={() => setPressed(false)}
+      disabled={isInactive}
+      accessibilityRole="button"
+      accessibilityState={{ disabled: isInactive, busy: loading }}
+      accessibilityLabel={accessibilityLabel}
+      className={cn(
+        buttonVariants({ size: isCircular ? undefined : size }),
+        className,
+      )}
+      style={[
+        {
+          borderRadius: resolveButtonRound(round),
+          backgroundColor: colorStyles.backgroundColor,
+          borderColor: colorStyles.borderColor,
+          borderWidth: colorStyles.borderWidth,
+          opacity: isInactive ? 0.5 : pressed ? 0.85 : 1,
+          gap: iconOnly ? 0 : buttonIconGap,
+          ...(isCircular
+            ? {
+                width: circular.width,
+                height: circular.height,
+                minWidth: circular.width,
+                minHeight: circular.height,
+                paddingHorizontal: 0,
+                paddingVertical: 0,
+              }
+            : {
+                minHeight: sizeMeta.minHeight,
+                paddingHorizontal: sizeMeta.paddingHorizontal,
+                paddingVertical: sizeMeta.paddingVertical,
+              }),
+        },
+        style,
+      ]}
+    >
+      <View
+        className="flex-row items-center"
+        style={{
+          gap: iconOnly ? 0 : buttonIconGap,
+          opacity: loading ? 0 : 1,
+        }}
+      >
+        {content}
+      </View>
+      {loading && (
+        <LoadingDots color={colorStyles.color as string} size={size} />
+      )}
+    </Pressable>
+  );
+}
+
+export type {
+  ButtonColor,
+  ButtonRound,
+  ButtonSize,
+  ButtonVariant,
+};
