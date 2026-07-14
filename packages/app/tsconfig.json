@@ -6,5 +6,5 @@
     "jsx": "react-native",
     "lib": ["ES2020"]
   },
-  "include": ["src"]
+  "include": ["src", "src/nativewind-env.d.ts"]
 }

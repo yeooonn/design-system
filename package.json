@@ -11,7 +11,7 @@
     "dev:web": "pnpm --filter @yeoooonn/ds-web dev",
     "storybook": "pnpm --filter @yeoooonn/ds-web storybook",
     "demo:web": "pnpm --filter @ds/demo-web dev",
-    "demo:app": "pnpm --filter @ds/demo-app web"
+    "demo:app": "pnpm --filter @ds/demo-app web -- --port 8082"
   },
   "devDependencies": {
     "typescript": "^5.4.0"
