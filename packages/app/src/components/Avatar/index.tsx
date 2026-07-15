@@ -51,11 +51,14 @@ export function Avatar({
 
   return (
     <View
-      className={cn("items-center justify-center overflow-hidden", className)}
+      className={cn(className)}
       accessibilityRole="image"
       accessibilityLabel={label}
       style={[
         {
+          alignItems: "center",
+          justifyContent: "center",
+          overflow: "hidden",
           width: box,
           height: box,
           borderRadius: borderRadius.full,

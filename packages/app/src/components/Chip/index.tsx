@@ -4,6 +4,7 @@ import {
   Text,
   View,
   type StyleProp,
+  type TextStyle,
   type ViewStyle,
 } from "react-native";
 import { borderRadius, fontWeight, spacing } from "@yeoooonn/ds-tokens";
@@ -30,59 +31,40 @@ export type ChipProps = {
   style?: StyleProp<ViewStyle>;
 };
 
-type ChipContentProps = {
-  children: React.ReactNode;
-  size: ChipSize;
-  colorStyles: ReturnType<typeof resolveChipStyles>;
-  disabled: boolean;
-  onClose?: () => void;
-  className?: string;
-  style?: StyleProp<ViewStyle>;
-};
+function isTextChild(node: React.ReactNode): boolean {
+  return (
+    typeof node === "string" ||
+    typeof node === "number" ||
+    node == null ||
+    typeof node === "boolean"
+  );
+}
 
-function ChipContent({
+function isTextOnlyChildren(children: React.ReactNode): boolean {
+  return React.Children.toArray(children).every(isTextChild);
+}
+
+function ChipLabel({
   children,
-  size,
-  colorStyles,
-  disabled,
-  onClose,
-  className,
-  style,
-}: ChipContentProps) {
-  const labelStyle = {
-    color: colorStyles.textColor,
-    fontSize: chipFontSize[size],
-    fontWeight: fontWeight.medium as "500",
-    lineHeight: chipFontSize[size],
-  };
+  labelStyle,
+}: {
+  children: React.ReactNode;
+  labelStyle: TextStyle;
+}) {
+  if (isTextOnlyChildren(children)) {
+    return <Text style={labelStyle}>{children}</Text>;
+  }
 
   return (
-    <View
-      className={cn("flex-row items-center self-start rounded-full", className)}
-      style={[
-        {
-          ...chipPadding[size],
-          gap: spacing[1],
-          backgroundColor: colorStyles.backgroundColor,
-          opacity: disabled ? 0.6 : 1,
-          borderRadius: borderRadius.full,
-        },
-        style,
-      ]}
-    >
-      <Text style={labelStyle}>{children}</Text>
-      {onClose ? (
-        <Pressable
-          onPress={disabled ? undefined : onClose}
-          disabled={disabled}
-          hitSlop={CLOSE_HIT_SLOP}
-          accessibilityRole="button"
-          accessibilityLabel="Remove"
-        >
-          <Text style={labelStyle}>✕</Text>
-        </Pressable>
-      ) : null}
-    </View>
+    <>
+      {React.Children.map(children, (child) =>
+        typeof child === "string" || typeof child === "number" ? (
+          <Text style={labelStyle}>{child}</Text>
+        ) : (
+          child
+        ),
+      )}
+    </>
   );
 }
 
@@ -98,35 +80,69 @@ export function Chip({
   style,
 }: ChipProps) {
   const { colorScheme } = useTheme();
-  const colorStyles = resolveChipStyles({ color, colorScheme, selected, disabled });
+  const colorStyles = resolveChipStyles({
+    color,
+    colorScheme,
+    selected,
+    disabled,
+  });
   const isInteractive = Boolean(onPress) && !disabled;
+  const labelFontSize = chipFontSize[size];
+  const labelStyle: TextStyle = {
+    color: colorStyles.textColor,
+    fontSize: labelFontSize,
+    fontWeight: fontWeight.medium as "500",
+    lineHeight: labelFontSize,
+  };
 
-  const content = (
-    <ChipContent
-      size={size}
-      colorStyles={colorStyles}
-      disabled={disabled}
-      onClose={onClose}
-      className={className}
-      style={style}
-    >
-      {children}
-    </ChipContent>
-  );
-
-  if (!isInteractive) {
-    return content;
-  }
+  const label = <ChipLabel labelStyle={labelStyle}>{children}</ChipLabel>;
 
   return (
-    <Pressable
-      onPress={onPress}
-      disabled={disabled}
-      accessibilityRole="button"
-      accessibilityState={{ selected, disabled }}
+    <View
+      className={cn(className)}
+      style={[
+        {
+          flexDirection: "row",
+          alignItems: "center",
+          alignSelf: "flex-start",
+          borderRadius: borderRadius.full,
+          ...chipPadding[size],
+          gap: spacing[1],
+          backgroundColor: colorStyles.backgroundColor,
+          opacity: disabled ? 0.6 : 1,
+        },
+        style,
+      ]}
     >
-      {content}
-    </Pressable>
+      {isInteractive ? (
+        <Pressable
+          onPress={onPress}
+          disabled={disabled}
+          accessibilityRole="button"
+          accessibilityState={{ selected, disabled }}
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            gap: spacing[1],
+          }}
+        >
+          {label}
+        </Pressable>
+      ) : (
+        label
+      )}
+      {onClose ? (
+        <Pressable
+          onPress={disabled ? undefined : onClose}
+          disabled={disabled}
+          hitSlop={CLOSE_HIT_SLOP}
+          accessibilityRole="button"
+          accessibilityLabel="Remove"
+        >
+          <Text style={labelStyle}>✕</Text>
+        </Pressable>
+      ) : null}
+    </View>
   );
 }
 

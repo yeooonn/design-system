@@ -14,7 +14,6 @@ import {
   buttonFontWeight,
   buttonIconGap,
   buttonSizeMeta,
-  buttonVariants,
   resolveButtonRound,
   resolveButtonStyles,
   type ButtonColor,
@@ -75,10 +74,13 @@ export function Button({
   const sizeMeta = buttonSizeMeta[size];
   const isCircular = round === "full" && iconOnly;
   const circular = buttonCircularSize[size];
+  const labelFontSize = isCircular ? circular.fontSize : sizeMeta.fontSize;
   const labelStyle = {
-    color: colorStyles.color,
-    fontSize: isCircular ? circular.fontSize : sizeMeta.fontSize,
+    color: colorStyles.textColor,
+    fontSize: labelFontSize,
     fontWeight: buttonFontWeight as "600",
+    textAlign: "center" as const,
+    lineHeight: Math.round(labelFontSize * 1.25),
   };
 
   const content = isTextOnlyChildren(children) ? (
@@ -102,12 +104,13 @@ export function Button({
       accessibilityRole="button"
       accessibilityState={{ disabled: isInactive, busy: loading }}
       accessibilityLabel={accessibilityLabel}
-      className={cn(
-        buttonVariants({ size: isCircular ? undefined : size }),
-        className,
-      )}
+      className={cn(className)}
       style={[
         {
+          // NativeWind className만으로는 실기기에서 정렬이 깨질 수 있어 style로 고정
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
           borderRadius: resolveButtonRound(round),
           backgroundColor: colorStyles.backgroundColor,
           borderColor: colorStyles.borderColor,
@@ -133,24 +136,19 @@ export function Button({
       ]}
     >
       <View
-        className="flex-row items-center"
         style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
           gap: iconOnly ? 0 : buttonIconGap,
           opacity: loading ? 0 : 1,
         }}
       >
         {content}
       </View>
-      {loading && (
-        <LoadingDots color={colorStyles.color as string} size={size} />
-      )}
+      {loading && <LoadingDots color={colorStyles.textColor} size={size} />}
     </Pressable>
   );
 }
 
-export type {
-  ButtonColor,
-  ButtonRound,
-  ButtonSize,
-  ButtonVariant,
-};
+export type { ButtonColor, ButtonRound, ButtonSize, ButtonVariant };

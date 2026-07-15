@@ -1,5 +1,6 @@
 import React from "react";
 import { View, type StyleProp, type ViewStyle } from "react-native";
+import { spacing } from "@yeoooonn/ds-tokens";
 import { useTheme } from "../../theme/ThemeProvider";
 import { cn } from "../../utils/cn";
 
@@ -28,7 +29,7 @@ export function Divider({
           backgroundColor: theme.border.default,
           ...(isHorizontal
             ? { height: 1, width: "100%", alignSelf: "stretch" }
-            : { width: 1, alignSelf: "stretch", minHeight: 16 }),
+            : { width: 1, alignSelf: "stretch", minHeight: spacing[4] }),
         },
         style,
       ]}

@@ -1,4 +1,6 @@
-import { Image, View, type ImageSourcePropType } from "react-native";
+import { View } from "react-native";
+import { Image } from "expo-image";
+import { type Theme } from "@yeoooonn/ds-tokens";
 import { useTheme } from "../../theme/ThemeProvider";
 import { cn } from "../../utils/cn";
 import {
@@ -15,33 +17,46 @@ const iconSizes: Record<IconSize, number> = {
   lg: 24,
 };
 
+/** Icon `primary` = brand action. 본문색은 color 생략(기본값)을 사용한다. */
+function resolveIconColor(color: IconColor, theme: Theme): string {
+  if (color === "primary") return theme.action.primary;
+  return resolveTypographyColor(color, theme);
+}
+
 export type IconProps = {
-  /** 단색 템플릿 이미지. tintColor로 색을 입힌다. */
-  source: ImageSourcePropType;
-  size: IconSize;
+  /** 단색 템플릿 이미지/SVG. tintColor로 색을 입힌다. */
+  source: string | number | { uri: string };
+  size?: IconSize;
   color?: IconColor;
   className?: string;
   accessibilityLabel?: string;
 };
 
+/**
+ * RN Image는 원격 SVG를 렌더하지 못해 실기기에서 아이콘이 비어 보일 수 있다.
+ * expo-image로 SVG를 지원한다.
+ */
 export function Icon({
   source,
-  size,
+  size = "md",
   color,
   className,
   accessibilityLabel,
 }: IconProps) {
   const { theme } = useTheme();
   const iconSize = iconSizes[size];
-  // color 미지정 시 테마 본문색 (web의 currentColor 상속과 동일)
-  const tintColor = color
-    ? resolveTypographyColor(color, theme)
-    : theme.text.primary;
+  const tintColor = color ? resolveIconColor(color, theme) : theme.text.primary;
 
   return (
     <View
-      className={cn("shrink-0 items-center justify-center", className)}
-      style={{ width: iconSize, height: iconSize }}
+      className={cn(className)}
+      style={{
+        width: iconSize,
+        height: iconSize,
+        flexShrink: 0,
+        alignItems: "center",
+        justifyContent: "center",
+      }}
       accessible={Boolean(accessibilityLabel)}
       accessibilityLabel={accessibilityLabel}
       accessibilityElementsHidden={!accessibilityLabel}
@@ -51,12 +66,9 @@ export function Icon({
     >
       <Image
         source={source}
-        style={{
-          width: iconSize,
-          height: iconSize,
-          tintColor,
-        }}
-        resizeMode="contain"
+        style={{ width: iconSize, height: iconSize }}
+        contentFit="contain"
+        tintColor={tintColor}
       />
     </View>
   );

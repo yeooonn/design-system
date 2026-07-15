@@ -1,11 +1,10 @@
 import React from "react";
 import { Text, View, type StyleProp, type ViewStyle } from "react-native";
-import { fontWeight } from "@yeoooonn/ds-tokens";
+import { borderRadius, fontWeight } from "@yeoooonn/ds-tokens";
 import { cn } from "../../utils/cn";
 import {
   badgeFontSize,
   badgePadding,
-  badgeVariants,
   resolveBadgeStyles,
   type BadgeColor,
   type BadgeSize,
@@ -30,12 +29,17 @@ export function Badge({
   style,
 }: BadgeProps) {
   const colorStyles = resolveBadgeStyles(color, variant);
+  const labelFontSize = badgeFontSize[size];
 
   return (
     <View
-      className={cn(badgeVariants({ size }), className)}
+      className={cn(className)}
       style={[
         {
+          alignItems: "center",
+          justifyContent: "center",
+          alignSelf: "flex-start",
+          borderRadius: borderRadius.full,
           ...badgePadding[size],
           backgroundColor: colorStyles.backgroundColor,
         },
@@ -44,10 +48,10 @@ export function Badge({
     >
       <Text
         style={{
-          color: colorStyles.color,
-          fontSize: badgeFontSize[size],
+          color: colorStyles.textColor,
+          fontSize: labelFontSize,
           fontWeight: fontWeight.semibold as "600",
-          lineHeight: badgeFontSize[size],
+          lineHeight: labelFontSize,
         }}
       >
         {children}

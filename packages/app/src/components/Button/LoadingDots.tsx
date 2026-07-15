@@ -81,16 +81,26 @@ export function LoadingDots({ color, size }: LoadingDotsProps) {
 
   return (
     <View
-      className="absolute inset-0 items-center justify-center"
       pointerEvents="none"
       accessibilityElementsHidden
       importantForAccessibility="no-hide-descendants"
+      style={{
+        position: "absolute",
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+        alignItems: "center",
+        justifyContent: "center",
+      }}
     >
       <View
-        className="flex-row items-center"
-        style={{ gap: dotSize * 0.6, height: dotSize }}
-        accessibilityRole="progressbar"
-        accessibilityLabel="Loading"
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          gap: dotSize * 0.6,
+          height: dotSize,
+        }}
       >
         {delays.map((delay) => (
           <Dot key={delay} color={color} size={dotSize} delay={delay} />

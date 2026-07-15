@@ -6,7 +6,6 @@ import {
   spacing,
   type Theme,
 } from "@yeoooonn/ds-tokens";
-import { cva } from "class-variance-authority";
 import { appFontSize as fontSize } from "../../tokens/typography";
 
 export type ButtonVariant = "filled" | "outlined" | "ghost";
@@ -14,22 +13,6 @@ export type ButtonColor = "primary" | "dark" | "danger";
 export type ButtonSize = "sm" | "md" | "lg";
 export type ButtonColorScheme = "light" | "dark";
 export type ButtonRound = keyof typeof borderRadius;
-
-export const buttonVariants = cva(
-  "relative flex-row items-center justify-center",
-  {
-    variants: {
-      size: {
-        sm: "min-h-8 px-3 py-1",
-        md: "min-h-11 px-4 py-2",
-        lg: "min-h-[52px] px-6 py-3",
-      },
-    },
-    defaultVariants: {
-      size: "md",
-    },
-  },
-);
 
 export function resolveButtonRound(round: ButtonRound = "md"): number {
   return borderRadius[round];
@@ -46,7 +29,12 @@ export const buttonCircularSize: Record<
 
 export const buttonSizeMeta: Record<
   ButtonSize,
-  { fontSize: number; minHeight: number; paddingHorizontal: number; paddingVertical: number }
+  {
+    fontSize: number;
+    minHeight: number;
+    paddingHorizontal: number;
+    paddingVertical: number;
+  }
 > = {
   sm: {
     fontSize: fontSize.sm,
@@ -69,9 +57,9 @@ export const buttonSizeMeta: Record<
 };
 
 type ButtonColorTokens = {
-  filled: { backgroundColor: string; color: string };
-  outlined: { backgroundColor: string; color: string; borderColor: string };
-  ghost: { backgroundColor: string; color: string };
+  filled: { backgroundColor: string; textColor: string };
+  outlined: { backgroundColor: string; textColor: string; borderColor: string };
+  ghost: { backgroundColor: string; textColor: string };
 };
 
 function getButtonColorTokens(
@@ -79,46 +67,49 @@ function getButtonColorTokens(
   colorScheme: ButtonColorScheme,
 ): Record<ButtonColor, ButtonColorTokens> {
   const neutral =
-    colorScheme === "light" ? colors.gray[500] : colors.gray[300];
+    colorScheme === "light" ? colors.gray[500] : theme.text.secondary;
   const neutralFilled =
-    colorScheme === "light" ? colors.gray[500] : colors.gray[600];
+    colorScheme === "light" ? colors.gray[500] : theme.background.tertiary;
 
   return {
     primary: {
-      filled: { backgroundColor: theme.action.primary, color: colors.white },
+      filled: {
+        backgroundColor: theme.action.primary,
+        textColor: colors.white,
+      },
       outlined: {
         backgroundColor: colors.transparent,
-        color: theme.action.primary,
+        textColor: theme.action.primary,
         borderColor: theme.action.primary,
       },
       ghost: {
         backgroundColor: colors.transparent,
-        color: theme.action.primary,
+        textColor: theme.action.primary,
       },
     },
     dark: {
-      filled: { backgroundColor: neutralFilled, color: colors.white },
+      filled: { backgroundColor: neutralFilled, textColor: colors.white },
       outlined: {
         backgroundColor: colors.transparent,
-        color: neutral,
+        textColor: neutral,
         borderColor: neutral,
       },
-      ghost: { backgroundColor: colors.transparent, color: neutral },
+      ghost: { backgroundColor: colors.transparent, textColor: neutral },
     },
     danger: {
       filled: {
         backgroundColor:
           colorScheme === "light" ? colors.error[400] : theme.status.error,
-        color: colors.white,
+        textColor: colors.white,
       },
       outlined: {
         backgroundColor: colors.transparent,
-        color: theme.status.error,
+        textColor: theme.status.error,
         borderColor: theme.status.error,
       },
       ghost: {
         backgroundColor: colors.transparent,
-        color: theme.status.error,
+        textColor: theme.status.error,
       },
     },
   };
@@ -135,7 +126,7 @@ export function resolveButtonStyles(
   if (variant === "filled") {
     return {
       backgroundColor: tokens.filled.backgroundColor,
-      color: tokens.filled.color,
+      textColor: tokens.filled.textColor,
       borderColor: colors.transparent,
       borderWidth: borderWidth.base,
     };
@@ -144,7 +135,7 @@ export function resolveButtonStyles(
   if (variant === "outlined") {
     return {
       backgroundColor: tokens.outlined.backgroundColor,
-      color: tokens.outlined.color,
+      textColor: tokens.outlined.textColor,
       borderColor: tokens.outlined.borderColor,
       borderWidth: borderWidth.base,
     };
@@ -152,7 +143,7 @@ export function resolveButtonStyles(
 
   return {
     backgroundColor: tokens.ghost.backgroundColor,
-    color: tokens.ghost.color,
+    textColor: tokens.ghost.textColor,
     borderColor: colors.transparent,
     borderWidth: borderWidth.base,
   };

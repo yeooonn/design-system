@@ -41,8 +41,11 @@ function resolveDisabledChipStyles(
 ): ChipStyleTokens {
   return {
     backgroundColor:
-      colorScheme === "dark" ? colors.gray[700] : colors.gray[100],
-    textColor: colors.gray[400],
+      colorScheme === "dark"
+        ? colors.dark.background.tertiary
+        : colors.gray[100],
+    textColor:
+      colorScheme === "dark" ? colors.dark.text.tertiary : colors.gray[400],
   };
 }
 
@@ -55,9 +58,16 @@ function resolveSelectedChipStyles(scale: (typeof chipColorScales)[ChipColor]): 
 
 function resolveDefaultChipStyles(
   scale: (typeof chipColorScales)[ChipColor],
+  color: ChipColor,
   colorScheme: ChipColorScheme,
 ): ChipStyleTokens {
   if (colorScheme === "dark") {
+    if (color === "gray") {
+      return {
+        backgroundColor: colors.dark.background.secondary,
+        textColor: colors.dark.text.secondary,
+      };
+    }
     return {
       backgroundColor: scale[800],
       textColor: scale[200],
@@ -91,5 +101,5 @@ export function resolveChipStyles({
     return resolveSelectedChipStyles(scale);
   }
 
-  return resolveDefaultChipStyles(scale, colorScheme);
+  return resolveDefaultChipStyles(scale, color, colorScheme);
 }

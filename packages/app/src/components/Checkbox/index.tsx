@@ -6,7 +6,7 @@ import {
   type StyleProp,
   type ViewStyle,
 } from "react-native";
-import { borderRadius, borderWidth, colors } from "@yeoooonn/ds-tokens";
+import { borderRadius, borderWidth, colors, fontWeight, spacing } from "@yeoooonn/ds-tokens";
 import { useTheme } from "../../theme/ThemeProvider";
 import { cn } from "../../utils/cn";
 import {
@@ -26,7 +26,7 @@ export type CheckboxProps = {
   indeterminate?: boolean;
   disabled?: boolean;
   checked?: boolean;
-  /** RN 관례. onCheckedChange와 동일 */
+  /** @deprecated Prefer onCheckedChange. Kept for RN-style convenience. */
   onPress?: (checked: boolean) => void;
   onCheckedChange?: (checked: boolean) => void;
   className?: string;
@@ -48,7 +48,7 @@ function CheckMark({
       style={{
         color,
         fontSize: size,
-        fontWeight: "700",
+        fontWeight: fontWeight.bold as "700",
         lineHeight: size,
         includeFontPadding: false,
       }}
@@ -86,19 +86,24 @@ export function Checkbox({
     focused,
     checked: isChecked || indeterminate,
   });
-  const { tokens, sizeStyles, messageHelperColor, messageErrorColor, disabledOpacity } =
-    resolveCheckboxRadioMeta(size, theme, colorScheme, state);
+  const {
+    tokens,
+    sizeStyles,
+    messageHelperColor,
+    messageErrorColor,
+    disabledOpacity,
+  } = resolveCheckboxRadioMeta(size, theme, colorScheme, state);
   const showIndicator = isChecked || indeterminate;
+  const handleChange = onCheckedChange ?? onPress;
 
   return (
-    <View className={cn("self-start", className)} style={[{ opacity: disabledOpacity }, style]}>
+    <View
+      className={cn(className)}
+      style={[{ alignSelf: "flex-start", opacity: disabledOpacity }, style]}
+    >
       <Pressable
         disabled={disabled}
-        onPress={() => {
-          const next = !isChecked;
-          onPress?.(next);
-          onCheckedChange?.(next);
-        }}
+        onPress={() => handleChange?.(!isChecked)}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         accessibilityRole="checkbox"
@@ -109,11 +114,13 @@ export function Checkbox({
         accessibilityLabel={
           accessibilityLabel ?? (typeof label === "string" ? label : undefined)
         }
-        className="flex-row items-center"
-        style={{ gap: sizeStyles.gap }}
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          gap: sizeStyles.gap,
+        }}
       >
         <View
-          className="items-center justify-center"
           style={{
             width: sizeStyles.controlSize,
             height: sizeStyles.controlSize,
@@ -121,6 +128,8 @@ export function Checkbox({
             borderWidth: borderWidth.base,
             borderColor: tokens.borderColor,
             backgroundColor: tokens.backgroundColor,
+            alignItems: "center",
+            justifyContent: "center",
             shadowColor: tokens.focusRingColor,
             shadowOpacity: tokens.focusRingColor === colors.transparent ? 0 : 1,
             shadowRadius: 3,
@@ -154,7 +163,7 @@ export function Checkbox({
       {description ? (
         <Text
           style={{
-            marginTop: 4,
+            marginTop: spacing[1],
             marginLeft: sizeStyles.controlSize + sizeStyles.gap,
             fontSize: sizeStyles.labelFontSize,
             color: showErrorMessage ? messageErrorColor : messageHelperColor,
