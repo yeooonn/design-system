@@ -27,10 +27,7 @@ export function resolveTooltipStyles(
 ): {
   panel: React.CSSProperties;
 } {
-  const isDark = colorScheme === "dark";
-  const backgroundColor = isDark
-    ? theme.background.secondary
-    : theme.background.primary;
+  const backgroundColor = theme.surface.tooltip;
   const borderColor = theme.border.default;
 
   return {

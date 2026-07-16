@@ -92,8 +92,7 @@ function getCheckboxRadioStyleTokens(
   if (isDisabled) {
     return {
       borderColor: theme.border.default,
-      backgroundColor:
-        colorScheme === "light" ? colors.gray[100] : colors.gray[800],
+      backgroundColor: theme.field.background.disabled,
       labelColor: theme.text.tertiary,
       indicatorColor: theme.text.tertiary,
       focusRingColor: colors.transparent,
@@ -103,11 +102,10 @@ function getCheckboxRadioStyleTokens(
   if (isError) {
     return {
       borderColor: colors.error[400],
-      backgroundColor:
-        colorScheme === "light" ? "#FEF2F2" : "rgba(243, 66, 66, 0.12)",
+      backgroundColor: theme.field.background.error,
       labelColor: isChecked ? theme.text.primary : colors.error[400],
       indicatorColor: colors.error[400],
-      focusRingColor: isFocus ? "rgba(243, 66, 66, 0.24)" : colors.transparent,
+      focusRingColor: isFocus ? theme.focusRing.error : colors.transparent,
     };
   }
 
@@ -116,19 +114,18 @@ function getCheckboxRadioStyleTokens(
       borderColor: theme.action.primary,
       backgroundColor: theme.action.primary,
       labelColor: theme.text.primary,
-      indicatorColor: colors.white,
-      focusRingColor: isFocus ? "rgba(37, 99, 235, 0.24)" : colors.transparent,
+      indicatorColor: theme.text.inverse,
+      focusRingColor: isFocus ? theme.focusRing.primary : colors.transparent,
     };
   }
 
   if (isFocus) {
     return {
       borderColor: colors.primary[300],
-      backgroundColor:
-        colorScheme === "light" ? colors.primary[50] : "rgba(37, 99, 235, 0.12)",
+      backgroundColor: theme.field.background.focus,
       labelColor: theme.text.primary,
       indicatorColor: theme.action.primary,
-      focusRingColor: "rgba(37, 99, 235, 0.24)",
+      focusRingColor: theme.focusRing.primary,
     };
   }
 

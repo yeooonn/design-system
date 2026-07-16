@@ -26,8 +26,6 @@ const meta: Meta<CheckboxPlaygroundArgs> = {
   },
   argTypes: {
     size: { control: "select", options: ["sm", "md", "lg"] },
-    style: { table: { disable: true } },
-    className: { table: { disable: true } },
     label: {
       control: "text",
       if: { arg: "showLabel", truthy: true },
@@ -107,7 +105,6 @@ export const Overview: Story = {
       <Checkbox label="약관에 동의합니다" indeterminate readOnly />
       <Checkbox
         label="약관에 동의합니다"
-        checked
         errorMessage="약관에 동의해주세요."
         readOnly
       />

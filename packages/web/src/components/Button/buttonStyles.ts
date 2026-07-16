@@ -75,18 +75,16 @@ type ButtonColorTokens = {
 
 function getButtonColorTokens(
   theme: Theme,
-  colorScheme: ButtonColorScheme,
+  _colorScheme: ButtonColorScheme,
 ): Record<ButtonColor, ButtonColorTokens> {
-  const neutral =
-    colorScheme === "light" ? colors.gray[500] : colors.gray[300];
-  const neutralFilled =
-    colorScheme === "light" ? colors.gray[500] : colors.gray[600];
+  const neutral = theme.button.neutral.text;
+  const neutralFilled = theme.button.neutral.filled;
 
   return {
     primary: {
       filled: {
         backgroundColor: theme.action.primary,
-        color: colors.white,
+        color: theme.text.inverse,
       },
       outlined: {
         backgroundColor: colors.transparent,
@@ -101,7 +99,7 @@ function getButtonColorTokens(
     dark: {
       filled: {
         backgroundColor: neutralFilled,
-        color: colors.white,
+        color: theme.text.inverse,
       },
       outlined: {
         backgroundColor: colors.transparent,
@@ -115,9 +113,8 @@ function getButtonColorTokens(
     },
     danger: {
       filled: {
-        backgroundColor:
-          colorScheme === "light" ? colors.error[400] : theme.status.error,
-        color: colors.white,
+        backgroundColor: theme.button.danger.filled,
+        color: theme.text.inverse,
       },
       outlined: {
         backgroundColor: colors.transparent,

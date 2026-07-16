@@ -1,3 +1,4 @@
+import { type Theme } from "@yeoooonn/ds-tokens";
 import { useTheme } from "../../theme/ThemeProvider";
 import {
   resolveTypographyColor,
@@ -12,6 +13,12 @@ const iconSizes: Record<IconSize, number> = {
   md: 20,
   lg: 24,
 };
+
+/** Icon `primary` = brand action. 본문색은 color 생략(기본값)을 사용한다. */
+function resolveIconColor(color: IconColor, theme: Theme): string {
+  if (color === "primary") return theme.action.primary;
+  return resolveTypographyColor(color, theme);
+}
 
 type IconProps = {
   src: string;
@@ -28,7 +35,9 @@ export function Icon({ src, size, color }: IconProps) {
       aria-hidden
       style={{
         display: "inline-flex",
-        ...(color ? { color: resolveTypographyColor(color, theme) } : {}),
+        ...(color
+          ? { color: resolveIconColor(color, theme) }
+          : { color: theme.text.primary }),
         width: iconSize,
         height: iconSize,
         flexShrink: 0,

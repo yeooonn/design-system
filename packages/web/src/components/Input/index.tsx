@@ -52,7 +52,14 @@ export function Input({
   const styles = resolveInputStyles(variant, size, theme, colorScheme, state);
 
   return (
-    <div className={className} style={{ ...styles.wrapper, ...style }}>
+    <div
+      className={className}
+      style={{
+        ...styles.wrapper,
+        opacity: disabled ? 0.48 : 1,
+        ...style,
+      }}
+    >
       <div style={styles.labelSlot}>
         {label ? (
           <label htmlFor={inputId} style={styles.label}>

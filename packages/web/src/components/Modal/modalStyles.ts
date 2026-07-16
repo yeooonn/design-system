@@ -17,10 +17,6 @@ export function resolveModalStyles(
 } {
   const isDark = colorScheme === "dark";
 
-  const overlayColor = isDark
-    ? "rgba(0, 0, 0, 0.55)"
-    : "rgba(17, 24, 39, 0.45)";
-
   return {
     backdrop: {
       position: "fixed",
@@ -30,7 +26,7 @@ export function resolveModalStyles(
       alignItems: "center",
       justifyContent: "center",
       padding: spacing[4],
-      backgroundColor: overlayColor,
+      backgroundColor: theme.overlay.backdrop,
     },
     panel: {
       display: "flex",
@@ -38,10 +34,11 @@ export function resolveModalStyles(
       width: "100%",
       maxWidth: 480,
       maxHeight: "calc(100vh - 32px)",
-      backgroundColor: isDark
-        ? theme.background.secondary
-        : theme.background.primary,
-      border: isDark ? `1px solid ${theme.border.strong}` : undefined,
+      backgroundColor: theme.surface.elevated.background,
+      border:
+        theme.surface.elevated.borderWidth > 0
+          ? `1px solid ${theme.border.strong}`
+          : undefined,
       borderRadius: borderRadius.lg,
       boxShadow: isDark
         ? "0 25px 50px -12px rgba(0, 0, 0, 0.55)"

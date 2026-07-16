@@ -97,9 +97,7 @@ export function resolveToastItemStyles(
       gap: spacing[2],
       maxWidth: 360,
       padding: `${spacing[3]}px ${spacing[4]}px`,
-      backgroundColor: isDark
-        ? theme.background.tertiary
-        : theme.background.primary,
+      backgroundColor: theme.surface.toast,
       color: theme.text.primary,
       border: `1px solid ${theme.border.default}`,
       borderRadius: borderRadius.lg,

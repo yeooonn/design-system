@@ -42,8 +42,7 @@ function getSelectStyleTokens(
 
   if (isDisabled) {
     return {
-      backgroundColor:
-        colorScheme === "light" ? colors.gray[100] : colors.gray[800],
+      backgroundColor: theme.field.background.disabled,
       borderColor: theme.border.default,
       color: theme.text.tertiary,
       labelColor: theme.text.tertiary,
@@ -54,8 +53,7 @@ function getSelectStyleTokens(
 
   if (isError) {
     return {
-      backgroundColor:
-        colorScheme === "light" ? "#FEF2F2" : "rgba(243, 66, 66, 0.12)",
+      backgroundColor: theme.field.background.error,
       borderColor: colors.error[400],
       color: theme.text.primary,
       labelColor: colors.error[400],
@@ -66,8 +64,7 @@ function getSelectStyleTokens(
 
   if (isFocus) {
     return {
-      backgroundColor:
-        colorScheme === "light" ? colors.primary[50] : "rgba(37, 99, 235, 0.12)",
+      backgroundColor: theme.field.background.focus,
       borderColor: colors.primary[300],
       color: theme.text.primary,
       labelColor: theme.text.secondary,
@@ -77,7 +74,7 @@ function getSelectStyleTokens(
   }
 
   return {
-    backgroundColor: theme.background.primary,
+    backgroundColor: theme.field.background.default,
     borderColor: theme.border.default,
     color: theme.text.primary,
     labelColor: theme.text.secondary,
@@ -117,7 +114,7 @@ export function resolveSelectListStyles(
       maxHeight: 240,
       overflowX: "hidden",
       overflowY: "auto",
-      backgroundColor: isDark ? theme.background.secondary : theme.background.primary,
+      backgroundColor: theme.surface.elevated.background,
       border: `${borderWidth.thin}px solid ${theme.border.default}`,
       borderRadius: borderRadius.md,
       boxShadow: isDark
@@ -155,12 +152,12 @@ export function resolveSelectListStyles(
       whiteSpace: "nowrap",
     },
     optionSelected: {
-      backgroundColor: isDark ? "rgba(37, 99, 235, 0.18)" : colors.primary[50],
-      color: isDark ? colors.primary[300] : colors.primary[700],
+      backgroundColor: theme.field.background.focus,
+      color: isDark ? colors.primary[300] : theme.action.primaryHover,
       fontWeight: fontWeight.regular,
     },
     optionHighlighted: {
-      backgroundColor: isDark ? colors.gray[700] : colors.gray[100],
+      backgroundColor: theme.background.tertiary,
     },
     optionDisabled: {
       color: theme.text.tertiary,
@@ -171,7 +168,7 @@ export function resolveSelectListStyles(
       flexShrink: 0,
       display: "inline-flex",
     },
-    checkIconColor: isDark ? colors.primary[300] : colors.primary[600],
+    checkIconColor: theme.action.primary,
   };
 }
 

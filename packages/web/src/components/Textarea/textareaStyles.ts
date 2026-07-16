@@ -84,8 +84,7 @@ function getTextareaStyleTokens(
 
   if (isDisabled) {
     return {
-      backgroundColor:
-        colorScheme === "light" ? colors.gray[100] : colors.gray[800],
+      backgroundColor: theme.field.background.disabled,
       borderColor: theme.border.default,
       color: theme.text.tertiary,
       labelColor: theme.text.tertiary,
@@ -95,8 +94,7 @@ function getTextareaStyleTokens(
 
   if (isError) {
     return {
-      backgroundColor:
-        colorScheme === "light" ? "#FEF2F2" : "rgba(243, 66, 66, 0.12)",
+      backgroundColor: theme.field.background.error,
       borderColor: colors.error[400],
       color: theme.text.primary,
       labelColor: colors.error[400],
@@ -106,8 +104,7 @@ function getTextareaStyleTokens(
 
   if (isFocus) {
     return {
-      backgroundColor:
-        colorScheme === "light" ? colors.primary[50] : "rgba(37, 99, 235, 0.12)",
+      backgroundColor: theme.field.background.focus,
       borderColor: colors.primary[300],
       color: theme.text.primary,
       labelColor: theme.text.secondary,
@@ -116,7 +113,7 @@ function getTextareaStyleTokens(
   }
 
   return {
-    backgroundColor: theme.background.primary,
+    backgroundColor: theme.field.background.default,
     borderColor: theme.border.default,
     color: theme.text.primary,
     labelColor: theme.text.secondary,

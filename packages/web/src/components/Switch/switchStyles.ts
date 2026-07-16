@@ -43,8 +43,7 @@ function resolveSwitchTrackTokens({
 } {
   if (disabled) {
     return {
-      trackBackgroundColor:
-        colorScheme === "light" ? colors.gray[200] : colors.gray[700],
+      trackBackgroundColor: theme.switch.track.disabled,
       focusRingColor: colors.transparent,
     };
   }
@@ -53,24 +52,21 @@ function resolveSwitchTrackTokens({
     return {
       trackBackgroundColor: checked
         ? colors.error[400]
-        : colorScheme === "light"
-          ? "#fecaca"
-          : "rgba(243, 66, 66, 0.4)",
-      focusRingColor: focused ? "rgba(243, 66, 66, 0.24)" : colors.transparent,
+        : theme.switch.track.error,
+      focusRingColor: focused ? theme.focusRing.error : colors.transparent,
     };
   }
 
   if (checked) {
     return {
       trackBackgroundColor: theme.action.primary,
-      focusRingColor: focused ? "rgba(37, 99, 235, 0.24)" : colors.transparent,
+      focusRingColor: focused ? theme.focusRing.primary : colors.transparent,
     };
   }
 
   return {
-    trackBackgroundColor:
-      colorScheme === "light" ? colors.gray[300] : colors.gray[600],
-    focusRingColor: focused ? "rgba(37, 99, 235, 0.24)" : colors.transparent,
+    trackBackgroundColor: theme.switch.track.unchecked,
+    focusRingColor: focused ? theme.focusRing.primary : colors.transparent,
   };
 }
 
@@ -171,7 +167,7 @@ export function resolveSwitchStyles(
       width: dims.thumbSize,
       height: dims.thumbSize,
       borderRadius: borderRadius.full,
-      backgroundColor: colors.white,
+      backgroundColor: theme.text.inverse,
       boxShadow: "0 1px 2px rgba(0, 0, 0, 0.2)",
       transition: "left 0.15s",
       pointerEvents: "none",
