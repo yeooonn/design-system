@@ -9,12 +9,13 @@ type FieldMetaTextProps = {
   color: string;
 };
 
-function FieldMetaText({ text, fontSize, lineHeight, color }: FieldMetaTextProps) {
-  return (
-    <Text style={{ fontSize, lineHeight, color }}>
-      {text}
-    </Text>
-  );
+function FieldMetaText({
+  text,
+  fontSize,
+  lineHeight,
+  color,
+}: FieldMetaTextProps) {
+  return <Text style={{ fontSize, lineHeight, color }}>{text}</Text>;
 }
 
 type FieldLabelProps = {
@@ -24,7 +25,12 @@ type FieldLabelProps = {
   color: string;
 };
 
-export function FieldLabel({ label, fontSize, lineHeight, color }: FieldLabelProps) {
+export function FieldLabel({
+  label,
+  fontSize,
+  lineHeight,
+  color,
+}: FieldLabelProps) {
   return (
     <View style={{ minHeight: lineHeight, marginBottom: spacing[1] }}>
       {label ? (
