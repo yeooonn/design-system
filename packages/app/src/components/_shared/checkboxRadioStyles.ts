@@ -6,7 +6,6 @@ import {
 import { appFontSize as fontSize } from "../../tokens/typography";
 
 export type CheckboxRadioSize = "sm" | "md" | "lg";
-export type CheckboxRadioColorScheme = "light" | "dark";
 export type CheckboxRadioState =
   | "default"
   | "checked"
@@ -79,7 +78,6 @@ export type CheckboxRadioStyleTokens = {
 
 export function getCheckboxRadioStyleTokens(
   theme: Theme,
-  colorScheme: CheckboxRadioColorScheme,
   state: CheckboxRadioState,
 ): CheckboxRadioStyleTokens {
   const isDisabled = state === "disabled";
@@ -90,10 +88,7 @@ export function getCheckboxRadioStyleTokens(
   if (isDisabled) {
     return {
       borderColor: theme.border.default,
-      backgroundColor:
-        colorScheme === "light"
-          ? colors.gray[100]
-          : theme.background.secondary,
+      backgroundColor: theme.field.background.disabled,
       labelColor: theme.text.tertiary,
       indicatorColor: theme.text.tertiary,
       focusRingColor: colors.transparent,
@@ -103,11 +98,10 @@ export function getCheckboxRadioStyleTokens(
   if (isError) {
     return {
       borderColor: colors.error[400],
-      backgroundColor:
-        colorScheme === "light" ? "#FEF2F2" : "rgba(243, 66, 66, 0.12)",
+      backgroundColor: theme.field.background.error,
       labelColor: isChecked ? theme.text.primary : colors.error[400],
       indicatorColor: colors.error[400],
-      focusRingColor: isFocus ? "rgba(243, 66, 66, 0.24)" : colors.transparent,
+      focusRingColor: isFocus ? theme.focusRing.error : colors.transparent,
     };
   }
 
@@ -117,18 +111,17 @@ export function getCheckboxRadioStyleTokens(
       backgroundColor: theme.action.primary,
       labelColor: theme.text.primary,
       indicatorColor: colors.white,
-      focusRingColor: isFocus ? "rgba(49, 130, 246, 0.24)" : colors.transparent,
+      focusRingColor: isFocus ? theme.focusRing.primary : colors.transparent,
     };
   }
 
   if (isFocus) {
     return {
       borderColor: colors.primary[300],
-      backgroundColor:
-        colorScheme === "light" ? colors.primary[50] : "rgba(49, 130, 246, 0.12)",
+      backgroundColor: theme.field.background.focus,
       labelColor: theme.text.primary,
       indicatorColor: theme.action.primary,
-      focusRingColor: "rgba(49, 130, 246, 0.24)",
+      focusRingColor: theme.focusRing.primary,
     };
   }
 
@@ -144,10 +137,9 @@ export function getCheckboxRadioStyleTokens(
 export function resolveCheckboxRadioMeta(
   size: CheckboxRadioSize,
   theme: Theme,
-  colorScheme: CheckboxRadioColorScheme,
   state: CheckboxRadioState,
 ) {
-  const tokens = getCheckboxRadioStyleTokens(theme, colorScheme, state);
+  const tokens = getCheckboxRadioStyleTokens(theme, state);
   const sizeStyles = checkboxRadioSizeStyles[size];
 
   return {

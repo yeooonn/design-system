@@ -95,8 +95,7 @@ function ModalRoot({
   style,
   accessibilityLabel,
 }: ModalProps) {
-  const { theme, colorScheme } = useTheme();
-  const isDark = colorScheme === "dark";
+  const { theme } = useTheme();
 
   return (
     <RNModal
@@ -115,9 +114,7 @@ function ModalRoot({
               alignItems: "center",
               justifyContent: "center",
               padding: spacing[4],
-              backgroundColor: isDark
-                ? "rgba(0, 0, 0, 0.55)"
-                : "rgba(17, 24, 39, 0.45)",
+              backgroundColor: theme.overlay.backdrop,
             },
             style,
           ]}
@@ -132,16 +129,14 @@ function ModalRoot({
               maxWidth: 480,
               maxHeight: "90%",
               flexDirection: "column",
-              backgroundColor: isDark
-                ? theme.background.secondary
-                : theme.background.primary,
+              backgroundColor: theme.surface.elevated.background,
               borderRadius: borderRadius.lg,
-              borderWidth: isDark ? 1 : 0,
+              borderWidth: theme.surface.elevated.borderWidth,
               borderColor: theme.border.strong,
               overflow: "hidden",
               shadowColor: "#000",
-              shadowOpacity: isDark ? 0.55 : 0.1,
-              shadowRadius: isDark ? 25 : 20,
+              shadowOpacity: theme.surface.elevated.borderWidth > 0 ? 0.55 : 0.1,
+              shadowRadius: theme.surface.elevated.borderWidth > 0 ? 25 : 20,
               shadowOffset: { width: 0, height: 8 },
               elevation: 8,
             }}

@@ -63,12 +63,9 @@ function CardRoot({
   className,
   style,
 }: CardProps) {
-  const { theme, colorScheme } = useTheme();
-  const isDark = colorScheme === "dark";
-  // 다크에서는 페이지(primary)와 구분되게 elevated surface는 secondary
-  const surfaceColor = isDark
-    ? theme.background.secondary
-    : theme.background.primary;
+  const { theme } = useTheme();
+  const isElevatedSurface = theme.surface.elevated.borderWidth > 0;
+  const surfaceColor = theme.surface.elevated.background;
 
   const surfaceStyle: StyleProp<ViewStyle> = {
     flexDirection: "column",
@@ -97,10 +94,10 @@ function CardRoot({
         borderRadius: borderRadius.lg,
         backgroundColor: surfaceColor,
         shadowColor: "#000",
-        shadowOffset: { width: 0, height: isDark ? 8 : 4 },
-        shadowOpacity: isDark ? 0.55 : 0.12,
-        shadowRadius: isDark ? 20 : 8,
-        elevation: isDark ? 10 : 4,
+        shadowOffset: { width: 0, height: isElevatedSurface ? 8 : 4 },
+        shadowOpacity: isElevatedSurface ? 0.55 : 0.12,
+        shadowRadius: isElevatedSurface ? 20 : 8,
+        elevation: isElevatedSurface ? 10 : 4,
       }}
     >
       {surface}

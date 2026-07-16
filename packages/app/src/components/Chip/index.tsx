@@ -79,10 +79,10 @@ export function Chip({
   className,
   style,
 }: ChipProps) {
-  const { colorScheme } = useTheme();
+  const { theme } = useTheme();
   const colorStyles = resolveChipStyles({
     color,
-    colorScheme,
+    theme,
     selected,
     disabled,
   });

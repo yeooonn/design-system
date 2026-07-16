@@ -6,23 +6,16 @@ import { appFontSize as fontSize } from "../../tokens/typography";
 import {
   OPTION_DISABLED_OPACITY,
   resolveFieldActiveBackgroundColor,
-  type FieldColorScheme,
 } from "../_shared/fieldStyles";
 import type { SelectOption } from "./index";
 
 const SHEET_MAX_HEIGHT = "55%";
-
-const BACKDROP_COLOR = {
-  light: "rgba(17, 24, 39, 0.45)",
-  dark: "rgba(0, 0, 0, 0.55)",
-} as const;
 
 type RenderSelectOptionItemParams = {
   option: SelectOption;
   selected: boolean;
   fontSize: number;
   theme: Theme;
-  colorScheme: FieldColorScheme;
   onSelect: (value: string) => void;
 };
 
@@ -31,11 +24,10 @@ function renderSelectOptionItem({
   selected,
   fontSize,
   theme,
-  colorScheme,
   onSelect,
 }: RenderSelectOptionItemParams) {
   const selectedBackgroundColor = selected
-    ? resolveFieldActiveBackgroundColor(theme, colorScheme)
+    ? resolveFieldActiveBackgroundColor(theme)
     : "transparent";
 
   return (
@@ -74,7 +66,6 @@ type SelectSheetProps = {
   selectedValue: string;
   fontSize: number;
   theme: Theme;
-  colorScheme: FieldColorScheme;
   backdropAnimatedStyle: AnimatedStyle<{ opacity: number }>;
   sheetAnimatedStyle: AnimatedStyle<{ transform: { translateY: number }[] }>;
   onClose: () => void;
@@ -88,7 +79,6 @@ export function SelectSheet({
   selectedValue,
   fontSize: optionFontSize,
   theme,
-  colorScheme,
   backdropAnimatedStyle,
   sheetAnimatedStyle,
   onClose,
@@ -112,7 +102,7 @@ export function SelectSheet({
               right: 0,
               bottom: 0,
               left: 0,
-              backgroundColor: BACKDROP_COLOR[colorScheme],
+              backgroundColor: theme.overlay.backdrop,
             },
             backdropAnimatedStyle,
           ]}
@@ -175,7 +165,6 @@ export function SelectSheet({
                   selected: option.value === selectedValue,
                   fontSize: optionFontSize,
                   theme,
-                  colorScheme,
                   onSelect,
                 })}
               </React.Fragment>

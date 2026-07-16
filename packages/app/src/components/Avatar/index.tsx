@@ -7,7 +7,7 @@ import {
   type StyleProp,
   type ViewStyle,
 } from "react-native";
-import { borderRadius, colors, fontWeight } from "@yeoooonn/ds-tokens";
+import { borderRadius, fontWeight } from "@yeoooonn/ds-tokens";
 import { appFontSize as fontSize } from "../../tokens/typography";
 import { useTheme } from "../../theme/ThemeProvider";
 import { cn } from "../../utils/cn";
@@ -45,7 +45,7 @@ export function Avatar({
   style,
   accessibilityLabel,
 }: AvatarProps) {
-  const { colorScheme } = useTheme();
+  const { theme } = useTheme();
   const { box, text } = avatarSize[size];
   const label = accessibilityLabel ?? name ?? "Avatar";
 
@@ -62,8 +62,7 @@ export function Avatar({
           width: box,
           height: box,
           borderRadius: borderRadius.full,
-          backgroundColor:
-            colorScheme === "light" ? colors.primary[100] : colors.primary[800],
+          backgroundColor: theme.avatar.background,
         },
         style,
       ]}
@@ -78,10 +77,7 @@ export function Avatar({
       ) : (
         <Text
           style={{
-            color:
-              colorScheme === "light"
-                ? colors.primary[700]
-                : colors.primary[200],
+            color: theme.avatar.text,
             fontSize: text,
             fontWeight: fontWeight.semibold as "600",
             lineHeight: text,

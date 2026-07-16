@@ -204,8 +204,7 @@ function BottomSheetPanel({
   sheetAnimatedStyle: object;
   backdropAnimatedStyle: object;
 }) {
-  const { theme, colorScheme } = useTheme();
-  const isDark = colorScheme === "dark";
+  const { theme } = useTheme();
   const { height: windowHeight } = useWindowDimensions();
   const insets = useSafeAreaInsets();
   const bottomInset = Math.max(
@@ -287,9 +286,7 @@ function BottomSheetPanel({
         style={[
           absoluteFill,
           {
-            backgroundColor: isDark
-              ? "rgba(0, 0, 0, 0.55)"
-              : "rgba(17, 24, 39, 0.45)",
+            backgroundColor: theme.overlay.backdrop,
           },
           backdropAnimatedStyle,
         ]}
@@ -317,19 +314,17 @@ function BottomSheetPanel({
                 maxHeight: maxSheetHeight,
                 height: sheetHeight ?? undefined,
                 flexDirection: "column",
-                backgroundColor: isDark
-                  ? theme.background.secondary
-                  : theme.background.primary,
+                backgroundColor: theme.surface.elevated.background,
                 borderTopLeftRadius: borderRadius.xl,
                 borderTopRightRadius: borderRadius.xl,
-                borderWidth: isDark ? 1 : 0,
+                borderWidth: theme.surface.elevated.borderWidth,
                 borderBottomWidth: 0,
                 borderColor: theme.border.strong,
                 overflow: "hidden",
                 paddingBottom: bottomInset,
                 shadowColor: "#000",
-                shadowOpacity: isDark ? 0.55 : 0.12,
-                shadowRadius: isDark ? 24 : 16,
+                shadowOpacity: theme.surface.elevated.borderWidth > 0 ? 0.55 : 0.12,
+                shadowRadius: theme.surface.elevated.borderWidth > 0 ? 24 : 16,
                 shadowOffset: { width: 0, height: -4 },
                 elevation: 12,
               },

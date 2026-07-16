@@ -11,7 +11,6 @@ import { appFontSize as fontSize } from "../../tokens/typography";
 export type ButtonVariant = "filled" | "outlined" | "ghost";
 export type ButtonColor = "primary" | "dark" | "danger";
 export type ButtonSize = "sm" | "md" | "lg";
-export type ButtonColorScheme = "light" | "dark";
 export type ButtonRound = keyof typeof borderRadius;
 
 export function resolveButtonRound(round: ButtonRound = "md"): number {
@@ -64,12 +63,9 @@ type ButtonColorTokens = {
 
 function getButtonColorTokens(
   theme: Theme,
-  colorScheme: ButtonColorScheme,
 ): Record<ButtonColor, ButtonColorTokens> {
-  const neutral =
-    colorScheme === "light" ? colors.gray[500] : theme.text.secondary;
-  const neutralFilled =
-    colorScheme === "light" ? colors.gray[500] : theme.background.tertiary;
+  const neutral = theme.button.neutral.text;
+  const neutralFilled = theme.button.neutral.filled;
 
   return {
     primary: {
@@ -98,8 +94,7 @@ function getButtonColorTokens(
     },
     danger: {
       filled: {
-        backgroundColor:
-          colorScheme === "light" ? colors.error[400] : theme.status.error,
+        backgroundColor: theme.button.danger.filled,
         textColor: colors.white,
       },
       outlined: {
@@ -119,9 +114,8 @@ export function resolveButtonStyles(
   variant: ButtonVariant = "filled",
   color: ButtonColor = "primary",
   theme: Theme,
-  colorScheme: ButtonColorScheme = "light",
 ) {
-  const tokens = getButtonColorTokens(theme, colorScheme)[color];
+  const tokens = getButtonColorTokens(theme)[color];
 
   if (variant === "filled") {
     return {

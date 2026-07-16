@@ -73,7 +73,7 @@ export function Checkbox({
   style,
   accessibilityLabel,
 }: CheckboxProps) {
-  const { theme, colorScheme } = useTheme();
+  const { theme } = useTheme();
   const [focused, setFocused] = useState(false);
   const hasError = error || Boolean(errorMessage);
   const showErrorMessage = hasError && Boolean(errorMessage);
@@ -92,7 +92,7 @@ export function Checkbox({
     messageHelperColor,
     messageErrorColor,
     disabledOpacity,
-  } = resolveCheckboxRadioMeta(size, theme, colorScheme, state);
+  } = resolveCheckboxRadioMeta(size, theme, state);
   const showIndicator = isChecked || indeterminate;
   const handleChange = onCheckedChange ?? onPress;
 

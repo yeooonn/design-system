@@ -63,7 +63,7 @@ export function Select({
   style,
   accessibilityLabel,
 }: SelectProps) {
-  const { theme, colorScheme } = useTheme();
+  const { theme } = useTheme();
   const { height: windowHeight } = useWindowDimensions();
 
   // 시트 열림 여부
@@ -99,7 +99,7 @@ export function Select({
     borderWidth: fieldBorderWidth,
     messageHelperColor,
     messageErrorColor,
-  } = resolveFieldTokens(variant, size, theme, colorScheme, state);
+  } = resolveFieldTokens(variant, size, theme, state);
 
   const metaLineHeight = Math.round(sizeStyles.labelFontSize * 1.5);
 
@@ -159,7 +159,6 @@ export function Select({
         selectedValue={selectedValue}
         fontSize={sizeStyles.fontSize}
         theme={theme}
-        colorScheme={colorScheme}
         backdropAnimatedStyle={backdropAnimatedStyle}
         sheetAnimatedStyle={sheetAnimatedStyle}
         onClose={closeSheet}

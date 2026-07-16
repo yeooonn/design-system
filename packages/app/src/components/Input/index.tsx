@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Text,
   TextInput,
@@ -8,6 +8,8 @@ import {
   type ViewStyle,
 } from "react-native";
 import { spacing } from "@yeoooonn/ds-tokens";
+import { useKeyboardBottomInset } from "../../hooks/useKeyboardBottomInset";
+import { useKeyboardScroll } from "../../hooks/KeyboardScrollContext";
 import { useTheme } from "../../theme/ThemeProvider";
 import { cn } from "../../utils/cn";
 import {
@@ -17,6 +19,9 @@ import {
   type FieldSize,
   type FieldVariant,
 } from "../_shared/fieldStyles";
+
+const KEYBOARD_SCROLL_GAP = 24;
+const KEYBOARD_SCROLL_DELAY_MS = 50;
 
 export type InputSize = FieldSize;
 export type InputVariant = FieldVariant;
@@ -54,9 +59,12 @@ export function Input({
   onBlur,
   ...inputProps
 }: InputProps) {
-  const { theme, colorScheme } = useTheme();
+  const { theme } = useTheme();
+  const fieldRef = useRef<View>(null);
+  const keyboardScroll = useKeyboardScroll();
   const [focused, setFocused] = useState(false);
   const isDisabled = disabled || editable === false;
+  const keyboardInset = useKeyboardBottomInset(focused && !isDisabled);
   const hasError = error || Boolean(errorMessage);
   const showErrorMessage = hasError && Boolean(errorMessage);
   const description = showErrorMessage ? errorMessage : helperText;
@@ -67,9 +75,21 @@ export function Input({
     focused,
   });
   const { tokens, sizeStyles, borderRadius, borderWidth, messageHelperColor, messageErrorColor } =
-    resolveFieldTokens(variant, size, theme, colorScheme, state);
+    resolveFieldTokens(variant, size, theme, state);
 
   const metaLineHeight = Math.round(sizeStyles.labelFontSize * 1.5);
+
+  useEffect(() => {
+    if (!focused || isDisabled || keyboardInset <= 0) return;
+    const timer = setTimeout(() => {
+      keyboardScroll?.ensureVisible(
+        fieldRef,
+        keyboardInset,
+        KEYBOARD_SCROLL_GAP,
+      );
+    }, KEYBOARD_SCROLL_DELAY_MS);
+    return () => clearTimeout(timer);
+  }, [focused, isDisabled, keyboardInset, keyboardScroll]);
 
   return (
     <View
@@ -98,6 +118,7 @@ export function Input({
       </View>
 
       <View
+        ref={fieldRef}
         style={{
           width: "100%",
           flexDirection: "row",

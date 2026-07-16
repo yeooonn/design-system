@@ -67,9 +67,9 @@ export function Button({
   className,
   style,
 }: ButtonProps) {
-  const { theme, colorScheme } = useTheme();
+  const { theme } = useTheme();
   const [pressed, setPressed] = useState(false);
-  const colorStyles = resolveButtonStyles(variant, color, theme, colorScheme);
+  const colorStyles = resolveButtonStyles(variant, color, theme);
   const isInactive = disabled || loading;
   const sizeMeta = buttonSizeMeta[size];
   const isCircular = round === "full" && iconOnly;

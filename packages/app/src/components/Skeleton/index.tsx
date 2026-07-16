@@ -19,7 +19,7 @@ export function Skeleton({
   className,
   style,
 }: SkeletonProps) {
-  const { theme, colorScheme } = useTheme();
+  const { theme } = useTheme();
   const opacity = useRef(new Animated.Value(0.45)).current;
 
   useEffect(() => {
@@ -51,10 +51,7 @@ export function Skeleton({
           width,
           height,
           borderRadius: radii[rounded],
-          backgroundColor:
-            colorScheme === "light"
-              ? theme.background.tertiary
-              : theme.background.secondary,
+          backgroundColor: theme.skeleton.background,
           opacity,
         },
         style,

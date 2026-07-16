@@ -7,7 +7,7 @@ import {
   type StyleProp,
   type ViewStyle,
 } from "react-native";
-import { borderRadius, colors, spacing } from "@yeoooonn/ds-tokens";
+import { borderRadius, colors, spacing, type Theme } from "@yeoooonn/ds-tokens";
 import { useTheme } from "../../theme/ThemeProvider";
 import { cn } from "../../utils/cn";
 import {
@@ -34,32 +34,28 @@ const switchSizeStyles: Record<
 
 function resolveTrackBackground({
   theme,
-  colorScheme,
   disabled,
   error,
   checked,
 }: {
-  theme: ReturnType<typeof useTheme>["theme"];
-  colorScheme: "light" | "dark";
+  theme: Theme;
   disabled: boolean;
   error: boolean;
   checked: boolean;
 }) {
   if (disabled) {
-    return colorScheme === "light"
-      ? colors.gray[200]
-      : theme.background.tertiary;
+    return theme.switch.track.disabled;
   }
 
   if (error && checked) return colors.error[400];
 
   if (error) {
-    return colorScheme === "light" ? "#fecaca" : "rgba(243, 66, 66, 0.4)";
+    return theme.switch.track.error;
   }
 
   if (checked) return theme.action.primary;
 
-  return colorScheme === "light" ? colors.gray[300] : theme.border.strong;
+  return theme.switch.track.unchecked;
 }
 
 export type SwitchProps = {
@@ -92,7 +88,7 @@ export function Switch({
   style,
   accessibilityLabel,
 }: SwitchProps) {
-  const { theme, colorScheme } = useTheme();
+  const { theme } = useTheme();
   const [focused, setFocused] = useState(false);
   const dims = switchSizeStyles[size];
   const isChecked = Boolean(checked);
@@ -122,7 +118,7 @@ export function Switch({
     messageHelperColor,
     messageErrorColor,
     disabledOpacity,
-  } = resolveCheckboxRadioMeta(size, theme, colorScheme, state);
+  } = resolveCheckboxRadioMeta(size, theme, state);
 
   useEffect(() => {
     Animated.timing(thumbOffset, {
@@ -136,7 +132,6 @@ export function Switch({
 
   const trackBackgroundColor = resolveTrackBackground({
     theme,
-    colorScheme,
     disabled,
     error: hasError,
     checked: isChecked,

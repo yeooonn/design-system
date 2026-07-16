@@ -45,7 +45,7 @@ export function Radio({
   style,
   accessibilityLabel,
 }: RadioProps) {
-  const { theme, colorScheme } = useTheme();
+  const { theme } = useTheme();
   const [focused, setFocused] = useState(false);
   const scale = useRef(new Animated.Value(checked ? 1 : 0)).current;
   const hasError = error || Boolean(errorMessage);
@@ -65,7 +65,7 @@ export function Radio({
     messageHelperColor,
     messageErrorColor,
     disabledOpacity,
-  } = resolveCheckboxRadioMeta(size, theme, colorScheme, state);
+  } = resolveCheckboxRadioMeta(size, theme, state);
 
   useEffect(() => {
     Animated.timing(scale, {

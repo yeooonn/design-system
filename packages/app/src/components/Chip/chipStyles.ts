@@ -1,9 +1,8 @@
-import { colors, spacing } from "@yeoooonn/ds-tokens";
+import { colors, spacing, type Theme } from "@yeoooonn/ds-tokens";
 import { appFontSize as fontSize } from "../../tokens/typography";
 
 export type ChipColor = "blue" | "green" | "red" | "orange" | "yellow" | "gray";
 export type ChipSize = "sm" | "md" | "lg";
-export type ChipColorScheme = "light" | "dark";
 
 export const CLOSE_HIT_SLOP = 6;
 
@@ -36,16 +35,14 @@ type ChipStyleTokens = {
   textColor: string;
 };
 
-function resolveDisabledChipStyles(
-  colorScheme: ChipColorScheme,
-): ChipStyleTokens {
+function isDarkTheme(theme: Theme): boolean {
+  return theme.surface.elevated.borderWidth > 0;
+}
+
+function resolveDisabledChipStyles(theme: Theme): ChipStyleTokens {
   return {
-    backgroundColor:
-      colorScheme === "dark"
-        ? colors.dark.background.tertiary
-        : colors.gray[100],
-    textColor:
-      colorScheme === "dark" ? colors.dark.text.tertiary : colors.gray[400],
+    backgroundColor: theme.chip.disabled.background,
+    textColor: theme.chip.disabled.text,
   };
 }
 
@@ -59,15 +56,16 @@ function resolveSelectedChipStyles(scale: (typeof chipColorScales)[ChipColor]): 
 function resolveDefaultChipStyles(
   scale: (typeof chipColorScales)[ChipColor],
   color: ChipColor,
-  colorScheme: ChipColorScheme,
+  theme: Theme,
 ): ChipStyleTokens {
-  if (colorScheme === "dark") {
-    if (color === "gray") {
-      return {
-        backgroundColor: colors.dark.background.secondary,
-        textColor: colors.dark.text.secondary,
-      };
-    }
+  if (color === "gray") {
+    return {
+      backgroundColor: theme.chip.gray.background,
+      textColor: theme.chip.gray.text,
+    };
+  }
+
+  if (isDarkTheme(theme)) {
     return {
       backgroundColor: scale[800],
       textColor: scale[200],
@@ -82,17 +80,17 @@ function resolveDefaultChipStyles(
 
 export function resolveChipStyles({
   color = "gray",
-  colorScheme = "light",
+  theme,
   selected = false,
   disabled = false,
 }: {
   color?: ChipColor;
-  colorScheme?: ChipColorScheme;
+  theme: Theme;
   selected?: boolean;
   disabled?: boolean;
 }): ChipStyleTokens {
   if (disabled) {
-    return resolveDisabledChipStyles(colorScheme);
+    return resolveDisabledChipStyles(theme);
   }
 
   const scale = chipColorScales[color];
@@ -101,5 +99,5 @@ export function resolveChipStyles({
     return resolveSelectedChipStyles(scale);
   }
 
-  return resolveDefaultChipStyles(scale, color, colorScheme);
+  return resolveDefaultChipStyles(scale, color, theme);
 }

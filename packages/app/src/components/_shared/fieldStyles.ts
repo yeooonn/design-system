@@ -10,7 +10,6 @@ import { resolveButtonRound } from "../Button/buttonStyles";
 
 export type FieldVariant = "box" | "line";
 export type FieldSize = "sm" | "md" | "lg";
-export type FieldColorScheme = "light" | "dark";
 export type FieldState = "default" | "focus" | "error" | "disabled";
 
 /** Input / Select / Textarea 필드 disabled 시각 투명도 */
@@ -86,42 +85,22 @@ type FieldStyleTokens = {
 
 function getFieldStyleTokens(
   theme: Theme,
-  colorScheme: FieldColorScheme,
   state: FieldState,
 ): FieldStyleTokens {
   if (state === "disabled") {
     return {
-      backgroundColor:
-        colorScheme === "light"
-          ? colors.gray[100]
-          : theme.background.secondary,
-      borderColor:
-        colorScheme === "light"
-          ? theme.border.default
-          : "rgba(255, 255, 255, 0.06)",
-      color:
-        colorScheme === "light"
-          ? theme.text.tertiary
-          : "rgba(242, 244, 246, 0.32)",
-      labelColor:
-        colorScheme === "light"
-          ? theme.text.tertiary
-          : "rgba(242, 244, 246, 0.32)",
-      affixColor:
-        colorScheme === "light"
-          ? theme.text.tertiary
-          : "rgba(242, 244, 246, 0.32)",
-      placeholderColor:
-        colorScheme === "light"
-          ? theme.text.tertiary
-          : "rgba(242, 244, 246, 0.28)",
+      backgroundColor: theme.field.background.disabled,
+      borderColor: theme.border.default,
+      color: theme.text.tertiary,
+      labelColor: theme.text.tertiary,
+      affixColor: theme.text.tertiary,
+      placeholderColor: theme.text.tertiary,
     };
   }
 
   if (state === "error") {
     return {
-      backgroundColor:
-        colorScheme === "light" ? "#FEF2F2" : "rgba(243, 66, 66, 0.12)",
+      backgroundColor: theme.field.background.error,
       borderColor: colors.error[400],
       color: theme.text.primary,
       labelColor: colors.error[400],
@@ -132,8 +111,7 @@ function getFieldStyleTokens(
 
   if (state === "focus") {
     return {
-      backgroundColor:
-        colorScheme === "light" ? colors.primary[50] : "rgba(49, 130, 246, 0.12)",
+      backgroundColor: theme.field.background.focus,
       borderColor: colors.primary[300],
       color: theme.text.primary,
       labelColor: theme.text.secondary,
@@ -143,10 +121,7 @@ function getFieldStyleTokens(
   }
 
   return {
-    backgroundColor:
-      colorScheme === "light"
-        ? theme.background.primary
-        : theme.background.secondary,
+    backgroundColor: theme.field.background.default,
     borderColor: theme.border.default,
     color: theme.text.primary,
     labelColor: theme.text.secondary,
@@ -159,10 +134,9 @@ export function resolveFieldTokens(
   variant: FieldVariant,
   size: FieldSize,
   theme: Theme,
-  colorScheme: FieldColorScheme,
   state: FieldState,
 ) {
-  const tokens = getFieldStyleTokens(theme, colorScheme, state);
+  const tokens = getFieldStyleTokens(theme, state);
   const sizeStyles = fieldSizeStyles[size];
 
   return {
@@ -177,9 +151,6 @@ export function resolveFieldTokens(
 }
 
 /** Select 옵션 선택·필드 활성 배경색 (focus 토큰과 동일) */
-export function resolveFieldActiveBackgroundColor(
-  theme: Theme,
-  colorScheme: FieldColorScheme,
-): string {
-  return getFieldStyleTokens(theme, colorScheme, "focus").backgroundColor;
+export function resolveFieldActiveBackgroundColor(theme: Theme): string {
+  return theme.field.background.focus;
 }
