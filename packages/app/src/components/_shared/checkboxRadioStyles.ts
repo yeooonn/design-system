@@ -91,7 +91,9 @@ export function getCheckboxRadioStyleTokens(
     return {
       borderColor: theme.border.default,
       backgroundColor:
-        colorScheme === "light" ? colors.gray[100] : colors.gray[800],
+        colorScheme === "light"
+          ? colors.gray[100]
+          : theme.background.secondary,
       labelColor: theme.text.tertiary,
       indicatorColor: theme.text.tertiary,
       focusRingColor: colors.transparent,
@@ -115,7 +117,7 @@ export function getCheckboxRadioStyleTokens(
       backgroundColor: theme.action.primary,
       labelColor: theme.text.primary,
       indicatorColor: colors.white,
-      focusRingColor: isFocus ? "rgba(37, 99, 235, 0.24)" : colors.transparent,
+      focusRingColor: isFocus ? "rgba(49, 130, 246, 0.24)" : colors.transparent,
     };
   }
 
@@ -123,10 +125,10 @@ export function getCheckboxRadioStyleTokens(
     return {
       borderColor: colors.primary[300],
       backgroundColor:
-        colorScheme === "light" ? colors.primary[50] : "rgba(37, 99, 235, 0.12)",
+        colorScheme === "light" ? colors.primary[50] : "rgba(49, 130, 246, 0.12)",
       labelColor: theme.text.primary,
       indicatorColor: theme.action.primary,
-      focusRingColor: "rgba(37, 99, 235, 0.24)",
+      focusRingColor: "rgba(49, 130, 246, 0.24)",
     };
   }
 

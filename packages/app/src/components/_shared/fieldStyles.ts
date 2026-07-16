@@ -8,16 +8,19 @@ import {
 import { appFontSize as fontSize } from "../../tokens/typography";
 import { resolveButtonRound } from "../Button/buttonStyles";
 
-export type InputVariant = "box" | "line";
-export type InputSize = "sm" | "md" | "lg";
-export type InputColorScheme = "light" | "dark";
-export type InputState = "default" | "focus" | "error" | "disabled";
+export type FieldVariant = "box" | "line";
+export type FieldSize = "sm" | "md" | "lg";
+export type FieldColorScheme = "light" | "dark";
+export type FieldState = "default" | "focus" | "error" | "disabled";
 
 /** Input / Select / Textarea 필드 disabled 시각 투명도 */
 export const FIELD_DISABLED_OPACITY = 0.48;
 
-export const inputSizeStyles: Record<
-  InputSize,
+/** Select 옵션 disabled 시각 투명도 */
+export const OPTION_DISABLED_OPACITY = 0.5;
+
+export const fieldSizeStyles: Record<
+  FieldSize,
   {
     minHeight: number;
     paddingInline: number;
@@ -57,7 +60,7 @@ export const inputSizeStyles: Record<
   },
 };
 
-export function resolveInputState({
+export function resolveFieldState({
   disabled,
   error,
   focused,
@@ -65,14 +68,14 @@ export function resolveInputState({
   disabled: boolean;
   error: boolean;
   focused: boolean;
-}): InputState {
+}): FieldState {
   if (disabled) return "disabled";
   if (error) return "error";
   if (focused) return "focus";
   return "default";
 }
 
-type InputStyleTokens = {
+type FieldStyleTokens = {
   backgroundColor: string;
   borderColor: string;
   color: string;
@@ -81,11 +84,11 @@ type InputStyleTokens = {
   placeholderColor: string;
 };
 
-function getInputStyleTokens(
+function getFieldStyleTokens(
   theme: Theme,
-  colorScheme: InputColorScheme,
-  state: InputState,
-): InputStyleTokens {
+  colorScheme: FieldColorScheme,
+  state: FieldState,
+): FieldStyleTokens {
   if (state === "disabled") {
     return {
       backgroundColor:
@@ -152,15 +155,15 @@ function getInputStyleTokens(
   };
 }
 
-export function resolveInputTokens(
-  variant: InputVariant,
-  size: InputSize,
+export function resolveFieldTokens(
+  variant: FieldVariant,
+  size: FieldSize,
   theme: Theme,
-  colorScheme: InputColorScheme,
-  state: InputState,
+  colorScheme: FieldColorScheme,
+  state: FieldState,
 ) {
-  const tokens = getInputStyleTokens(theme, colorScheme, state);
-  const sizeStyles = inputSizeStyles[size];
+  const tokens = getFieldStyleTokens(theme, colorScheme, state);
+  const sizeStyles = fieldSizeStyles[size];
 
   return {
     tokens,
@@ -171,4 +174,12 @@ export function resolveInputTokens(
     messageErrorColor: colors.error[400],
     fontWeight: fontWeight.regular,
   };
+}
+
+/** Select 옵션 선택·필드 활성 배경색 (focus 토큰과 동일) */
+export function resolveFieldActiveBackgroundColor(
+  theme: Theme,
+  colorScheme: FieldColorScheme,
+): string {
+  return getFieldStyleTokens(theme, colorScheme, "focus").backgroundColor;
 }

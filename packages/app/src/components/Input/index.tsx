@@ -12,11 +12,14 @@ import { useTheme } from "../../theme/ThemeProvider";
 import { cn } from "../../utils/cn";
 import {
   FIELD_DISABLED_OPACITY,
-  resolveInputState,
-  resolveInputTokens,
-  type InputSize,
-  type InputVariant,
-} from "./inputStyles";
+  resolveFieldState,
+  resolveFieldTokens,
+  type FieldSize,
+  type FieldVariant,
+} from "../_shared/fieldStyles";
+
+export type InputSize = FieldSize;
+export type InputVariant = FieldVariant;
 
 export type InputProps = Omit<TextInputProps, "style"> & {
   variant?: InputVariant;
@@ -58,13 +61,13 @@ export function Input({
   const showErrorMessage = hasError && Boolean(errorMessage);
   const description = showErrorMessage ? errorMessage : helperText;
 
-  const state = resolveInputState({
+  const state = resolveFieldState({
     disabled: isDisabled,
     error: hasError,
     focused,
   });
   const { tokens, sizeStyles, borderRadius, borderWidth, messageHelperColor, messageErrorColor } =
-    resolveInputTokens(variant, size, theme, colorScheme, state);
+    resolveFieldTokens(variant, size, theme, colorScheme, state);
 
   const metaLineHeight = Math.round(sizeStyles.labelFontSize * 1.5);
 
@@ -184,4 +187,3 @@ export function Input({
   );
 }
 
-export type { InputSize, InputVariant };
