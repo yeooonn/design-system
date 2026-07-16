@@ -7,7 +7,7 @@ import {
   type StyleProp,
   type ViewStyle,
 } from "react-native";
-import { borderRadius, borderWidth } from "@yeoooonn/ds-tokens";
+import { borderRadius, borderWidth, spacing } from "@yeoooonn/ds-tokens";
 import { useTheme } from "../../theme/ThemeProvider";
 import { cn } from "../../utils/cn";
 import {
@@ -20,13 +20,12 @@ export type RadioSize = CheckboxRadioSize;
 
 export type RadioProps = {
   size?: RadioSize;
-  label?: React.ReactNode;
+  label?: string;
   error?: boolean;
   helperText?: string;
   errorMessage?: string;
   disabled?: boolean;
   checked?: boolean;
-  value?: string;
   onPress?: () => void;
   className?: string;
   style?: StyleProp<ViewStyle>;
@@ -60,8 +59,13 @@ export function Radio({
     focused,
     checked: isChecked,
   });
-  const { tokens, sizeStyles, messageHelperColor, messageErrorColor, disabledOpacity } =
-    resolveCheckboxRadioMeta(size, theme, colorScheme, state);
+  const {
+    tokens,
+    sizeStyles,
+    messageHelperColor,
+    messageErrorColor,
+    disabledOpacity,
+  } = resolveCheckboxRadioMeta(size, theme, colorScheme, state);
 
   useEffect(() => {
     Animated.timing(scale, {
@@ -72,7 +76,10 @@ export function Radio({
   }, [isChecked, scale]);
 
   return (
-    <View className={cn("self-start", className)} style={[{ opacity: disabledOpacity }, style]}>
+    <View
+      className={cn(className)}
+      style={[{ alignSelf: "flex-start", opacity: disabledOpacity }, style]}
+    >
       <Pressable
         disabled={disabled}
         onPress={onPress}
@@ -80,14 +87,14 @@ export function Radio({
         onBlur={() => setFocused(false)}
         accessibilityRole="radio"
         accessibilityState={{ checked: isChecked, disabled }}
-        accessibilityLabel={
-          accessibilityLabel ?? (typeof label === "string" ? label : undefined)
-        }
-        className="flex-row items-center"
-        style={{ gap: sizeStyles.gap }}
+        accessibilityLabel={accessibilityLabel ?? label}
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          gap: sizeStyles.gap,
+        }}
       >
         <View
-          className="items-center justify-center"
           style={{
             width: sizeStyles.controlSize,
             height: sizeStyles.controlSize,
@@ -97,6 +104,8 @@ export function Radio({
             backgroundColor: isChecked
               ? theme.background.primary
               : tokens.backgroundColor,
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
           <Animated.View
@@ -110,26 +119,22 @@ export function Radio({
             }}
           />
         </View>
-        {label != null ? (
-          typeof label === "string" ? (
-            <Text
-              style={{
-                fontSize: sizeStyles.fontSize,
-                color: tokens.labelColor,
-                lineHeight: sizeStyles.fontSize * 1.5,
-              }}
-            >
-              {label}
-            </Text>
-          ) : (
-            label
-          )
-        ) : null}
+        {label && (
+          <Text
+            style={{
+              fontSize: sizeStyles.fontSize,
+              color: tokens.labelColor,
+              lineHeight: sizeStyles.fontSize * 1.5,
+            }}
+          >
+            {label}
+          </Text>
+        )}
       </Pressable>
-      {description ? (
+      {description && (
         <Text
           style={{
-            marginTop: 4,
+            marginTop: spacing[1],
             marginLeft: sizeStyles.controlSize + sizeStyles.gap,
             fontSize: sizeStyles.labelFontSize,
             color: showErrorMessage ? messageErrorColor : messageHelperColor,
@@ -137,7 +142,7 @@ export function Radio({
         >
           {description}
         </Text>
-      ) : null}
+      )}
     </View>
   );
 }
