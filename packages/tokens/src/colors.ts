@@ -108,6 +108,28 @@ export const colors = {
     800: 'rgba(0, 19, 43, 0.8)',
     900: 'rgba(0, 18, 43, 0.88)',
   },
+  /** Dark surfaces & content */
+  dark: {
+    background: {
+      primary: '#0F1012',
+      secondary: '#1C1D1F',
+      tertiary: '#2C2D31',
+    },
+    text: {
+      primary: '#F2F4F6',
+      secondary: '#8B95A1',
+      tertiary: '#6B7684',
+    },
+    border: {
+      default: '#2C2D31',
+      strong: '#3A3B40',
+    },
+    action: {
+      primary: '#3182F6',
+      primaryHover: '#4B93F7',
+      primaryDisabled: '#1B3A5F',
+    },
+  },
   white: '#ffffff',
   black: '#000000',
   transparent: 'transparent',
