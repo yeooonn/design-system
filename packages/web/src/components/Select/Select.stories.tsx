@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { useState } from "react";
+import { expect, userEvent, within } from "storybook/test";
+import { useEffect, useState } from "react";
 import { Select } from "./index";
 import type { SelectSize, SelectVariant } from "./selectStyles";
 
@@ -26,8 +27,48 @@ type SelectPlaygroundArgs = {
   disabled: boolean;
 };
 
-const meta: Meta<SelectPlaygroundArgs> = {
-  title: "Select",
+function SelectPlayground({
+  variant,
+  size,
+  label,
+  showLabel,
+  placeholder,
+  showPlaceholder,
+  value,
+  error,
+  helperText,
+  showHelperText,
+  errorMessage,
+  showErrorMessage,
+  disabled,
+}: SelectPlaygroundArgs) {
+  const [selected, setSelected] = useState(value);
+
+  useEffect(() => {
+    setSelected(value);
+  }, [value]);
+
+  return (
+    <div style={{ width: 320 }}>
+      <Select
+        variant={variant}
+        size={size}
+        label={showLabel ? label : undefined}
+        placeholder={showPlaceholder ? placeholder : undefined}
+        options={fruitOptions}
+        value={selected}
+        onChange={(event) => setSelected(event.target.value)}
+        error={error}
+        helperText={showHelperText ? helperText : undefined}
+        errorMessage={showErrorMessage ? errorMessage : undefined}
+        disabled={disabled}
+      />
+    </div>
+  );
+}
+
+const meta = {
+  title: "Form/Select",
   component: Select,
   parameters: {
     controls: {
@@ -82,42 +123,22 @@ const meta: Meta<SelectPlaygroundArgs> = {
     showErrorMessage: false,
     disabled: false,
   },
-  render: ({
-    variant,
-    size,
-    label,
-    showLabel,
-    placeholder,
-    showPlaceholder,
-    value,
-    error,
-    helperText,
-    showHelperText,
-    errorMessage,
-    showErrorMessage,
-    disabled,
-  }) => (
-    <div style={{ width: 320 }}>
-      <Select
-        variant={variant}
-        size={size}
-        label={showLabel ? label : undefined}
-        placeholder={showPlaceholder ? placeholder : undefined}
-        options={fruitOptions}
-        value={value}
-        error={error}
-        helperText={showHelperText ? helperText : undefined}
-        errorMessage={showErrorMessage ? errorMessage : undefined}
-        disabled={disabled}
-      />
-    </div>
-  ),
-};
+  render: (args) => <SelectPlayground {...args} />,
+} satisfies Meta<SelectPlaygroundArgs>;
 
 export default meta;
 type Story = StoryObj<SelectPlaygroundArgs>;
 
-export const Playground: Story = {};
+export const Playground: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.selectOptions(
+      canvas.getByRole("combobox"),
+      "banana",
+    );
+    await expect(canvas.getByRole("combobox")).toHaveValue("banana");
+  },
+};
 
 export const BoxOverview: Story = {
   parameters: {
@@ -296,5 +317,10 @@ export const Controlled: Story = {
         />
       </div>
     );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.selectOptions(canvas.getByRole("combobox"), "apple");
+    await expect(canvas.getByText("선택됨: apple")).toBeInTheDocument();
   },
 };

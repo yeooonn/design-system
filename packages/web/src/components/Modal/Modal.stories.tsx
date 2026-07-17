@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { expect, userEvent, within } from "storybook/test";
 import type React from "react";
 import { useState } from "react";
 import { Button } from "../Button";
@@ -65,6 +66,44 @@ type ModalStoryArgs = {
   showHeader: boolean;
   showFooter: boolean;
 };
+
+function buildModalSource(showHeader: boolean, showFooter: boolean) {
+  const header = showHeader
+    ? `      <Modal.Header>
+        <Typography.H3>모달 제목</Typography.H3>
+      </Modal.Header>
+`
+    : "";
+  const footer = showFooter
+    ? `      <Modal.Footer>
+        <Button variant="ghost" onClick={() => setOpen(false)}>취소</Button>
+        <Button onClick={() => setOpen(false)}>확인</Button>
+      </Modal.Footer>
+`
+    : "";
+
+  return `import { useState } from "react";
+import { Modal, Button, Typography } from "@yeoooonn/ds-web";
+
+function Example() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>모달 열기</Button>
+      {open && (
+        <Modal onBackdropClick={() => setOpen(false)}>
+${header}      <Modal.Content>
+            <Typography.P1>
+              모달 내용은 부모에서 자유롭게 구성할 수 있습니다.
+            </Typography.P1>
+          </Modal.Content>
+${footer}        </Modal>
+      )}
+    </>
+  );
+}`;
+}
 
 function UsageSection({
   title,
@@ -162,7 +201,13 @@ function ModalUsageDemo({
 }
 
 const meta = {
-  title: "Modal",
+  title: "Overlay/Modal",
+  component: Modal,
+  subcomponents: {
+    Header: Modal.Header,
+    Content: Modal.Content,
+    Footer: Modal.Footer,
+  },
   parameters: {
     docs: {
       description: {
@@ -194,7 +239,25 @@ Modal은 compound component로 구성되는 오버레이 컨테이너입니다.
 export default meta;
 type Story = StoryObj<ModalStoryArgs>;
 
-export const Playground: Story = {};
+export const Playground: Story = {
+  parameters: {
+    docs: {
+      source: {
+        type: "dynamic",
+        language: "tsx",
+        transform: (_code: string, { args }: { args: Partial<ModalStoryArgs> }) =>
+          buildModalSource(args.showHeader ?? true, args.showFooter ?? true),
+      },
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: "모달 열기" }));
+    const body = within(document.body);
+    await expect(body.getByRole("dialog")).toBeInTheDocument();
+    await expect(body.getByText("모달 제목")).toBeInTheDocument();
+  },
+};
 
 export const Usage: Story = {
   parameters: {

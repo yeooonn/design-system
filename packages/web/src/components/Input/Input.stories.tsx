@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { expect, userEvent, within } from "storybook/test";
 import { Input } from "./index";
 import type { InputSize, InputVariant } from "./inputStyles";
 
@@ -12,7 +13,7 @@ type InputPlaygroundArgs = {
   suffix: string;
   showSuffix: boolean;
   placeholder: string;
-  value: string;
+  defaultValue: string;
   error: boolean;
   helperText: string;
   showHelperText: boolean;
@@ -21,8 +22,8 @@ type InputPlaygroundArgs = {
   disabled: boolean;
 };
 
-const meta: Meta<InputPlaygroundArgs> = {
-  title: "Input",
+const meta = {
+  title: "Form/Input",
   component: Input,
   parameters: {
     controls: {
@@ -54,7 +55,7 @@ const meta: Meta<InputPlaygroundArgs> = {
     },
     showSuffix: { control: "boolean", description: "suffix 표시" },
     placeholder: { control: "text" },
-    value: { control: "text" },
+    defaultValue: { control: "text", description: "초기값" },
     error: { control: "boolean" },
     helperText: {
       control: "text",
@@ -80,7 +81,7 @@ const meta: Meta<InputPlaygroundArgs> = {
     suffix: "USD",
     showSuffix: true,
     placeholder: "금액을 입력하세요",
-    value: "",
+    defaultValue: "",
     error: false,
     helperText: "숫자만 입력할 수 있습니다.",
     showHelperText: false,
@@ -98,7 +99,7 @@ const meta: Meta<InputPlaygroundArgs> = {
     suffix,
     showSuffix,
     placeholder,
-    value,
+    defaultValue,
     error,
     helperText,
     showHelperText,
@@ -114,21 +115,27 @@ const meta: Meta<InputPlaygroundArgs> = {
         prefix={showPrefix ? prefix : undefined}
         suffix={showSuffix ? suffix : undefined}
         placeholder={placeholder}
-        value={value}
+        defaultValue={defaultValue || undefined}
         error={error}
         helperText={showHelperText ? helperText : undefined}
         errorMessage={showErrorMessage ? errorMessage : undefined}
         disabled={disabled}
-        readOnly={Boolean(value)}
       />
     </div>
   ),
-};
+} satisfies Meta<InputPlaygroundArgs>;
 
 export default meta;
 type Story = StoryObj<InputPlaygroundArgs>;
 
-export const Playground: Story = {};
+export const Playground: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByPlaceholderText("금액을 입력하세요");
+    await userEvent.type(input, "1000");
+    await expect(input).toHaveValue("1000");
+  },
+};
 
 export const BoxOverview: Story = {
   parameters: {

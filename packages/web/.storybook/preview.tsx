@@ -5,6 +5,7 @@ import {
   Description,
   Primary,
   Source,
+  Stories,
   Subtitle,
   Title,
 } from '@storybook/addon-docs/blocks';
@@ -33,7 +34,36 @@ const preview: Preview = {
     colorScheme: 'light',
   },
   parameters: {
+    controls: {
+      matchers: {
+        color: /(background|color)$/i,
+        date: /Date$/,
+      },
+    },
+    a11y: {
+      test: 'todo',
+    },
+    viewport: {
+      viewports: {
+        mobile: {
+          name: 'Mobile',
+          styles: { width: '375px', height: '667px' },
+        },
+        tablet: {
+          name: 'Tablet',
+          styles: { width: '768px', height: '1024px' },
+        },
+        desktop: {
+          name: 'Desktop',
+          styles: { width: '1280px', height: '800px' },
+        },
+      },
+    },
     docs: {
+      toc: true,
+      controls: {
+        exclude: ['style', 'className', 'as'],
+      },
       source: {
         type: 'dynamic',
       },
@@ -43,8 +73,9 @@ const preview: Preview = {
           <Subtitle />
           <Description />
           <Primary />
-          <Source />
           <Controls />
+          <Source />
+          <Stories />
         </>
       ),
     },

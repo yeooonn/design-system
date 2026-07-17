@@ -2,18 +2,17 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { borderRadius, colors, spacing } from "@yeoooonn/ds-tokens";
 import type React from "react";
 import { useTheme } from "../../theme/ThemeProvider";
+import { iconSources } from "../../stories/iconSources";
 import { Icon } from "../Icon";
 import { Typography } from "../Typography";
 import { Card } from "./index";
 
 const cardWidth = { maxWidth: 400 };
 
-const chartIcon =
-  "https://static.toss.im/icons/svg/icon-graph-up-mono.svg";
-const bellIcon = "https://static.toss.im/icons/svg/icon-alarm-mono.svg";
-const userIcon = "https://static.toss.im/icons/svg/icon-user-mono.svg";
-const checkIcon =
-  "https://static.toss.im/icons/svg/icon-check-circle-mono.svg";
+const chartIcon = iconSources.graph;
+const bellIcon = iconSources.bell;
+const userIcon = iconSources.user;
+const checkIcon = iconSources.check;
 
 const usageSource = `import { Card, Typography } from "@yeoooonn/ds-web";
 
@@ -384,8 +383,13 @@ function ProfileCard() {
 }
 
 const meta = {
-  title: "Card",
+  title: "Components/Card",
   component: Card,
+  subcomponents: {
+    Header: Card.Header,
+    Content: Card.Content,
+    Footer: Card.Footer,
+  },
   parameters: {
     docs: {
       description: {

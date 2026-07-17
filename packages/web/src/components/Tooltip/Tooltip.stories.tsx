@@ -24,6 +24,61 @@ type TooltipStoryArgs = {
   delay: number;
 };
 
+function escapeJsxString(value: string) {
+  return value.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+}
+
+function buildTooltipSource({
+  message,
+  position,
+  autoFlip,
+  showArrow,
+  delay,
+}: TooltipStoryArgs) {
+  const props = [`message="${escapeJsxString(message)}"`];
+
+  if (position !== "bottom") {
+    props.push(`position="${position}"`);
+  }
+  if (autoFlip) {
+    props.push("autoFlip");
+  }
+  if (showArrow) {
+    props.push("showArrow");
+  }
+  if (delay > 0) {
+    props.push(`delay={${delay}}`);
+  }
+
+  return `import { Tooltip, Button } from "@yeoooonn/ds-web";
+
+<Tooltip ${props.join(" ")}>
+  <Button>호버해보세요</Button>
+</Tooltip>`;
+}
+
+function TooltipPlayground({
+  message,
+  position,
+  autoFlip,
+  showArrow,
+  delay,
+}: TooltipStoryArgs) {
+  return (
+    <div style={{ padding: 48 }}>
+      <Tooltip
+        message={message}
+        position={position}
+        autoFlip={autoFlip}
+        showArrow={showArrow}
+        delay={delay}
+      >
+        <Button>호버해보세요</Button>
+      </Tooltip>
+    </div>
+  );
+}
+
 function ControlledDemo({ message }: { message: string }) {
   const [open, setOpen] = useState(false);
 
@@ -104,8 +159,9 @@ function AutoFlipDemo({ message }: { message: string }) {
   );
 }
 
-const meta: Meta<TooltipStoryArgs> = {
-  title: "Tooltip",
+const meta = {
+  title: "Overlay/Tooltip",
+  component: Tooltip,
   argTypes: {
     message: { control: "text", description: "툴팁 메시지" },
     position: {
@@ -141,25 +197,29 @@ const meta: Meta<TooltipStoryArgs> = {
       },
     },
   },
-};
+  render: (args) => <TooltipPlayground {...args} />,
+} satisfies Meta<TooltipStoryArgs>;
 
 export default meta;
 type Story = StoryObj<TooltipStoryArgs>;
 
 export const Playground: Story = {
-  render: (args) => (
-    <div style={{ padding: 48 }}>
-      <Tooltip
-        message={args.message}
-        position={args.position}
-        autoFlip={args.autoFlip}
-        showArrow={args.showArrow}
-        delay={args.delay}
-      >
-        <Button>호버해보세요</Button>
-      </Tooltip>
-    </div>
-  ),
+  parameters: {
+    docs: {
+      source: {
+        type: "dynamic",
+        language: "tsx",
+        transform: (_code: string, { args }: { args: Partial<TooltipStoryArgs> }) =>
+          buildTooltipSource({
+            message: args.message ?? "툴팁입니다.",
+            position: args.position ?? "bottom",
+            autoFlip: args.autoFlip ?? false,
+            showArrow: args.showArrow ?? false,
+            delay: args.delay ?? 0,
+          }),
+      },
+    },
+  },
 };
 
 export const Controlled: Story = {

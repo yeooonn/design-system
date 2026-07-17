@@ -10,7 +10,7 @@ type BadgePlaygroundArgs = {
 };
 
 const meta: Meta<BadgePlaygroundArgs> = {
-  title: "Badge",
+  title: "Components/Badge",
   component: Badge,
   parameters: {
     controls: {

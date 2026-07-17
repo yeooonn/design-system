@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { expect, userEvent, within } from "storybook/test";
 import { Icon } from "../Icon";
+import { iconSources } from "../../stories/iconSources";
 import { Button } from "./index";
 import {
   type ButtonColor,
@@ -8,8 +10,7 @@ import {
   type ButtonVariant,
 } from "./buttonStyles";
 
-const searchIcon =
-  "https://static.toss.im/icons/svg/icon-search-bold-mono.svg";
+const searchIcon = iconSources.search;
 
 const roundOptions = ["none", "sm", "md", "lg", "xl", "full"] as const;
 
@@ -26,8 +27,8 @@ type ButtonPlaygroundArgs = {
   loading: boolean;
 };
 
-const meta: Meta<ButtonPlaygroundArgs> = {
-  title: "Button",
+const meta = {
+  title: "Components/Button",
   component: Button,
   argTypes: {
     label: {
@@ -120,12 +121,17 @@ const meta: Meta<ButtonPlaygroundArgs> = {
       </Button>
     );
   },
-};
+} satisfies Meta<ButtonPlaygroundArgs>;
 
 export default meta;
 type Story = StoryObj<ButtonPlaygroundArgs>;
 
-export const Playground: Story = {};
+export const Playground: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("button", { name: "Button" }));
+  },
+};
 
 export const Overview: Story = {
   parameters: {

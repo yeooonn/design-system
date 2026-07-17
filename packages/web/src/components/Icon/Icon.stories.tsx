@@ -1,17 +1,17 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { colors } from "@yeoooonn/ds-tokens";
+import { iconSources } from "../../stories/iconSources";
 import { Icon } from "./index";
 import type { IconColor, IconSize } from "./index";
 
-const iconSources = {
-  search: "https://static.toss.im/icons/svg/icon-search-bold-mono.svg",
-  bell: "https://static.toss.im/icons/svg/icon-alarm-mono.svg",
-  user: "https://static.toss.im/icons/svg/icon-user-mono.svg",
-  check: "https://static.toss.im/icons/svg/icon-check-circle-mono.svg",
-  graph: "https://static.toss.im/icons/svg/icon-graph-up-mono.svg",
+const storyIcons = {
+  search: iconSources.search,
+  user: iconSources.user,
+  check: iconSources.check,
+  graph: iconSources.graph,
 } as const;
 
-type IconName = keyof typeof iconSources;
+type IconName = keyof typeof storyIcons;
 
 const colorOptions: IconColor[] = [
   "primary",
@@ -26,11 +26,11 @@ const usageSource = `import { Icon } from "@yeoooonn/ds-web";
 
 // SVG URL과 size로 사용 (부모 color 상속)
 <Icon
-  src="https://static.toss.im/icons/svg/icon-search-bold-mono.svg"
+  src="/icons/icon-search-bold-mono.svg"
   size="md"
 />
 
-// color prop으로 시맨틱 색상 지정
+// color prop으로 시맨틱 색상 지정 (mono SVG URL 필요)
 <Icon src="..." size="lg" color="primary" />
 <Icon src="..." size="lg" color="error" />
 
@@ -46,9 +46,8 @@ type IconPlaygroundArgs = {
   useColorProp: boolean;
 };
 
-const meta: Meta<IconPlaygroundArgs> = {
-  title: "Icon",
-  component: Icon,
+const meta = {
+  title: "Components/Icon",
   parameters: {
     controls: {
       exclude: ["src"],
@@ -57,6 +56,7 @@ const meta: Meta<IconPlaygroundArgs> = {
       description: {
         component: `
 SVG URL을 \`mask-image\`로 렌더링하는 아이콘 컴포넌트입니다.
+mono(solid) SVG + \`fill="#000"\` 형태가 가장 안정적으로 보입니다.
 \`color\` prop으로 시맨틱 색상을 지정하거나, 생략 시 부모의 \`currentColor\`를 따릅니다.
         `.trim(),
       },
@@ -65,7 +65,7 @@ SVG URL을 \`mask-image\`로 렌더링하는 아이콘 컴포넌트입니다.
   argTypes: {
     icon: {
       control: "select",
-      options: Object.keys(iconSources),
+      options: Object.keys(storyIcons),
       description: "아이콘 종류",
     },
     size: { control: "select", options: ["sm", "md", "lg"] },
@@ -76,7 +76,6 @@ SVG URL을 \`mask-image\`로 렌더링하는 아이콘 컴포넌트입니다.
       if: { arg: "useColorProp", truthy: true },
       description: "시맨틱 색상",
     },
-    src: { table: { disable: true } },
   },
   args: {
     icon: "search",
@@ -86,12 +85,12 @@ SVG URL을 \`mask-image\`로 렌더링하는 아이콘 컴포넌트입니다.
   },
   render: ({ icon, size, color, useColorProp }) => (
     <Icon
-      src={iconSources[icon]}
+      src={storyIcons[icon]}
       size={size}
       color={useColorProp ? color : undefined}
     />
   ),
-};
+} satisfies Meta<IconPlaygroundArgs>;
 
 export default meta;
 type Story = StoryObj<IconPlaygroundArgs>;
@@ -104,16 +103,37 @@ export const Sizes: Story = {
   },
   render: () => (
     <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
-        <Icon src={iconSources.search} size="sm" />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 8,
+        }}
+      >
+        <Icon src={storyIcons.search} size="sm" />
         <span style={{ fontSize: 12, color: colors.gray[500] }}>sm (16px)</span>
       </div>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
-        <Icon src={iconSources.search} size="md" />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 8,
+        }}
+      >
+        <Icon src={storyIcons.search} size="md" />
         <span style={{ fontSize: 12, color: colors.gray[500] }}>md (20px)</span>
       </div>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
-        <Icon src={iconSources.search} size="lg" />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 8,
+        }}
+      >
+        <Icon src={storyIcons.search} size="lg" />
         <span style={{ fontSize: 12, color: colors.gray[500] }}>lg (24px)</span>
       </div>
     </div>
@@ -132,11 +152,11 @@ export const Colors: Story = {
   },
   render: () => (
     <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
-      <Icon src={iconSources.bell} size="lg" color="primary" />
-      <Icon src={iconSources.bell} size="lg" color="secondary" />
-      <Icon src={iconSources.bell} size="lg" color="success" />
-      <Icon src={iconSources.bell} size="lg" color="warning" />
-      <Icon src={iconSources.bell} size="lg" color="error" />
+      <Icon src={storyIcons.search} size="lg" color="primary" />
+      <Icon src={storyIcons.search} size="lg" color="secondary" />
+      <Icon src={storyIcons.search} size="lg" color="success" />
+      <Icon src={storyIcons.search} size="lg" color="warning" />
+      <Icon src={storyIcons.search} size="lg" color="error" />
     </div>
   ),
 };
@@ -152,7 +172,7 @@ export const InheritedColor: Story = {
   },
   render: () => (
     <span style={{ color: colors.primary[600], display: "inline-flex" }}>
-      <Icon src={iconSources.search} size="lg" />
+      <Icon src={storyIcons.search} size="lg" />
     </span>
   ),
 };
@@ -170,20 +190,24 @@ export const Overview: Story = {
         maxWidth: 320,
       }}
     >
-      {(Object.entries(iconSources) as [IconName, string][]).map(([name, src]) => (
-        <div
-          key={name}
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 8,
-          }}
-        >
-          <Icon src={src} size="md" />
-          <span style={{ fontSize: 12, color: colors.gray[500] }}>{name}</span>
-        </div>
-      ))}
+      {(Object.entries(storyIcons) as [IconName, string][]).map(
+        ([name, src]) => (
+          <div
+            key={name}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: 8,
+            }}
+          >
+            <Icon src={src} size="md" />
+            <span style={{ fontSize: 12, color: colors.gray[500] }}>
+              {name}
+            </span>
+          </div>
+        ),
+      )}
     </div>
   ),
 };
@@ -199,9 +223,9 @@ export const Usage: Story = {
   },
   render: () => (
     <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-      <Icon src={iconSources.search} size="md" />
-      <Icon src={iconSources.search} size="lg" color="primary" />
-      <Icon src={iconSources.search} size="lg" color="error" />
+      <Icon src={storyIcons.search} size="md" />
+      <Icon src={storyIcons.search} size="lg" color="primary" />
+      <Icon src={storyIcons.search} size="lg" color="error" />
     </div>
   ),
 };

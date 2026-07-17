@@ -35,9 +35,9 @@ export function Icon({ src, size, color }: IconProps) {
       aria-hidden
       style={{
         display: "inline-flex",
-        ...(color
-          ? { color: resolveIconColor(color, theme) }
-          : { color: theme.text.primary }),
+        color: color
+          ? resolveIconColor(color, theme)
+          : "currentColor",
         width: iconSize,
         height: iconSize,
         flexShrink: 0,

@@ -1,22 +1,34 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Skeleton } from "./index";
 
-const meta: Meta<typeof Skeleton> = {
-  title: "Skeleton",
+const meta = {
+  title: "Components/Skeleton",
   component: Skeleton,
-};
+  argTypes: {
+    width: { control: "text", description: "너비 (px 또는 %)" },
+    height: { control: "number", description: "높이 (px)" },
+    rounded: {
+      control: "select",
+      options: ["none", "sm", "md", "lg", "full"],
+      description: "모서리 radius",
+    },
+  },
+  args: {
+    width: 240,
+    height: 16,
+    rounded: "md",
+  },
+} satisfies Meta<typeof Skeleton>;
 
 export default meta;
 type Story = StoryObj<typeof Skeleton>;
 
-export const Default: Story = {
-  args: {
-    width: 240,
-    height: 16,
-  },
-};
+export const Playground: Story = {};
 
 export const CardPlaceholder: Story = {
+  parameters: {
+    controls: { disable: true },
+  },
   render: () => (
     <div style={{ width: 320, display: "flex", flexDirection: "column", gap: 12 }}>
       <Skeleton width="100%" height={160} rounded="lg" />
@@ -28,6 +40,9 @@ export const CardPlaceholder: Story = {
 };
 
 export const ListPlaceholder: Story = {
+  parameters: {
+    controls: { disable: true },
+  },
   render: () => (
     <div style={{ width: 320, display: "flex", flexDirection: "column", gap: 16 }}>
       {[0, 1, 2].map((item) => (

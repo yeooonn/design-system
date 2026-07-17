@@ -16,7 +16,7 @@ type RadioPlaygroundArgs = {
 };
 
 const meta: Meta<RadioPlaygroundArgs> = {
-  title: "Radio",
+  title: "Form/Radio",
   component: Radio,
   parameters: {
     controls: {

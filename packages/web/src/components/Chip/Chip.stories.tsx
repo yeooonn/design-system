@@ -13,7 +13,7 @@ type ChipPlaygroundArgs = {
 };
 
 const meta: Meta<ChipPlaygroundArgs> = {
-  title: "Chip",
+  title: "Components/Chip",
   component: Chip,
   argTypes: {
     children: { control: "text" },

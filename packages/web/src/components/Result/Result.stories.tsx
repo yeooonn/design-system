@@ -1,13 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import type React from "react";
 import { Icon } from "../Icon";
+import { iconSources } from "../../stories/iconSources";
 import { Typography } from "../Typography";
 import { Result } from "./index";
 
-const checkIcon =
-  "https://static.toss.im/icons/svg/icon-check-circle-mono.svg";
-const warningIcon =
-  "https://static.toss.im/icons/svg/icon-warning-circle-mono.svg";
+const checkIcon = iconSources.check;
+const warningIcon = iconSources.warning;
 
 const usageSource = `import { Result, Icon } from "@yeoooonn/ds-web";
 
@@ -34,6 +33,38 @@ type ResultStoryArgs = {
   showButton: boolean;
 };
 
+function escapeJsxString(value: string) {
+  return value.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+}
+
+function buildResultSource({
+  title,
+  description,
+  showFigure,
+  showButton,
+}: ResultStoryArgs) {
+  const props: string[] = [];
+
+  if (showFigure) {
+    props.push('  figure={<Icon src="..." size="lg" color="success" />}');
+  }
+  props.push(`  title="${escapeJsxString(title)}"`);
+  if (description.trim()) {
+    props.push(`  description="${escapeJsxString(description)}"`);
+  }
+  if (showButton) {
+    props.push(
+      "  button={<Result.Button onClick={goHome}>홈으로</Result.Button>}",
+    );
+  }
+
+  return `import { Result, Icon } from "@yeoooonn/ds-web";
+
+<Result
+${props.join("\n")}
+/>`;
+}
+
 function UsageSection({
   title,
   children,
@@ -49,17 +80,11 @@ function UsageSection({
   );
 }
 
-const meta: Meta<ResultStoryArgs> = {
-  title: "Result",
-  component: Result,
+const meta = {
+  title: "Components/Result",
   parameters: {
     controls: {
       exclude: ["figure", "button", "className", "style"],
-    },
-    docs: {
-      source: {
-        code: usageSource,
-      },
     },
   },
   argTypes: {
@@ -90,14 +115,38 @@ const meta: Meta<ResultStoryArgs> = {
       }
     />
   ),
-};
+} satisfies Meta<ResultStoryArgs>;
 
 export default meta;
 type Story = StoryObj<ResultStoryArgs>;
 
-export const Playground: Story = {};
+export const Playground: Story = {
+  parameters: {
+    docs: {
+      source: {
+        type: "dynamic",
+        language: "tsx",
+        transform: (_code: string, { args }: { args: Partial<ResultStoryArgs> }) =>
+          buildResultSource({
+            title: args.title ?? "업로드 완료",
+            description: args.description ?? "",
+            showFigure: args.showFigure ?? true,
+            showButton: args.showButton ?? true,
+          }),
+      },
+    },
+  },
+};
 
 export const Examples: Story = {
+  parameters: {
+    controls: { disable: true },
+    docs: {
+      source: {
+        code: usageSource,
+      },
+    },
+  },
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: 40 }}>
       <UsageSection title="기본 (성공)">

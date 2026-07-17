@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { expect, userEvent, within } from "storybook/test";
 import { Checkbox } from "./index";
 import type { CheckboxSize } from "./checkboxStyles";
 
@@ -17,7 +18,7 @@ type CheckboxPlaygroundArgs = {
 };
 
 const meta: Meta<CheckboxPlaygroundArgs> = {
-  title: "Checkbox",
+  title: "Form/Checkbox",
   component: Checkbox,
   parameters: {
     controls: {
@@ -111,6 +112,14 @@ export const Overview: Story = {
       <Checkbox label="약관에 동의합니다" checked disabled readOnly />
     </div>
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const checkboxes = canvas.getAllByRole("checkbox", {
+      name: "약관에 동의합니다",
+    });
+    await userEvent.click(checkboxes[0]);
+    await expect(checkboxes[0]).toBeChecked();
+  },
 };
 
 export const Sizes: Story = {

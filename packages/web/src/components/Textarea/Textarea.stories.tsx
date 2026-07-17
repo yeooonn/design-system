@@ -55,7 +55,7 @@ function TextareaDemo({
 }
 
 const meta: Meta<TextareaPlaygroundArgs> = {
-  title: "Textarea",
+  title: "Form/Textarea",
   component: Textarea,
   argTypes: {
     size: { control: "select", options: ["sm", "md", "lg"] },

@@ -9,7 +9,7 @@ type AvatarPlaygroundArgs = {
 };
 
 const meta: Meta<AvatarPlaygroundArgs> = {
-  title: "Avatar",
+  title: "Components/Avatar",
   component: Avatar,
   argTypes: {
     name: { control: "text" },

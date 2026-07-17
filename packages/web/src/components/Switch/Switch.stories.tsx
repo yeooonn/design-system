@@ -16,7 +16,7 @@ type SwitchPlaygroundArgs = {
 };
 
 const meta: Meta<SwitchPlaygroundArgs> = {
-  title: "Switch",
+  title: "Form/Switch",
   component: Switch,
   parameters: {
     controls: {

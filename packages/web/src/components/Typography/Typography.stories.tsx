@@ -22,7 +22,7 @@ type TypographyPlaygroundArgs = {
 };
 
 const meta: Meta<TypographyPlaygroundArgs> = {
-  title: "Typography",
+  title: "Foundations/Typography",
   component: Typography.P1,
   argTypes: {
     variant: {

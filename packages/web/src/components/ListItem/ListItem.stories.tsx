@@ -1,24 +1,37 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Avatar } from "../Avatar";
 import { Icon } from "../Icon";
+import { iconSources } from "../../stories/iconSources";
 import { ListItem } from "./index";
 
-const meta: Meta<typeof ListItem> = {
-  title: "ListItem",
+const meta = {
+  title: "Components/ListItem",
   component: ListItem,
-};
+  argTypes: {
+    title: { control: "text", description: "제목" },
+    description: { control: "text", description: "설명" },
+    disabled: { control: "boolean", description: "비활성화" },
+  },
+  args: {
+    title: "알림 설정",
+    description: "푸시 알림 및 이메일 수신 여부를 관리합니다.",
+    disabled: false,
+  },
+} satisfies Meta<typeof ListItem>;
 
 export default meta;
 type Story = StoryObj<typeof ListItem>;
 
-export const Default: Story = {
+export const Playground: Story = {
   args: {
-    title: "알림 설정",
-    description: "푸시 알림 및 이메일 수신 여부를 관리합니다.",
+    onClick: () => undefined,
   },
 };
 
 export const WithLeadingAndTrailing: Story = {
+  parameters: {
+    controls: { disable: true },
+  },
   render: () => (
     <div style={{ width: 360 }}>
       <ListItem
@@ -26,11 +39,7 @@ export const WithLeadingAndTrailing: Story = {
         description="이름, 아바타, 연락처"
         leading={<Avatar name="Kim Yeonjeong" size="md" />}
         trailing={
-          <Icon
-            src="https://static.toss.im/icons/svg/icon-arrow-right-mono.svg"
-            size="sm"
-            color="tertiary"
-          />
+          <Icon src={iconSources.arrowRight} size="sm" color="tertiary" />
         }
         onClick={() => undefined}
       />
@@ -38,18 +47,10 @@ export const WithLeadingAndTrailing: Story = {
         title="보안"
         description="비밀번호 및 2단계 인증"
         leading={
-          <Icon
-            src="https://static.toss.im/icons/svg/icon-lock-mono.svg"
-            size="md"
-            color="secondary"
-          />
+          <Icon src={iconSources.lock} size="md" color="secondary" />
         }
         trailing={
-          <Icon
-            src="https://static.toss.im/icons/svg/icon-arrow-right-mono.svg"
-            size="sm"
-            color="tertiary"
-          />
+          <Icon src={iconSources.arrowRight} size="sm" color="tertiary" />
         }
         onClick={() => undefined}
       />
