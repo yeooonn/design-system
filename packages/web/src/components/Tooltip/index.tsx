@@ -82,7 +82,14 @@ export function Tooltip({
     <>
       <span
         ref={triggerRef}
-        style={{ display: "inline-flex" }}
+        style={{
+          display: "inline-flex",
+          width: "max-content",
+          maxWidth: "100%",
+          // grid/flex 셀에서 stretch 되면 rect가 트리거보다 커져 위치가 어긋난다
+          justifySelf: "start",
+          alignSelf: "start",
+        }}
         onMouseEnter={openUncontrolled}
         onMouseLeave={closeUncontrolled}
         onFocus={openUncontrolled}
