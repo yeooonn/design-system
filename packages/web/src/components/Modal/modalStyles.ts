@@ -48,7 +48,6 @@ export function resolveModalStyles(
     header: {
       flexShrink: 0,
       padding: `${spacing[5]}px ${spacing[6]}px ${spacing[4]}px`,
-      borderBottom: `1px solid ${theme.border.default}`,
     },
     content: {
       flex: 1,
@@ -62,7 +61,6 @@ export function resolveModalStyles(
       justifyContent: "flex-end",
       gap: spacing[2],
       padding: `${spacing[4]}px ${spacing[6]}px ${spacing[5]}px`,
-      borderTop: `1px solid ${theme.border.default}`,
     },
   };
 }
