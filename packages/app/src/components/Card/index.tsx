@@ -1,8 +1,14 @@
 import React from "react";
-import { View, type StyleProp, type ViewStyle } from "react-native";
+import {
+  Platform,
+  View,
+  type StyleProp,
+  type ViewStyle,
+} from "react-native";
 import { borderRadius, spacing } from "@yeoooonn/ds-tokens";
 import { useTheme } from "../../theme/ThemeProvider";
 import { cn } from "../../utils/cn";
+import { resolveCardShadowStyle } from "./cardStyles";
 
 type CardSectionProps = {
   children: React.ReactNode;
@@ -64,7 +70,6 @@ function CardRoot({
   style,
 }: CardProps) {
   const { theme } = useTheme();
-  const isElevatedSurface = theme.surface.elevated.borderWidth > 0;
   const surfaceColor = theme.surface.elevated.background;
 
   const surfaceStyle: StyleProp<ViewStyle> = {
@@ -76,31 +81,34 @@ function CardRoot({
     borderRadius: borderRadius.lg,
   };
 
-  const surface = (
-    <View className={cn(className)} style={[surfaceStyle, style]}>
-      {children}
-    </View>
-  );
-
   if (!boxShadow) {
-    return surface;
+    return (
+      <View className={cn(className)} style={[surfaceStyle, style]}>
+        {children}
+      </View>
+    );
   }
 
-  // iOS: overflow:"hidden"은 그림자를 잘라낸다 → shadow는 바깥 View에만 적용
-  // className/style은 surface(안쪽)에 적용. 그림자는 outer 전용.
+  const shadowStyle = resolveCardShadowStyle(theme);
+
+  // Web: boxShadow는 surface와 같은 View에 적용 (웹 cardStyles와 동일)
+  if (Platform.OS === "web") {
+    return (
+      <View
+        className={cn(className)}
+        style={[surfaceStyle, shadowStyle, style]}
+      >
+        {children}
+      </View>
+    );
+  }
+
+  // Native: overflow:"hidden"은 shadow*를 잘라낸다 → shadow는 바깥 View에만 적용
   return (
-    <View
-      style={{
-        borderRadius: borderRadius.lg,
-        backgroundColor: surfaceColor,
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: isElevatedSurface ? 8 : 4 },
-        shadowOpacity: isElevatedSurface ? 0.55 : 0.12,
-        shadowRadius: isElevatedSurface ? 20 : 8,
-        elevation: isElevatedSurface ? 10 : 4,
-      }}
-    >
-      {surface}
+    <View style={[{ borderRadius: borderRadius.lg }, shadowStyle, style]}>
+      <View className={cn(className)} style={[surfaceStyle, { width: "100%" }]}>
+        {children}
+      </View>
     </View>
   );
 }
