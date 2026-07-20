@@ -21,6 +21,7 @@
     "prepublishOnly": "pnpm build",
     "storybook": "expo start",
     "storybook:web": "expo start --web --port 8083",
+    "build-storybook:web": "expo export --platform web",
     "test": "jest",
     "test:watch": "jest --watch"
   },

@@ -18,6 +18,7 @@
     "test:ui": "pnpm --filter @yeoooonn/ds-web test:ui",
     "storybook": "pnpm --filter @yeoooonn/ds-web storybook",
     "build-storybook": "pnpm --filter @yeoooonn/ds-web build-storybook",
+    "build-storybook:app": "pnpm build:tokens && pnpm --filter @yeoooonn/ds-app build-storybook:web",
     "storybook:app": "pnpm --filter @yeoooonn/ds-app storybook:web",
     "demo:web": "pnpm --filter @ds/demo-web dev",
     "demo:app": "pnpm --filter @ds/demo-app web -- --port 8082"
