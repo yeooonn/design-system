@@ -29,6 +29,8 @@ android/
 # Storybook
 **/.cache/
 storybook-static/
+**/.rnstorybook/storybook.requires.ts
+**/.rnstorybook/storybook.requires.js
 
 # local demo packages
 **/demo-*/

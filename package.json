@@ -10,6 +10,7 @@
     "dev:tokens": "pnpm --filter @yeoooonn/ds-tokens dev",
     "dev:web": "pnpm --filter @yeoooonn/ds-web dev",
     "storybook": "pnpm --filter @yeoooonn/ds-web storybook",
+    "storybook:app": "pnpm --filter @yeoooonn/ds-app storybook:web",
     "demo:web": "pnpm --filter @ds/demo-web dev",
     "demo:app": "pnpm --filter @ds/demo-app web -- --port 8082"
   },

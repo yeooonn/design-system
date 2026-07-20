@@ -1,7 +1,7 @@
 {
   "name": "@yeoooonn/ds-app",
   "version": "0.0.1",
-  "main": "./dist/index.js",
+  "main": "index.ts",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -24,7 +24,9 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
-    "prepublishOnly": "pnpm build"
+    "prepublishOnly": "pnpm build",
+    "storybook": "expo start",
+    "storybook:web": "expo start --web --port 8083"
   },
   "peerDependencies": {
     "expo": ">=50.0.0",
@@ -44,18 +46,34 @@
     "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
-    "@types/react": "^18.0.0",
+    "@gorhom/bottom-sheet": "^5.2.14",
+    "@react-native-async-storage/async-storage": "^3.1.1",
+    "@storybook/addon-ondevice-actions": "^10.5.0",
+    "@storybook/addon-ondevice-controls": "^10.5.0",
+    "@storybook/react-native": "10.4.6",
+    "@storybook/react-native-ui": "^10.5.0",
+    "@types/react": "^19.2.17",
+    "babel-preset-expo": "~57.0.1",
+    "expo": "~57.0.2",
     "expo-image": "~57.0.0",
     "prettier-plugin-tailwindcss": "^0.8.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-native": "0.86.0",
+    "react-native-gesture-handler": "^3.1.0",
     "react-native-reanimated": "^4.5.0",
     "react-native-safe-area-context": "^5.7.0",
     "react-native-svg": "^15.0.0",
+    "react-native-web": "^0.20.0",
+    "react-native-worklets": "0.10.0",
+    "storybook": "10.4.6",
     "tailwindcss": "^3.4.19",
     "tsup": "^8.0.0",
-    "typescript": "^5.4.0"
+    "typescript": "^6.0.3"
   },
   "license": "MIT",
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "main": "./dist/index.js"
   }
 }
