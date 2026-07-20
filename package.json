@@ -9,7 +9,11 @@
     "build:app": "pnpm --filter @yeoooonn/ds-app build",
     "dev:tokens": "pnpm --filter @yeoooonn/ds-tokens dev",
     "dev:web": "pnpm --filter @yeoooonn/ds-web dev",
+    "test": "pnpm --filter @yeoooonn/ds-web test",
+    "test:watch": "pnpm --filter @yeoooonn/ds-web test:watch",
+    "test:ui": "pnpm --filter @yeoooonn/ds-web test:ui",
     "storybook": "pnpm --filter @yeoooonn/ds-web storybook",
+    "build-storybook": "pnpm --filter @yeoooonn/ds-web build-storybook",
     "storybook:app": "pnpm --filter @yeoooonn/ds-app storybook:web",
     "demo:web": "pnpm --filter @ds/demo-web dev",
     "demo:app": "pnpm --filter @ds/demo-app web -- --port 8082"
