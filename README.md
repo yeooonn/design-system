@@ -82,17 +82,11 @@ pnpm storybook
 # Storybook (RN, Expo Web)
 pnpm storybook:app
 
-# RN 전체 쇼케이스 앱
-pnpm demo:app
 ```
 
 ## 아키텍처
 
 레포 구조, 토큰 파이프라인, 크로스 플랫폼 전략은 [docs/architecture.md](./docs/architecture.md)를 참고하세요.
-
-## 설계 문서
-
-- [Toast 명령형 API 설계](./docs/superpowers/specs/2026-07-11-toast-design.md)
 
 ## 라이선스
 

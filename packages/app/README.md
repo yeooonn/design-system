@@ -18,9 +18,7 @@ import { ThemeProvider, ToastProvider } from "@yeoooonn/ds-app";
 export default function App() {
   return (
     <ThemeProvider>
-      <ToastProvider>
-        {/* ... */}
-      </ToastProvider>
+      <ToastProvider>{/* ... */}</ToastProvider>
     </ThemeProvider>
   );
 }
@@ -30,7 +28,7 @@ export default function App() {
 
 ## 스타일링
 
-`@yeoooonn/ds-web`과 동일하게 **토큰 + inline `style` resolver** 방식을 사용합니다. NativeWind/Tailwind 설정은 필요하지 않습니다.
+**토큰 + inline `style` resolver** 방식을 사용합니다.
 
 커스터마이즈는 `style` prop으로 합니다.
 
