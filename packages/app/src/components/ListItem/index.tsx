@@ -2,7 +2,6 @@ import React from "react";
 import { Pressable, View, type StyleProp, type ViewStyle } from "react-native";
 import { spacing } from "@yeoooonn/ds-tokens";
 import { useTheme } from "../../theme/ThemeProvider";
-import { cn } from "../../utils/cn";
 import { Typography } from "../Typography";
 
 export type ListItemProps = {
@@ -12,7 +11,6 @@ export type ListItemProps = {
   trailing?: React.ReactNode;
   disabled?: boolean;
   onPress?: () => void;
-  className?: string;
   style?: StyleProp<ViewStyle>;
 };
 
@@ -23,14 +21,12 @@ export function ListItem({
   trailing,
   disabled = false,
   onPress,
-  className,
-  style,
+    style,
 }: ListItemProps) {
   const { theme } = useTheme();
 
   const content = (
     <View
-      className={cn(className)}
       style={[
         {
           width: "100%",

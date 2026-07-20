@@ -2,7 +2,6 @@ import { View } from "react-native";
 import { Image } from "expo-image";
 import { type Theme } from "@yeoooonn/ds-tokens";
 import { useTheme } from "../../theme/ThemeProvider";
-import { cn } from "../../utils/cn";
 import {
   resolveTypographyColor,
   type TypographyColor,
@@ -28,7 +27,6 @@ export type IconProps = {
   source: string | number | { uri: string };
   size?: IconSize;
   color?: IconColor;
-  className?: string;
   accessibilityLabel?: string;
 };
 
@@ -40,8 +38,7 @@ export function Icon({
   source,
   size = "md",
   color,
-  className,
-  accessibilityLabel,
+    accessibilityLabel,
 }: IconProps) {
   const { theme } = useTheme();
   const iconSize = iconSizes[size];
@@ -49,7 +46,6 @@ export function Icon({
 
   return (
     <View
-      className={cn(className)}
       style={{
         width: iconSize,
         height: iconSize,

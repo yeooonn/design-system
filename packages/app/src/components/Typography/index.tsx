@@ -1,7 +1,6 @@
 import React from "react";
 import { Text, type TextProps, type TextStyle } from "react-native";
 import { useTheme } from "../../theme/ThemeProvider";
-import { cn } from "../../utils/cn";
 import {
   resolveTypographyColor,
   resolveTypographyVariantStyles,
@@ -12,7 +11,6 @@ import {
 export type TypographyTextProps = {
   children: React.ReactNode;
   color?: TypographyColor;
-  className?: string;
   style?: TextStyle;
 } & Omit<TextProps, "style" | "children">;
 
@@ -20,8 +18,7 @@ function createTypographyComponent(variant: TypographyVariant) {
   function TypographyComponent({
     children,
     color = "primary",
-    className,
-    style,
+        style,
     ...props
   }: TypographyTextProps) {
     const { theme } = useTheme();
@@ -29,7 +26,6 @@ function createTypographyComponent(variant: TypographyVariant) {
 
     return (
       <Text
-        className={cn(className)}
         style={[
           variantStyles,
           { color: resolveTypographyColor(color, theme) },

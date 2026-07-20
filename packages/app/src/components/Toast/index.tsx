@@ -16,7 +16,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { borderRadius, fontWeight, spacing } from "@yeoooonn/ds-tokens";
 import { appFontSize as fontSize } from "../../tokens/typography";
 import { useTheme } from "../../theme/ThemeProvider";
-import { cn } from "../../utils/cn";
 
 const DEFAULT_DURATION = 3000;
 const DEFAULT_POSITION: ToastPosition = "bottom-center";
@@ -195,11 +194,9 @@ function ToastItemView({ toast }: { toast: ToastEntry }) {
 
 export function ToastProvider({
   children,
-  className,
   style,
 }: {
   children: React.ReactNode;
-  className?: string;
   style?: StyleProp<ViewStyle>;
 }) {
   const insets = useSafeAreaInsets();
@@ -265,7 +262,7 @@ export function ToastProvider({
 
   return (
     <ToastContext.Provider value={{ open, close, closeAll }}>
-      <View className={cn(className)} style={[{ flex: 1 }, style]}>
+      <View style={[{ flex: 1 }, style]}>
         {children}
         {TOAST_POSITIONS.filter(
           (position) => toastsByPosition[position].length > 0,

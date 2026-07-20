@@ -36,7 +36,6 @@ import {
 } from "react-native-safe-area-context";
 import { borderRadius, spacing } from "@yeoooonn/ds-tokens";
 import { useTheme } from "../../theme/ThemeProvider";
-import { cn } from "../../utils/cn";
 
 const BACKDROP_DURATION = 250;
 const SHEET_OPEN_DURATION = 280;
@@ -60,7 +59,6 @@ const BottomSheetPanContext = createContext<GestureResponderHandlers>({});
 
 type BottomSheetSectionProps = {
   children: React.ReactNode;
-  className?: string;
   style?: StyleProp<ViewStyle>;
 };
 
@@ -72,8 +70,7 @@ type BottomSheetProps = BottomSheetSectionProps & {
 };
 
 function BottomSheetHandle({
-  className,
-  style,
+    style,
 }: Omit<BottomSheetSectionProps, "children"> & { children?: never }) {
   const { theme } = useTheme();
   const panHandlers = useContext(BottomSheetPanContext);
@@ -81,7 +78,6 @@ function BottomSheetHandle({
   return (
     <View
       {...panHandlers}
-      className={cn(className)}
       hitSlop={{ top: 12, bottom: 12, left: 24, right: 24 }}
       style={[
         {
@@ -111,12 +107,10 @@ function BottomSheetHandle({
 
 function BottomSheetHeader({
   children,
-  className,
-  style,
+    style,
 }: BottomSheetSectionProps) {
   return (
     <View
-      className={cn(className)}
       style={[
         {
           flexShrink: 0,
@@ -133,12 +127,10 @@ function BottomSheetHeader({
 
 function BottomSheetContent({
   children,
-  className,
-  style,
+    style,
 }: BottomSheetSectionProps) {
   return (
     <ScrollView
-      className={cn(className)}
       style={[{ flexGrow: 1, flexShrink: 1, minHeight: 0 }, style]}
       contentContainerStyle={{
         flexGrow: 1,
@@ -158,12 +150,10 @@ function BottomSheetContent({
 
 function BottomSheetFooter({
   children,
-  className,
-  style,
+    style,
 }: BottomSheetSectionProps) {
   return (
     <View
-      className={cn(className)}
       style={[
         {
           flexShrink: 0,
@@ -189,8 +179,7 @@ function BottomSheetPanel({
   children,
   onBackdropPress,
   onRequestClose,
-  className,
-  style,
+    style,
   accessibilityLabel,
   sheetAnimatedStyle,
   backdropAnimatedStyle,
@@ -198,7 +187,6 @@ function BottomSheetPanel({
   children: React.ReactNode;
   onBackdropPress: () => void;
   onRequestClose?: () => void;
-  className?: string;
   style?: StyleProp<ViewStyle>;
   accessibilityLabel?: string;
   sheetAnimatedStyle: object;
@@ -306,7 +294,6 @@ function BottomSheetPanel({
         <BottomSheetPanContext.Provider value={panHandlers}>
           <View
             accessibilityLabel={accessibilityLabel}
-            className={cn(className)}
             onLayout={handleSheetLayout}
             style={[
               {
@@ -344,8 +331,7 @@ function BottomSheetRoot({
   visible,
   onRequestClose,
   onBackdropPress,
-  className,
-  style,
+    style,
   accessibilityLabel,
 }: BottomSheetProps) {
   const { height: windowHeight } = useWindowDimensions();
@@ -423,7 +409,6 @@ function BottomSheetRoot({
           <BottomSheetPanel
             onBackdropPress={handleBackdropPress}
             onRequestClose={onRequestClose}
-            className={className}
             style={style}
             accessibilityLabel={accessibilityLabel}
             sheetAnimatedStyle={sheetAnimatedStyle}

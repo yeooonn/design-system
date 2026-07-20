@@ -11,7 +11,6 @@ import { spacing } from "@yeoooonn/ds-tokens";
 import { useKeyboardBottomInset } from "../../hooks/useKeyboardBottomInset";
 import { useKeyboardScroll } from "../../hooks/KeyboardScrollContext";
 import { useTheme } from "../../theme/ThemeProvider";
-import { cn } from "../../utils/cn";
 import {
   FIELD_DISABLED_OPACITY,
   resolveFieldState,
@@ -36,9 +35,7 @@ export type InputProps = Omit<TextInputProps, "style"> & {
   helperText?: string;
   errorMessage?: string;
   disabled?: boolean;
-  className?: string;
   style?: StyleProp<ViewStyle>;
-  inputClassName?: string;
 };
 
 export function Input({
@@ -52,10 +49,8 @@ export function Input({
   errorMessage,
   disabled = false,
   editable,
-  className,
-  style,
-  inputClassName,
-  onFocus,
+    style,
+    onFocus,
   onBlur,
   ...inputProps
 }: InputProps) {
@@ -93,7 +88,6 @@ export function Input({
 
   return (
     <View
-      className={cn(className)}
       style={[
         {
           width: "100%",
@@ -158,7 +152,6 @@ export function Input({
           {...inputProps}
           editable={!isDisabled}
           placeholderTextColor={tokens.placeholderColor}
-          className={inputClassName}
           style={{
             flex: 1,
             minWidth: 0,

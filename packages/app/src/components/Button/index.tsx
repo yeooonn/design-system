@@ -7,7 +7,6 @@ import {
   type ViewStyle,
 } from "react-native";
 import { useTheme } from "../../theme/ThemeProvider";
-import { cn } from "../../utils/cn";
 import { LoadingDots } from "./LoadingDots";
 import {
   buttonCircularSize,
@@ -31,7 +30,6 @@ type ButtonBaseProps = {
   round?: ButtonRound;
   disabled?: boolean;
   loading?: boolean;
-  className?: string;
   style?: StyleProp<ViewStyle>;
   accessibilityLabel?: string;
 };
@@ -64,8 +62,7 @@ export function Button({
   round = "md",
   disabled = false,
   loading = false,
-  className,
-  style,
+    style,
 }: ButtonProps) {
   const { theme } = useTheme();
   const [pressed, setPressed] = useState(false);
@@ -104,10 +101,8 @@ export function Button({
       accessibilityRole="button"
       accessibilityState={{ disabled: isInactive, busy: loading }}
       accessibilityLabel={accessibilityLabel}
-      className={cn(className)}
       style={[
         {
-          // NativeWind className만으로는 실기기에서 정렬이 깨질 수 있어 style로 고정
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "center",

@@ -7,12 +7,10 @@ import {
 } from "react-native";
 import { borderRadius, spacing } from "@yeoooonn/ds-tokens";
 import { useTheme } from "../../theme/ThemeProvider";
-import { cn } from "../../utils/cn";
 import { resolveCardShadowStyle } from "./cardStyles";
 
 type CardSectionProps = {
   children: React.ReactNode;
-  className?: string;
   style?: StyleProp<ViewStyle>;
 };
 
@@ -20,10 +18,9 @@ type CardProps = CardSectionProps & {
   boxShadow?: boolean;
 };
 
-function CardHeader({ children, className, style }: CardSectionProps) {
+function CardHeader({ children, style }: CardSectionProps) {
   return (
     <View
-      className={cn(className)}
       style={[{ flexShrink: 0, padding: spacing[4] }, style]}
     >
       {children}
@@ -31,10 +28,9 @@ function CardHeader({ children, className, style }: CardSectionProps) {
   );
 }
 
-function CardContent({ children, className, style }: CardSectionProps) {
+function CardContent({ children, style }: CardSectionProps) {
   return (
     <View
-      className={cn(className)}
       style={[{ flex: 1, padding: spacing[4] }, style]}
     >
       {children}
@@ -42,10 +38,9 @@ function CardContent({ children, className, style }: CardSectionProps) {
   );
 }
 
-function CardFooter({ children, className, style }: CardSectionProps) {
+function CardFooter({ children, style }: CardSectionProps) {
   return (
     <View
-      className={cn(className)}
       style={[
         {
           flexShrink: 0,
@@ -66,7 +61,6 @@ function CardFooter({ children, className, style }: CardSectionProps) {
 function CardRoot({
   children,
   boxShadow = false,
-  className,
   style,
 }: CardProps) {
   const { theme } = useTheme();
@@ -83,7 +77,7 @@ function CardRoot({
 
   if (!boxShadow) {
     return (
-      <View className={cn(className)} style={[surfaceStyle, style]}>
+      <View style={[surfaceStyle, style]}>
         {children}
       </View>
     );
@@ -95,7 +89,6 @@ function CardRoot({
   if (Platform.OS === "web") {
     return (
       <View
-        className={cn(className)}
         style={[surfaceStyle, shadowStyle, style]}
       >
         {children}
@@ -106,7 +99,7 @@ function CardRoot({
   // Native: overflow:"hidden"은 shadow*를 잘라낸다 → shadow는 바깥 View에만 적용
   return (
     <View style={[{ borderRadius: borderRadius.lg }, shadowStyle, style]}>
-      <View className={cn(className)} style={[surfaceStyle, { width: "100%" }]}>
+      <View style={[surfaceStyle, { width: "100%" }]}>
         {children}
       </View>
     </View>

@@ -2,13 +2,11 @@ import React, { useEffect, useRef } from "react";
 import { Animated, type StyleProp, type ViewStyle } from "react-native";
 import { borderRadius as radii } from "@yeoooonn/ds-tokens";
 import { useTheme } from "../../theme/ThemeProvider";
-import { cn } from "../../utils/cn";
 
 export type SkeletonProps = {
   width?: number | `${number}%` | "100%";
   height?: number;
   rounded?: keyof typeof radii;
-  className?: string;
   style?: StyleProp<ViewStyle>;
 };
 
@@ -16,8 +14,7 @@ export function Skeleton({
   width = "100%",
   height = 16,
   rounded = "md",
-  className,
-  style,
+    style,
 }: SkeletonProps) {
   const { theme } = useTheme();
   const opacity = useRef(new Animated.Value(0.45)).current;
@@ -43,7 +40,6 @@ export function Skeleton({
 
   return (
     <Animated.View
-      className={cn(className)}
       accessibilityElementsHidden
       importantForAccessibility="no-hide-descendants"
       style={[

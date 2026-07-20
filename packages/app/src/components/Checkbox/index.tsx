@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import { borderRadius, borderWidth, colors, fontWeight, spacing } from "@yeoooonn/ds-tokens";
 import { useTheme } from "../../theme/ThemeProvider";
-import { cn } from "../../utils/cn";
 import {
   resolveCheckboxRadioMeta,
   resolveCheckboxRadioState,
@@ -29,7 +28,6 @@ export type CheckboxProps = {
   /** @deprecated Prefer onCheckedChange. Kept for RN-style convenience. */
   onPress?: (checked: boolean) => void;
   onCheckedChange?: (checked: boolean) => void;
-  className?: string;
   style?: StyleProp<ViewStyle>;
   accessibilityLabel?: string;
 };
@@ -69,8 +67,7 @@ export function Checkbox({
   checked = false,
   onPress,
   onCheckedChange,
-  className,
-  style,
+    style,
   accessibilityLabel,
 }: CheckboxProps) {
   const { theme } = useTheme();
@@ -98,7 +95,6 @@ export function Checkbox({
 
   return (
     <View
-      className={cn(className)}
       style={[{ alignSelf: "flex-start", opacity: disabledOpacity }, style]}
     >
       <Pressable

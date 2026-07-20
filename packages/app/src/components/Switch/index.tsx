@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { borderRadius, colors, spacing, type Theme } from "@yeoooonn/ds-tokens";
 import { useTheme } from "../../theme/ThemeProvider";
-import { cn } from "../../utils/cn";
 import {
   resolveCheckboxRadioMeta,
   resolveCheckboxRadioState,
@@ -69,7 +68,6 @@ export type SwitchProps = {
   /** RN 관례. onCheckedChange와 동일 */
   onPress?: (checked: boolean) => void;
   onCheckedChange?: (checked: boolean) => void;
-  className?: string;
   style?: StyleProp<ViewStyle>;
   accessibilityLabel?: string;
 };
@@ -84,8 +82,7 @@ export function Switch({
   checked = false,
   onPress,
   onCheckedChange,
-  className,
-  style,
+    style,
   accessibilityLabel,
 }: SwitchProps) {
   const { theme } = useTheme();
@@ -139,7 +136,6 @@ export function Switch({
 
   return (
     <View
-      className={cn(className)}
       style={[
         {
           // label이 있을 때만 가로로 늘어남. trailing용(아이콘만)일 땐 intrinsic width 유지

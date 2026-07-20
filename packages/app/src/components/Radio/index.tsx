@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { borderRadius, borderWidth, spacing } from "@yeoooonn/ds-tokens";
 import { useTheme } from "../../theme/ThemeProvider";
-import { cn } from "../../utils/cn";
 import {
   resolveCheckboxRadioMeta,
   resolveCheckboxRadioState,
@@ -27,7 +26,6 @@ export type RadioProps = {
   disabled?: boolean;
   checked?: boolean;
   onPress?: () => void;
-  className?: string;
   style?: StyleProp<ViewStyle>;
   accessibilityLabel?: string;
 };
@@ -41,8 +39,7 @@ export function Radio({
   disabled = false,
   checked = false,
   onPress,
-  className,
-  style,
+    style,
   accessibilityLabel,
 }: RadioProps) {
   const { theme } = useTheme();
@@ -77,7 +74,6 @@ export function Radio({
 
   return (
     <View
-      className={cn(className)}
       style={[{ alignSelf: "flex-start", opacity: disabledOpacity }, style]}
     >
       <Pressable

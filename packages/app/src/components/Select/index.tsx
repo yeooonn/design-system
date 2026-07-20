@@ -6,7 +6,6 @@ import {
   type ViewStyle,
 } from "react-native";
 import { useTheme } from "../../theme/ThemeProvider";
-import { cn } from "../../utils/cn";
 import {
   FIELD_DISABLED_OPACITY,
   resolveFieldState,
@@ -41,7 +40,6 @@ export type SelectProps = {
   value?: string;
   defaultValue?: string;
   onValueChange?: (value: string) => void;
-  className?: string;
   style?: StyleProp<ViewStyle>;
   accessibilityLabel?: string;
 };
@@ -59,8 +57,7 @@ export function Select({
   value,
   defaultValue,
   onValueChange,
-  className,
-  style,
+    style,
   accessibilityLabel,
 }: SelectProps) {
   const { theme } = useTheme();
@@ -113,7 +110,6 @@ export function Select({
 
   return (
     <View
-      className={cn(className)}
       style={[
         {
           width: "100%",

@@ -20,7 +20,6 @@ import {
 import { borderWidth, fontWeight, spacing } from "@yeoooonn/ds-tokens";
 import { appFontSize as fontSize } from "../../tokens/typography";
 import { useTheme } from "../../theme/ThemeProvider";
-import { cn } from "../../utils/cn";
 
 export type TabSize = "sm" | "md" | "lg";
 
@@ -49,7 +48,6 @@ type TabProps = {
   children: React.ReactNode;
   size?: TabSize;
   onChange?: (index: number) => void;
-  className?: string;
   style?: StyleProp<ViewStyle>;
 };
 
@@ -58,7 +56,6 @@ type TabItemProps = {
   selected?: boolean;
   disabled?: boolean;
   size?: TabSize;
-  className?: string;
   style?: StyleProp<ViewStyle>;
 };
 
@@ -77,8 +74,7 @@ function TabItem({
   size = "md",
   onSelect,
   onItemLayout,
-  className,
-  style,
+    style,
 }: TabItemProps & TabItemInjectedProps) {
   const { theme } = useTheme();
   const sizeStyles = tabSizeStyles[size];
@@ -93,7 +89,6 @@ function TabItem({
         onSelect?.();
       }}
       onLayout={onItemLayout}
-      className={cn(className)}
       style={[
         {
           flexShrink: 0,
@@ -143,8 +138,7 @@ function TabRoot({
   children,
   size = "md",
   onChange,
-  className,
-  style,
+    style,
 }: TabProps) {
   const { theme } = useTheme();
   const itemLayouts = useRef<Array<{ x: number; width: number }>>([]);
@@ -212,7 +206,6 @@ function TabRoot({
     <ScrollView
       horizontal
       showsHorizontalScrollIndicator={false}
-      className={cn(className)}
       style={[{ width: "100%" }, style]}
       accessibilityRole="tablist"
     >

@@ -14,7 +14,6 @@ import {
 import { borderRadius, fontWeight, spacing } from "@yeoooonn/ds-tokens";
 import { appFontSize as fontSize } from "../../tokens/typography";
 import { useTheme } from "../../theme/ThemeProvider";
-import { cn } from "../../utils/cn";
 
 export type TooltipPosition = "top" | "bottom" | "left" | "right";
 
@@ -37,7 +36,6 @@ export type TooltipProps = {
   autoHide?: boolean;
   position?: TooltipPosition;
   showArrow?: boolean;
-  className?: string;
   style?: StyleProp<ViewStyle>;
 };
 
@@ -298,8 +296,7 @@ export function Tooltip({
   autoHide = true,
   position = "bottom",
   showArrow = false,
-  className,
-  style,
+    style,
 }: TooltipProps) {
   const { theme } = useTheme();
   const isControlled = openProp !== undefined;
@@ -460,7 +457,6 @@ export function Tooltip({
     <View
       ref={triggerRef}
       collapsable={false}
-      className={cn(className)}
       style={[{ alignSelf: "flex-start" }, style]}
       accessibilityHint={message}
     >

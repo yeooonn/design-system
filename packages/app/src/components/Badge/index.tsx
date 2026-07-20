@@ -1,7 +1,6 @@
 import React from "react";
 import { Text, View, type StyleProp, type ViewStyle } from "react-native";
 import { borderRadius, fontWeight } from "@yeoooonn/ds-tokens";
-import { cn } from "../../utils/cn";
 import {
   badgeFontSize,
   badgePadding,
@@ -16,7 +15,6 @@ export type BadgeProps = {
   color?: BadgeColor;
   variant?: BadgeVariant;
   size?: BadgeSize;
-  className?: string;
   style?: StyleProp<ViewStyle>;
 };
 
@@ -25,15 +23,13 @@ export function Badge({
   color = "blue",
   variant = "soft",
   size = "md",
-  className,
-  style,
+    style,
 }: BadgeProps) {
   const colorStyles = resolveBadgeStyles(color, variant);
   const labelFontSize = badgeFontSize[size];
 
   return (
     <View
-      className={cn(className)}
       style={[
         {
           alignItems: "center",

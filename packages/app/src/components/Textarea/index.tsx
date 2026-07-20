@@ -14,7 +14,6 @@ import { spacing } from "@yeoooonn/ds-tokens";
 import { useTheme } from "../../theme/ThemeProvider";
 import { useKeyboardBottomInset } from "../../hooks/useKeyboardBottomInset";
 import { useKeyboardScroll } from "../../hooks/KeyboardScrollContext";
-import { cn } from "../../utils/cn";
 import { FIELD_DISABLED_OPACITY } from "../_shared/fieldStyles";
 import {
   resolveTextareaState,
@@ -39,7 +38,6 @@ export type TextareaProps = Omit<TextInputProps, "style" | "multiline"> & {
   countOverMessage?: string;
   showExample?: boolean;
   exampleText?: Exclude<React.ReactNode, string | number | boolean>;
-  className?: string;
   style?: StyleProp<ViewStyle>;
 };
 
@@ -299,8 +297,7 @@ export function Textarea({
   countOverMessage,
   showExample = false,
   exampleText,
-  className,
-  style,
+    style,
   onFocus,
   onBlur,
   value,
@@ -364,7 +361,6 @@ export function Textarea({
 
   return (
     <View
-      className={cn(className)}
       style={[
         {
           width: "100%",

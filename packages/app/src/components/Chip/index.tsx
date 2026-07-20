@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { borderRadius, fontWeight, spacing } from "@yeoooonn/ds-tokens";
 import { useTheme } from "../../theme/ThemeProvider";
-import { cn } from "../../utils/cn";
 import {
   chipFontSize,
   chipPadding,
@@ -27,7 +26,6 @@ export type ChipProps = {
   disabled?: boolean;
   onPress?: () => void;
   onClose?: () => void;
-  className?: string;
   style?: StyleProp<ViewStyle>;
 };
 
@@ -76,8 +74,7 @@ export function Chip({
   disabled = false,
   onPress,
   onClose,
-  className,
-  style,
+    style,
 }: ChipProps) {
   const { theme } = useTheme();
   const colorStyles = resolveChipStyles({
@@ -99,7 +96,6 @@ export function Chip({
 
   return (
     <View
-      className={cn(className)}
       style={[
         {
           flexDirection: "row",

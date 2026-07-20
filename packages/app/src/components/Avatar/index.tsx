@@ -10,7 +10,6 @@ import {
 import { borderRadius, fontWeight } from "@yeoooonn/ds-tokens";
 import { appFontSize as fontSize } from "../../tokens/typography";
 import { useTheme } from "../../theme/ThemeProvider";
-import { cn } from "../../utils/cn";
 
 export type AvatarSize = "sm" | "md" | "lg" | "xl";
 
@@ -25,7 +24,6 @@ export type AvatarProps = {
   src?: ImageSourcePropType;
   name?: string;
   size?: AvatarSize;
-  className?: string;
   style?: StyleProp<ViewStyle>;
   accessibilityLabel?: string;
 };
@@ -41,8 +39,7 @@ export function Avatar({
   src,
   name,
   size = "md",
-  className,
-  style,
+    style,
   accessibilityLabel,
 }: AvatarProps) {
   const { theme } = useTheme();
@@ -51,7 +48,6 @@ export function Avatar({
 
   return (
     <View
-      className={cn(className)}
       accessibilityRole="image"
       accessibilityLabel={label}
       style={[

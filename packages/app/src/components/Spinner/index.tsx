@@ -6,7 +6,6 @@ import {
   type ViewStyle,
 } from "react-native";
 import { useTheme } from "../../theme/ThemeProvider";
-import { cn } from "../../utils/cn";
 
 export type SpinnerSize = "sm" | "md" | "lg";
 
@@ -23,7 +22,6 @@ const spinnerVisual: Record<
 export type SpinnerProps = {
   size?: SpinnerSize;
   color?: string;
-  className?: string;
   style?: StyleProp<ViewStyle>;
   accessibilityLabel?: string;
 };
@@ -31,8 +29,7 @@ export type SpinnerProps = {
 export function Spinner({
   size = "md",
   color,
-  className,
-  style,
+    style,
   accessibilityLabel = "Loading",
 }: SpinnerProps) {
   const { theme } = useTheme();
@@ -40,7 +37,6 @@ export function Spinner({
 
   return (
     <View
-      className={cn(className)}
       style={[
         {
           alignItems: "center",

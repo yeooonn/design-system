@@ -9,12 +9,10 @@ import {
 } from "react-native";
 import { borderRadius, spacing } from "@yeoooonn/ds-tokens";
 import { useTheme } from "../../theme/ThemeProvider";
-import { cn } from "../../utils/cn";
 import { KeyboardAvoid } from "../KeyboardAvoid";
 
 type ModalSectionProps = {
   children: React.ReactNode;
-  className?: string;
   style?: StyleProp<ViewStyle>;
 };
 
@@ -25,10 +23,9 @@ type ModalProps = ModalSectionProps & {
   accessibilityLabel?: string;
 };
 
-function ModalHeader({ children, className, style }: ModalSectionProps) {
+function ModalHeader({ children, style }: ModalSectionProps) {
   return (
     <View
-      className={cn(className)}
       style={[
         {
           flexShrink: 0,
@@ -44,10 +41,9 @@ function ModalHeader({ children, className, style }: ModalSectionProps) {
   );
 }
 
-function ModalContent({ children, className, style }: ModalSectionProps) {
+function ModalContent({ children, style }: ModalSectionProps) {
   return (
     <ScrollView
-      className={cn(className)}
       // flex:1은 부모 높이가 없을 때(본문만) 높이 0으로 붕괴한다.
       // flexShrink로 maxHeight 초과 시에만 줄어들며 스크롤한다.
       style={[{ flexGrow: 0, flexShrink: 1 }, style]}
@@ -64,10 +60,9 @@ function ModalContent({ children, className, style }: ModalSectionProps) {
   );
 }
 
-function ModalFooter({ children, className, style }: ModalSectionProps) {
+function ModalFooter({ children, style }: ModalSectionProps) {
   return (
     <View
-      className={cn(className)}
       style={[
         {
           flexShrink: 0,
@@ -91,8 +86,7 @@ function ModalRoot({
   visible,
   onRequestClose,
   onBackdropPress,
-  className,
-  style,
+    style,
   accessibilityLabel,
 }: ModalProps) {
   const { theme } = useTheme();
@@ -107,7 +101,6 @@ function ModalRoot({
     >
       <KeyboardAvoid>
         <Pressable
-          className={cn(className)}
           style={[
             {
               flex: 1,

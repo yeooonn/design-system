@@ -1,7 +1,6 @@
 import React from "react";
 import { View, type StyleProp, type ViewStyle } from "react-native";
 import { spacing } from "@yeoooonn/ds-tokens";
-import { cn } from "../../utils/cn";
 import { Button } from "../Button";
 import { Typography } from "../Typography";
 
@@ -10,7 +9,6 @@ export type ResultProps = {
   title?: string;
   description?: string;
   button?: React.ReactNode;
-  className?: string;
   style?: StyleProp<ViewStyle>;
 };
 
@@ -29,12 +27,10 @@ function ResultRoot({
   title,
   description,
   button,
-  className,
-  style,
+    style,
 }: ResultProps) {
   return (
     <View
-      className={cn(className)}
       style={[{ alignItems: "center", gap: spacing[1] }, style]}
     >
       {figure != null && (
