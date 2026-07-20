@@ -34,10 +34,10 @@ export function App() {
 ### React Native (Expo)
 
 ```bash
-pnpm add @yeoooonn/ds-app @yeoooonn/ds-tokens nativewind tailwindcss
+pnpm add @yeoooonn/ds-app @yeoooonn/ds-tokens react-native-reanimated react-native-safe-area-context
 ```
 
-NativeWind 설정, Tailwind preset 병합, `global.css` import 등 상세 설정은 [`packages/app/README.md`](./packages/app/README.md)를 참고하세요.
+설치 및 `ThemeProvider` 설정은 [`packages/app/README.md`](./packages/app/README.md)를 참고하세요.
 
 ## 컴포넌트
 
@@ -93,7 +93,6 @@ pnpm demo:app
 ## 설계 문서
 
 - [Toast 명령형 API 설계](./docs/superpowers/specs/2026-07-11-toast-design.md)
-- [ds-app NativeWind 포트 설계](./docs/superpowers/specs/2026-07-13-ds-app-nativewind-design.md)
 
 ## 라이선스
 

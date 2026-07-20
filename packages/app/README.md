@@ -5,28 +5,12 @@ React Native (Expo)용 디자인 시스템 컴포넌트입니다.
 ## 설치
 
 ```bash
-pnpm add @yeoooonn/ds-app @yeoooonn/ds-tokens nativewind tailwindcss react-native-reanimated react-native-safe-area-context
+pnpm add @yeoooonn/ds-app @yeoooonn/ds-tokens react-native-reanimated react-native-safe-area-context
 ```
 
-## NativeWind 설정
+## 설정
 
-1. [NativeWind Expo 가이드](https://www.nativewind.dev/getting-started/expo)에 따라 babel / metro 설정
-2. Tailwind `content`에 DS 패키지 경로 포함:
-
-```js
-// tailwind.config.js
-module.exports = {
-  content: [
-    "./App.{js,jsx,ts,tsx}",
-    "./src/**/*.{js,jsx,ts,tsx}",
-    "./node_modules/@yeoooonn/ds-app/dist/**/*.{js,mjs}",
-  ],
-  presets: [require("@yeoooonn/ds-app/tailwind-preset")],
-};
-```
-
-3. 앱 루트에서 DS global CSS import (NativeWind v4 설정에 맞게)
-4. `ThemeProvider`로 앱 감싸기
+1. 앱 루트를 `ThemeProvider`로 감싸기 (Toast 사용 시 `ToastProvider` 포함)
 
 ```tsx
 import { ThemeProvider, ToastProvider } from "@yeoooonn/ds-app";
@@ -42,7 +26,13 @@ export default function App() {
 }
 ```
 
-`metro.example.js`를 참고해 소비 앱 metro 설정을 맞출 수 있습니다.
+2. BottomSheet, Modal 등 일부 컴포넌트는 `react-native-reanimated`, `react-native-safe-area-context` peer dependency가 필요합니다.
+
+## 스타일링
+
+`@yeoooonn/ds-web`과 동일하게 **토큰 + inline `style` resolver** 방식을 사용합니다. NativeWind/Tailwind 설정은 필요하지 않습니다.
+
+커스터마이즈는 `style` prop으로 합니다.
 
 ## Storybook
 
