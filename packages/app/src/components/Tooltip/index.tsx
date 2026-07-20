@@ -45,6 +45,8 @@ const ARROW_SIZE = 8;
 const ARROW_TRIGGER_GAP = 2;
 /** 열리고 나서 자동으로 닫히는 시간 */
 const AUTO_HIDE_MS = 1000;
+const TOOLTIP_OVERLAY_Z_INDEX = 100_000;
+const TOOLTIP_PANEL_Z_INDEX = 100_001;
 
 const PANEL_SHADOW = "0 2px 8px rgba(0,0,0,0.12)";
 
@@ -228,43 +230,59 @@ function resolveScreenOffset(
 ): ViewStyle {
   const gap = showArrow ? ARROW_TRIGGER_GAP : spacing[2];
   const alongArrow = showArrow ? ARROW_SIZE + gap : gap;
-  const shift = showArrow ? ARROW_SIZE : 0;
+  const { width: panelWidth, height: panelHeight } = panelSize;
   const { width: screenWidth, height: screenHeight } = Dimensions.get("window");
-  const panelWidth = panelSize.width;
-  const panelHeight = panelSize.height;
+  const margin = spacing[2];
+
+  let top = 0;
+  let left = 0;
 
   switch (position) {
     case "top":
-      return {
-        position: "absolute",
-        bottom: screenHeight - anchor.y + alongArrow - shift,
-        left: anchor.x + anchor.width / 2 - (panelWidth > 0 ? panelWidth / 2 : 0),
-      };
+      top = anchor.y - panelHeight - alongArrow;
+      left = anchor.x + anchor.width / 2 - panelWidth / 2;
+      break;
     case "bottom":
-      return {
-        position: "absolute",
-        top: anchor.y + anchor.height + alongArrow - shift,
-        left: anchor.x + anchor.width / 2 - (panelWidth > 0 ? panelWidth / 2 : 0),
-      };
+      top = anchor.y + anchor.height + alongArrow;
+      left = anchor.x + anchor.width / 2 - panelWidth / 2;
+      break;
     case "left":
-      return {
-        position: "absolute",
-        top:
-          anchor.y +
-          anchor.height / 2 -
-          (panelHeight > 0 ? panelHeight / 2 : 0),
-        right: screenWidth - anchor.x + alongArrow - shift,
-      };
+      top = anchor.y + anchor.height / 2 - panelHeight / 2;
+      left = anchor.x - panelWidth - alongArrow;
+      break;
     case "right":
-      return {
-        position: "absolute",
-        top:
-          anchor.y +
-          anchor.height / 2 -
-          (panelHeight > 0 ? panelHeight / 2 : 0),
-        left: anchor.x + anchor.width + alongArrow - shift,
-      };
+      top = anchor.y + anchor.height / 2 - panelHeight / 2;
+      left = anchor.x + anchor.width + alongArrow;
+      break;
   }
+
+  if (panelWidth > 0) {
+    left = Math.min(
+      Math.max(left, margin),
+      Math.max(margin, screenWidth - panelWidth - margin),
+    );
+  }
+
+  if (panelHeight > 0) {
+    top = Math.min(
+      Math.max(top, margin),
+      Math.max(margin, screenHeight - panelHeight - margin),
+    );
+  }
+
+  return Platform.OS === "web"
+    ? ({
+        position: "fixed",
+        top,
+        left,
+        zIndex: TOOLTIP_PANEL_Z_INDEX,
+      } as unknown as ViewStyle)
+    : {
+        position: "absolute",
+        top,
+        left,
+        zIndex: TOOLTIP_PANEL_Z_INDEX,
+      };
 }
 
 /**
@@ -289,6 +307,7 @@ export function Tooltip({
   const isOpen = isControlled ? Boolean(openProp) : uncontrolledOpen;
   const [anchor, setAnchor] = useState<AnchorRect | null>(null);
   const [panelSize, setPanelSize] = useState({ width: 0, height: 0 });
+  const [backdropEnabled, setBackdropEnabled] = useState(false);
   const triggerRef = useRef<View>(null);
   const opacity = useRef(new Animated.Value(0)).current;
   const autoHideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -323,6 +342,7 @@ export function Tooltip({
 
   useEffect(() => {
     if (!isOpen) {
+      setBackdropEnabled(false);
       setAnchor(null);
       setPanelSize({ width: 0, height: 0 });
       clearAutoHideTimer();
@@ -335,6 +355,10 @@ export function Tooltip({
       });
     });
 
+    const backdropTimer = setTimeout(() => {
+      setBackdropEnabled(true);
+    }, 0);
+
     clearAutoHideTimer();
     if (autoHide) {
       autoHideTimerRef.current = setTimeout(() => {
@@ -344,6 +368,7 @@ export function Tooltip({
 
     return () => {
       cancelAnimationFrame(frameId);
+      clearTimeout(backdropTimer);
       clearAutoHideTimer();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps -- open/autoHide만 바뀔 때 타이머 재설정
@@ -373,7 +398,7 @@ export function Tooltip({
       }}
       style={[
         resolveScreenOffset(position, anchor, showArrow, panelSize),
-        { opacity, zIndex: 1, overflow: "visible" },
+        { opacity, overflow: "visible" },
       ]}
     >
       <View
@@ -431,45 +456,56 @@ export function Tooltip({
     </Animated.View>
   ) : null;
 
+  const triggerNode = (
+    <View
+      ref={triggerRef}
+      collapsable={false}
+      className={cn(className)}
+      style={[{ alignSelf: "flex-start" }, style]}
+      accessibilityHint={message}
+    >
+      {isControlled ? (
+        children
+      ) : (
+        renderTrigger(children, toggleUncontrolled, isOpen)
+      )}
+    </View>
+  );
+
+  const overlayContent =
+    isOpen && anchor ? (
+      <View
+        style={Platform.OS === "web" ? styles.webOverlayRoot : styles.modalRoot}
+        pointerEvents="box-none"
+      >
+        {dismissible ? (
+          <Pressable
+            style={[StyleSheet.absoluteFill, styles.backdrop]}
+            pointerEvents={backdropEnabled ? "auto" : "none"}
+            onPress={handleDismiss}
+            accessibilityRole="button"
+            accessibilityLabel="툴팁 닫기"
+          />
+        ) : null}
+        {tooltipPanel}
+      </View>
+    ) : null;
+
   return (
     <>
-      <View
-        ref={triggerRef}
-        className={cn(className)}
-        style={[{ alignSelf: "flex-start" }, style]}
-        accessibilityHint={message}
-      >
-        {isControlled ? (
-          children
-        ) : (
-          <Pressable
-            onPress={toggleUncontrolled}
-            accessibilityRole="button"
-            accessibilityState={{ expanded: isOpen }}
+      {triggerNode}
+      {Platform.OS === "web"
+        ? portalToBody(overlayContent)
+        : (
+          <Modal
+            visible={isOpen}
+            transparent
+            animationType="fade"
+            onRequestClose={handleDismiss}
           >
-            {children}
-          </Pressable>
+            {overlayContent}
+          </Modal>
         )}
-      </View>
-
-      <Modal
-        visible={isOpen}
-        transparent
-        animationType="fade"
-        onRequestClose={handleDismiss}
-      >
-        <View style={styles.modalRoot} pointerEvents="box-none">
-          {dismissible ? (
-            <Pressable
-              style={StyleSheet.absoluteFill}
-              onPress={handleDismiss}
-              accessibilityRole="button"
-              accessibilityLabel="툴팁 닫기"
-            />
-          ) : null}
-          {tooltipPanel}
-        </View>
-      </Modal>
     </>
   );
 }
@@ -478,4 +514,96 @@ const styles = StyleSheet.create({
   modalRoot: {
     flex: 1,
   },
+  webOverlayRoot: {
+    ...(Platform.OS === "web"
+      ? ({
+          position: "fixed",
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0,
+          zIndex: TOOLTIP_OVERLAY_Z_INDEX,
+        } as unknown as ViewStyle)
+      : null),
+  },
+  backdrop: {
+    zIndex: TOOLTIP_OVERLAY_Z_INDEX,
+  },
 });
+
+function portalToBody(content: React.ReactNode) {
+  if (Platform.OS !== "web") {
+    return null;
+  }
+
+  const doc = globalThis as typeof globalThis & {
+    document?: { body: Element };
+  };
+
+  if (!doc.document?.body) {
+    return null;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const { createPortal } = require("react-dom") as {
+    createPortal: (
+      children: React.ReactNode,
+      container: Element,
+    ) => React.ReactPortal;
+  };
+
+  return createPortal(content, doc.document.body);
+}
+
+function isPressableChild(element: React.ReactElement): boolean {
+  if (element.type === Pressable) {
+    return true;
+  }
+
+  if (typeof element.props.onPress === "function") {
+    return true;
+  }
+
+  if (typeof element.type === "function") {
+    const component = element.type as { displayName?: string; name?: string };
+    const name = component.displayName ?? component.name;
+    return name === "Button" || name === "Pressable" || name === "TouchableOpacity";
+  }
+
+  return false;
+}
+
+function renderTrigger(
+  children: React.ReactNode,
+  onPress: () => void,
+  isOpen: boolean,
+): React.ReactNode {
+  if (React.isValidElement(children) && isPressableChild(children)) {
+    const child = children as React.ReactElement<{
+      onPress?: () => void;
+      accessibilityState?: { expanded?: boolean; [key: string]: unknown };
+    }>;
+    const childOnPress = child.props.onPress;
+
+    return React.cloneElement(child, {
+      onPress: () => {
+        onPress();
+        childOnPress?.();
+      },
+      accessibilityState: {
+        ...(child.props.accessibilityState ?? {}),
+        expanded: isOpen,
+      },
+    });
+  }
+
+  return (
+    <Pressable
+      onPress={onPress}
+      accessibilityRole="button"
+      accessibilityState={{ expanded: isOpen }}
+    >
+      {children}
+    </Pressable>
+  );
+}
