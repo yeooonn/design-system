@@ -62,4 +62,3 @@ export {
   useKeyboardScroll,
 } from "./hooks/KeyboardScrollContext";
 export { ThemeProvider, useTheme } from "./theme/ThemeProvider";
-export { cn } from "./utils/cn";

@@ -1,6 +1,5 @@
 const path = require("path");
 const { getDefaultConfig } = require("expo/metro-config");
-const { withNativeWind } = require("nativewind/metro");
 const { withStorybook } = require("@storybook/react-native/metro/withStorybook");
 
 const projectRoot = __dirname;
@@ -14,10 +13,6 @@ config.resolver.nodeModulesPaths = [
   path.resolve(workspaceRoot, "node_modules"),
 ];
 
-const nativeWindConfig = withNativeWind(config, {
-  input: "./src/global.css",
-});
-
-module.exports = withStorybook(nativeWindConfig, {
+module.exports = withStorybook(config, {
   configPath: path.resolve(projectRoot, "./.rnstorybook"),
 });

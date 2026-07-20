@@ -10,10 +10,8 @@
   },
   "include": [
     "src",
-    "src/nativewind-env.d.ts",
     ".rnstorybook",
     "**/*.stories.tsx",
-    "index.ts",
-    "nativewind-env.d.ts"
+    "index.ts"
   ]
 }
