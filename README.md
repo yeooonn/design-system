@@ -88,6 +88,10 @@ pnpm storybook:app
 
 레포 구조, 토큰 파이프라인, 크로스 플랫폼 전략은 [docs/architecture.md](./docs/architecture.md)를 참고하세요.
 
+## 변경 이력
+
+[CHANGELOG.md](./CHANGELOG.md)를 참고하세요.
+
 ## 라이선스
 
 MIT

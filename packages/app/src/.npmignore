@@ -1,0 +1,4 @@
+**/*.stories.*
+**/*.test.*
+stories/
+test/
