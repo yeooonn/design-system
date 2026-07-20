@@ -20,7 +20,9 @@
     "dev": "tsup --watch",
     "prepublishOnly": "pnpm build",
     "storybook": "expo start",
-    "storybook:web": "expo start --web --port 8083"
+    "storybook:web": "expo start --web --port 8083",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "peerDependencies": {
     "expo": ">=50.0.0",
@@ -35,16 +37,23 @@
     "@yeoooonn/ds-tokens": "workspace:*"
   },
   "devDependencies": {
+    "@babel/register": "^7.28.3",
     "@gorhom/bottom-sheet": "^5.2.14",
     "@react-native-async-storage/async-storage": "^2.2.0",
     "@storybook/addon-ondevice-actions": "^10.5.0",
     "@storybook/addon-ondevice-controls": "^10.5.0",
     "@storybook/react-native": "10.4.6",
     "@storybook/react-native-ui": "^10.5.0",
+    "@testing-library/jest-native": "5.4.3",
+    "@testing-library/react-native": "^13.2.2",
+    "@types/jest": "^30.0.0",
     "@types/react": "^19.2.17",
+    "babel-jest": "30.4.1",
     "babel-preset-expo": "~57.0.1",
     "expo": "~57.0.7",
     "expo-image": "~57.0.1",
+    "jest": "30.4.2",
+    "jest-expo": "^57.0.2",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-native": "0.86.0",

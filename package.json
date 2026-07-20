@@ -9,8 +9,11 @@
     "build:app": "pnpm --filter @yeoooonn/ds-app build",
     "dev:tokens": "pnpm --filter @yeoooonn/ds-tokens dev",
     "dev:web": "pnpm --filter @yeoooonn/ds-web dev",
-    "test": "pnpm --filter @yeoooonn/ds-web test",
+    "test": "pnpm --filter @yeoooonn/ds-web test && pnpm --filter @yeoooonn/ds-app test",
+    "test:web": "pnpm --filter @yeoooonn/ds-web test",
+    "test:app": "pnpm --filter @yeoooonn/ds-app test",
     "test:watch": "pnpm --filter @yeoooonn/ds-web test:watch",
+    "test:watch:app": "pnpm --filter @yeoooonn/ds-app test:watch",
     "test:ui": "pnpm --filter @yeoooonn/ds-web test:ui",
     "storybook": "pnpm --filter @yeoooonn/ds-web storybook",
     "build-storybook": "pnpm --filter @yeoooonn/ds-web build-storybook",
@@ -24,6 +27,20 @@
   "pnpm": {
     "onlyBuiltDependencies": [
       "esbuild"
-    ]
+    ],
+    "overrides": {
+      "jest": "30.4.2",
+      "babel-jest": "30.4.1",
+      "jest-mock": "30.4.1",
+      "jest-util": "30.4.1",
+      "jest-runtime": "30.4.2",
+      "expect": "30.4.1",
+      "@jest/globals": "30.4.1",
+      "@jest/environment": "30.4.1",
+      "@jest/types": "30.4.1",
+      "jest-snapshot": "30.4.1",
+      "jest-environment-node": "30.4.1",
+      "jest-environment-jsdom": "30.4.1"
+    }
   }
 }

@@ -12,6 +12,7 @@
     "src",
     ".rnstorybook",
     "**/*.stories.tsx",
+    "**/*.test.tsx",
     "index.ts"
   ]
 }
