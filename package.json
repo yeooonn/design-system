@@ -2,6 +2,7 @@
   "name": "design-system",
   "private": true,
   "version": "0.0.0",
+  "packageManager": "pnpm@10.12.1",
   "scripts": {
     "build": "pnpm -r --if-present build",
     "build:tokens": "pnpm --filter @yeoooonn/ds-tokens build",
